@@ -31,9 +31,16 @@ Use bundle identifiers and Android package names that your team owns, for exampl
 
 Then update `app.config.ts`:
 
-- `EXPO_ACCOUNT_OWNER`: your Expo account or organization slug.
-- `slug`: a unique Expo project slug under that account.
 - `description`, icons, splash screen, and Android adaptive-icon color as needed.
+
+Set the Expo metadata in `.env` instead of hard-coding another project's values:
+
+```bash title=".env"
+EXPO_ACCOUNT_OWNER=your-expo-account-or-organization
+EXPO_SLUG=your-unique-app-slug
+# Set this after `eas init` in the next step.
+# EAS_PROJECT_ID=
+```
 
 Verify the resolved configuration before building:
 
@@ -45,7 +52,7 @@ Check that `owner`, `slug`, `scheme`, `ios.bundleIdentifier`, and `android.packa
 
 ## 3. Create and link your EAS project
 
-The template's `app.config.ts` contains an EAS project ID from its original source. Replace it before using EAS Build or EAS Update.
+The template ships without an EAS project link. Create one before using EAS Build or EAS Update.
 
 1. Sign in to the Expo account that will own the app:
 
@@ -59,7 +66,11 @@ The template's `app.config.ts` contains an EAS project ID from its original sour
    pnpm dlx eas-cli@latest init --force
    ```
 
-3. Confirm that `EAS_PROJECT_ID` in `app.config.ts` now contains the project ID returned by EAS. If the CLI cannot update this dynamic config file automatically, copy the returned ID into that constant yourself. Do not retain the template's original ID.
+3. Copy the returned project ID into `.env`:
+
+   ```bash title=".env"
+   EAS_PROJECT_ID=the-project-id-returned-by-eas
+   ```
 
 4. Confirm that the resolved configuration contains your new ID:
 
@@ -69,7 +80,7 @@ The template's `app.config.ts` contains an EAS project ID from its original sour
 
    The value must appear at `extra.eas.projectId`.
 
-`projectId` is not a secret, but it identifies the EAS project that receives builds and updates. Keep it consistent across the repository, `eas.json`, and your CI environment.
+`projectId` is not a secret, but it identifies the EAS project that receives builds and updates. Keep it in your local/EAS environment configuration; never copy an ID from another project.
 
 ## 4. Initialize Git and publish when ready
 
@@ -106,4 +117,10 @@ pnpm build:development:ios
 pnpm build:development:android
 ```
 
+The build scripts download the current EAS CLI as needed, so no global EAS CLI installation is required.
+
 This project uses Continuous Native Generation. Do not commit generated `ios/` or `android/` directories; configure native behavior through `app.config.ts` and Expo config plugins.
+
+## Template demo surfaces to replace
+
+The login flow uses mock tokens, the feed uses a demonstration API, and the Settings support/link rows are intentionally inert. Replace or remove these examples before a release, along with the placeholder icons and onboarding artwork.

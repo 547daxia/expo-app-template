@@ -1,8 +1,6 @@
-<h1 align="center">
-  <img alt="logo" src="./assets/icon.png" width="124px" style="border-radius:10px"/><br/>
-Mobile App </h1>
+# Project Guide
 
-> This Project is based on [Obytes starter](https://starter.obytes.com)
+This guide is copied into every app created from [Expo App Template](https://github.com/547daxia/expo-app-template). Replace the example identifiers and environment values with those for your app before creating builds.
 
 ## Requirements
 
@@ -50,17 +48,13 @@ Use `pnpm start:preview` or `pnpm start:production` to select another environmen
 
 ## First-time ownership checklist
 
-Before creating an EAS build or publishing this repository, replace the template's Expo identifiers, EAS project ID, and `package.json` repository URL. Copy `.env.example` to `.env` for local configuration.
+Before creating an EAS build or publishing this repository, replace the example app identifiers and `package.json` repository URL, then configure your Expo owner, slug, and newly created EAS project ID. Copy `.env.example` to `.env` for local configuration.
 
 See [First Project Setup](docs/src/content/docs/getting-started/first-project-setup.mdx) for the complete, ordered handoff checklist.
 
-## ✍️ Documentation
+## Further reading
 
-- [Rules and Conventions](https://starter.obytes.com/getting-started/rules-and-conventions/)
-- [Project structure](https://starter.obytes.com/getting-started/project-structure)
-- [Environment vars and config](https://starter.obytes.com/getting-started/environment-vars-config)
-- [UI and Theming](https://starter.obytes.com/ui-and-theme/ui-theming)
-- [Components](https://starter.obytes.com/ui-and-theme/components)
-- [Forms](https://starter.obytes.com/ui-and-theme/Forms)
-- [Data fetching](https://starter.obytes.com/guides/data-fetching)
-- [Contribute to starter](https://starter.obytes.com/how-to-contribute/)
+- [Expo documentation](https://docs.expo.dev/)
+- [Expo Router documentation](https://docs.expo.dev/router/introduction/)
+- [React Native documentation](https://reactnative.dev/docs/getting-started)
+- [Template repository](https://github.com/547daxia/expo-app-template)

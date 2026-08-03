@@ -7,6 +7,18 @@ jest.mock('react-native-worklets', () => ({
   default: {},
 }));
 
+// TanStack Form starts a devtools connection interval when a form mounts. The
+// devtools event bus is not part of unit tests, so replace it with a no-op client
+// to keep Jest's lifecycle deterministic.
+jest.mock('@tanstack/devtools-event-client', () => ({
+  EventClient: class {
+    emit() {}
+    on() {
+      return () => {};
+    }
+  },
+}));
+
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => {
   const View = require('react-native').View;

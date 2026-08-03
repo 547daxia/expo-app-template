@@ -5,23 +5,27 @@
 # ✍️ Description:
 # This is a composite action, which means it can be used in other actions.
 # This action is used to set up the JDK environment and generate an Android APK for testing.
-# This action accepts one input: `APP_ENV`, which is used to generate an APK for a specific environment (development, staging, production). We use staging by default.
-# Before generating the APK, we run a pre-build script to generate the necessary native folders based on the APP_ENV.
+# This action accepts one input: `APP_ENV`, which is used to generate an APK for a specific environment (development, preview, production). We use preview by default.
+# Before generating the APK, we run a pre-build script to generate the necessary native folders based on the selected Expo environment.
 # On success, the APK is generated at `./android/app/build/outputs/apk/release/app-release.apk`.
 
 # 👀 Example usage:
 #       - name : 📦 Set Up JDK + Generate Test APK
 #         uses: ./.github/actions/setup-jdk-generate-apk
 #         with:
-#           APP_ENV: 'staging'
+#           APP_ENV: 'preview'
 
 name: 'Setup  JDK + GRADLE + Generate APK'
 description: 'Setup  JDK + GRADLE + Generate APK'
 inputs:
   APP_ENV:
-    description: 'APP_ENV (one of): development, staging, production'
+    description: 'APP_ENV (one of): development, preview, production'
     required: true
-    default: staging
+    default: preview
+  API_URL:
+    description: 'Client-visible API URL used while evaluating the Expo config'
+    required: false
+    default: https://api.example.com
 
 runs:
   using: composite
@@ -44,5 +48,6 @@ runs:
       shell: bash
       env:
         EXPO_NO_DOTENV: '1'
-        APP_ENV: ${{ inputs.APP_ENV }}
+        EXPO_PUBLIC_APP_ENV: ${{ inputs.APP_ENV }}
+        EXPO_PUBLIC_API_URL: ${{ inputs.API_URL }}
         CI: 'true'

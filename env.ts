@@ -75,6 +75,8 @@ function getValidatedEnv(env: z.infer<typeof envSchema>) {
       console.error(errorMessage);
       throw new Error('Invalid environment variables');
     }
+
+    console.warn(errorMessage);
   }
   else {
     console.log('✅ Environment variables validated successfully');
@@ -83,6 +85,6 @@ function getValidatedEnv(env: z.infer<typeof envSchema>) {
   return parsed.success ? parsed.data : env;
 }
 
-const Env = STRICT_ENV_VALIDATION ? getValidatedEnv(_env) : _env;
+const Env = getValidatedEnv(_env);
 
 export default Env;

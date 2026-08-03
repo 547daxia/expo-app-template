@@ -200,8 +200,8 @@ const _env: z.infer<typeof envSchema> = {
   // ...
 };
 
-// 4. Validate conditionally
-const Env = STRICT_ENV_VALIDATION ? getValidatedEnv(_env) : _env;
+// 4. Always validate: warn during development and throw during strict prebuilds
+const Env = getValidatedEnv(_env);
 
 // 5. Export for use
 export default Env;
@@ -220,11 +220,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   bundleIdentifier: Env.EXPO_PUBLIC_BUNDLE_ID,
   // ... rest of config
 
-  extra: {
-    eas: {
-      projectId: EAS_PROJECT_ID,
-    },
-  },
+  extra: EAS_PROJECT_ID ? { eas: { projectId: EAS_PROJECT_ID } } : {},
 });
 ```
 

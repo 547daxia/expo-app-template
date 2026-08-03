@@ -62,6 +62,8 @@ pnpm test:watch # To run the tests in watch mode
 
 It's important to run tests on CI in addition to local testing. This ensures that our code doesn't break when we push it to Github. We have added a GitHub action that runs tests for every push to the main branch or new pull request. It reports the results to GitHub through annotations and provides a summary of the tests along with coverage.
 
+The Jest configuration also enforces a modest global coverage floor. Raise the thresholds in `jest.config.js` as business logic and integration coverage grow; do not lower them to accommodate untested changes.
+
 Here is an example of the output of the GitHub action:
 
 ![GitHub action output](https://github.com/obytes/react-native-template-obytes/assets/11137944/081896b2-bf74-490b-9ad5-da8e2bbc5c88)

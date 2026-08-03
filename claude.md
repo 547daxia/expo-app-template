@@ -69,7 +69,7 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 
 ## How: Ownership and Configuration
 
-- Before the first EAS build, replace the template `EXPO_ACCOUNT_OWNER`, `slug`, `EAS_PROJECT_ID`, bundle identifiers, Android package names, schemes, and `package.json` repository URL.
+- Before the first EAS build, configure `EXPO_ACCOUNT_OWNER`, `EXPO_SLUG`, and `EAS_PROJECT_ID` in `.env` or the matching EAS environment; also replace bundle identifiers, Android package names, schemes, and `package.json` repository URL.
 - Start local configuration with `cp .env.example .env`. Never commit `.env`.
 - `EXPO_PUBLIC_*` variables are bundled into the application. Never store credentials, tokens, or other secrets in them; use non-public build-time variables only from `app.config.ts`.
 - Follow [First Project Setup](docs/src/content/docs/getting-started/first-project-setup.mdx) before publishing or enabling EAS services.

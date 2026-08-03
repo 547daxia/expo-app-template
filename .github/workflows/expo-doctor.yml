@@ -44,8 +44,11 @@ jobs:
       - name: 📦 Setup Node + PNPM + install deps
         uses: ./.github/actions/setup-node-pnpm-install
 
-      - name: Run prebuild
-        run: pnpm run prebuild
+      - name: Validate Expo configuration
+        run: pnpm run prebuild:development
+        env:
+          EXPO_NO_DOTENV: '1'
+          EXPO_PUBLIC_API_URL: https://api.example.com
 
       - name: 🚑 Run Doctor Checks
         run: |
