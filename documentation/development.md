@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Node.js LTS
+- Node.js 22 LTS
 - pnpm 10.12.3 or a compatible pnpm 10 release
 - Git
 - Watchman on macOS/Linux
