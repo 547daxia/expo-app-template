@@ -1,27 +1,8 @@
 ---
-title: Customize your App
-description: Customize your app by updating Expo configuration and app icon and splash screen.
-head:
-  - tag: title
-    content: Customize your App | React Native / Expo Starter
+title: Customize Your App
+description: This compatibility page points to the canonical project documentation.
 ---
 
-import Code from '../../../components/code.astro';
+import CanonicalDoc from '../../../components/CanonicalDoc.astro';
 
-The starter is an Expo app. Edit `app.config.ts` to update Expo attributes and configuration.
-
-Here is the complete config file :
-
-<Code file="app.config.ts" />
-
-You can read more about Expo configuration [here](https://docs.expo.dev/workflow/configuration/). Configuration that depends on environment variables should be defined in `env.ts` following [the environment variables guide](/getting-started/environment-vars-config), then imported by `app.config.ts`.
-
-## Splash screen and app icon
-
-Update the app icon and splash screen images in `assets`. This CNG template applies them the next time you create a native build; run `pnpm prebuild` only when you intentionally need to inspect generated native projects.
-
-Development, preview, and production use distinct bundle identifiers and schemes but currently share the same icon assets. Add variant-specific assets only if your release process requires them.
-
-For more details about the app icon and splash screen, please refer to the expo documentation.
-
-👉 [Create a splash screen](https://docs.expo.dev/guides/splash-screens/)
+This route is retained for existing links. Application identity, assets, native build verification, and template surfaces are documented in <CanonicalDoc path="customization.md" label="Customization" />.

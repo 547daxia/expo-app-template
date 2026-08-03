@@ -1,6 +1,6 @@
 {
   "name": "expo-app-template",
-  "version": "9.0.0",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@10.12.3",
   "repository": {
@@ -38,11 +38,12 @@
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noemit",
     "test": "jest",
+    "docs:build": "pnpm --dir docs build",
     "check-all": "pnpm run lint && pnpm run type-check && pnpm run test && pnpm exec expo install --check && pnpm run doctor",
     "test:ci": "pnpm run test --coverage",
     "test:watch": "pnpm run test --watch",
     "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
-    "e2e-test": "maestro test .maestro/ -e APP_ID=com.obytes.development"
+    "e2e-test": "maestro test .maestro/ -e APP_ID=com.example.mobileapp.development"
   },
   "dependencies": {
     "@dev-plugins/react-query": "0.4.0",

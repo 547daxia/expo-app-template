@@ -1,18 +1,18 @@
 {
-  "name": "create-obytes-app",
+  "name": "create-expo-app-template",
   "version": "1.8.0",
-  "description": "Obytes expo starter cli",
-  "homepage": "https://github.com/obytes/react-native-template-obytes",
+  "description": "Expo and React Native template CLI",
+  "homepage": "https://github.com/547daxia/expo-app-template",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/obytes/react-native-template-obytes.git"
+    "url": "git+https://github.com/547daxia/expo-app-template.git"
   },
   "main": "index.js",
   "scripts": {
     "start": "node ."
   },
   "bin": {
-    "create-obytes-app": "index.js"
+    "create-expo-app-template": "index.js"
   },
   "files": [
     "index.js",
@@ -32,7 +32,6 @@
     "expo-starter",
     "react-native-boilerplate",
     "expo-boilerplate",
-    "cli",
-    "obytes"
+    "cli"
   ]
 }

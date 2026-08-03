@@ -12,7 +12,8 @@ import {
   View,
 } from '@/components/ui';
 import { getFieldError } from '@/components/ui/form-utils';
-import { useAddPost } from './api';
+import { queryClient } from '@/lib/api';
+import { useAddPost, usePosts } from './api';
 
 const schema = z.object({
   title: z.string().min(10),
@@ -32,7 +33,6 @@ export function AddPostScreen() {
       onChange: schema as any,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
       addPost(
         { ...value, userId: 1 },
         {
@@ -41,8 +41,10 @@ export function AddPostScreen() {
               message: 'Post added successfully',
               type: 'success',
             });
-            // here you can navigate to the post list and refresh the list data
-            // queryClient.invalidateQueries(usePosts.getKey());
+            // Keep the feed in sync for consumers that are already mounted.
+            queryClient.invalidateQueries({
+              queryKey: usePosts.getKey(),
+            });
           },
           onError: () => {
             showErrorMessage('Error adding post');

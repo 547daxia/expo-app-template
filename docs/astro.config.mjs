@@ -2,16 +2,18 @@ import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
 
-const site = 'https://starter.obytes.com/';
+const site = process.env.PUBLIC_DOCUMENTATION_SITE ?? 'http://localhost:4321/';
+const repository = process.env.PUBLIC_DOCUMENTATION_REPOSITORY
+  ?? 'https://github.com/547daxia/expo-app-template';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://starter.obytes.com/',
+  site,
   integrations: [
     starlight({
-      title: 'Obytes Starter | React Native Template',
+      title: 'Expo App Template Documentation',
       plugins: [starlightLlmsTxt()],
-      description: `Your All-in-One Solution for Building Outstanding React Native/Expo Apps. From editor setup to store submission, we've got you covered!`,
+      description: 'Practical documentation for building, testing, and shipping Expo and React Native applications.',
       expressiveCode: {
         themes: ['dracula', 'solarized-light'],
       },
@@ -24,7 +26,7 @@ export default defineConfig({
         LastUpdated: './src/components/LastUpdated.astro',
       },
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/obytes/react-native-template-obytes' },
+        { icon: 'github', label: 'GitHub', href: repository },
       ],
       head: [
         {
@@ -54,104 +56,15 @@ export default defineConfig({
             href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap',
           },
         },
-        {
-          tag: 'script',
-          attrs: {
-            src: 'https://cdn.jsdelivr.net/npm/@minimal-analytics/ga4/dist/index.js',
-            async: true,
-          },
-        },
-        {
-          tag: 'script',
-          content: ` window.minimalAnalytics = {
-            trackingId: 'G-GQ45JJD1JC',
-            autoTrack: true,
-          };`,
-        },
       ],
       sidebar: [
         {
+          label: 'Project Documentation',
+          link: '/project-documentation/',
+        },
+        {
           label: 'Overview',
           link: '/overview',
-        },
-        {
-          label: 'Start Here',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Create New App',
-              link: '/getting-started/create-new-app/',
-            },
-            {
-              label: 'First Project Setup',
-              link: '/getting-started/first-project-setup/',
-            },
-            {
-              label: 'Customize Your App',
-              link: '/getting-started/customize-app/',
-            },
-            {
-              label: 'Rules and Conventions',
-              link: '/getting-started/rules-and-conventions/',
-            },
-            {
-              label: 'Project Structure',
-              link: '/getting-started/project-structure/',
-            },
-            {
-              label: 'Environment Variables and Configurations',
-              link: '/getting-started/environment-vars-config/',
-            },
-          ],
-        },
-
-        {
-          label: 'UI Components & Theming',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'UI & Theming',
-              link: '/ui-and-theme/ui-theming/',
-            },
-            {
-              label: 'Fonts',
-              link: '/ui-and-theme/fonts/',
-            },
-            {
-              label: 'UI Components',
-              link: '/ui-and-theme/components/',
-            },
-            {
-              label: 'Forms',
-              link: '/ui-and-theme/forms/',
-            },
-          ],
-        },
-        {
-          label: 'Guides',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Navigation',
-              link: '/guides/navigation/',
-            },
-            {
-              label: 'Authentication',
-              link: '/guides/authentication/',
-            },
-            {
-              label: 'Data Fetching',
-              link: '/guides/data-fetching/',
-            },
-            {
-              label: 'Storage',
-              link: '/guides/storage/',
-            },
-            {
-              label: 'Upgrade Dependencies',
-              link: '/guides/upgrading-deps/',
-            },
-          ],
         },
         {
           label: 'Recipes',
@@ -161,42 +74,6 @@ export default defineConfig({
               label: 'Sentry Setup',
               link: '/recipes/sentry-setup/',
               badge: 'new',
-            },
-          ],
-        },
-        {
-          label: 'Testing',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Overview',
-              link: '/testing/overview/',
-            },
-            {
-              label: 'Unit Testing',
-              link: '/testing/unit-testing/',
-            },
-            {
-              label: 'E2E Testing',
-              link: '/testing/end-to-end-testing/',
-            },
-          ],
-        },
-        {
-          label: 'CI/CD',
-          items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Overview',
-              link: '/ci-cd/overview/',
-            },
-            {
-              label: 'Releasing Process',
-              link: '/ci-cd/app-releasing-process/',
-            },
-            {
-              label: 'Workflows Reference',
-              link: '/ci-cd/workflows-references/',
             },
           ],
         },

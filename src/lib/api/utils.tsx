@@ -34,11 +34,10 @@ export function getUrlParameters(
     return null;
   }
   const regex = /[?&]([^=#]+)=([^&#]*)/g;
-  const params = {};
+  const params: Record<string, string> = {};
   let match;
   while ((match = regex.exec(url))) {
     if (match[1] !== null) {
-      // @ts-expect-error - Dynamic key assignment
       params[match[1]] = match[2];
     }
   }

@@ -1,0 +1,15 @@
+---
+interface Props {
+  label: string;
+  path: string;
+}
+
+const { label, path } = Astro.props;
+const repository = (import.meta.env.PUBLIC_DOCUMENTATION_REPOSITORY
+  ?? 'https://github.com/547daxia/expo-app-template').replace(/\/+$/, '');
+const branch = import.meta.env.PUBLIC_DOCUMENTATION_BRANCH ?? 'master';
+const documentPath = path.replace(/^\/+/, '');
+const href = `${repository}/blob/${branch}/documentation/${documentPath}`;
+---
+
+<a href={href} target="_blank" rel="noreferrer">{label}</a>

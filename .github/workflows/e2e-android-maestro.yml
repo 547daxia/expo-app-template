@@ -1,5 +1,5 @@
 # 🔗 Links:
-# Source file: https://github.com/obytes/react-native-template-obytes/blob/master/.github/workflows/e2e-android.yml
+# Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/e2e-android.yml
 # End-to-end testing: https://starter.obytes.com/testing/end-to-end-testing/
 
 # ✍️ Description:
@@ -49,4 +49,4 @@ jobs:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
           app-file: ./android/app/build/outputs/apk/release/app-release.apk
           env: |
-            APP_ID=com.obytes.preview
+            APP_ID=com.example.mobileapp.preview

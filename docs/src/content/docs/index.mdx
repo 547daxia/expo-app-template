@@ -1,28 +1,26 @@
 ---
-title: Obytes Starter | React Native/Expo starter
-description: "Your All-in-One Solution for Building Outstanding React Native/Expo Apps. From editor setup to store submission, we've got you covered!"
+title: Expo App Template | React Native starter
+description: "A reusable Expo and React Native template with practical project documentation."
 template: splash
 lastUpdated: false
 hero:
-  title: Perfect React Native App Kickstart 🚀!
-  tagline: "Your All-in-One Solution for Building Outstanding React Native/Expo Apps. From editor setup to store submission, we've got you covered!"
+  title: Start your Expo app with confidence 🚀
+  tagline: "A reusable foundation for building, testing, and shipping React Native apps."
   image:
     file: ../../assets/logo.webp
   actions:
     - text: Get Started
-      link: /overview
+      link: /project-documentation/
       icon: right-arrow
       variant: primary
-    - text: Hire Us
-      link: https://obytes.com/contact?utm_source=starter.obytes.com
+    - text: View repository
+      link: https://github.com/547daxia/expo-app-template
       icon: external
       variant: secondary
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 import GithubStar from '../../components/GithubStar.astro';
-import About from '../../components/about.astro';
-import Reviews from '../../components/reviews.astro';
 
 <GithubStar />
 
@@ -49,9 +47,9 @@ import Reviews from '../../components/reviews.astro';
 	<Card title="TypeScript + ESLint + Husky" icon="setting">
 		We use TypeScript, ESLint, and Husky to keep code consistent and catch issues before commits.
 	</Card>
-	<Card title="Fully Documented" icon="open-book">
-		We've included a comprehensive set of documentation to help you get started with your project and understand our choices and decisions.
-	</Card>
+  <Card title="Project Documentation" icon="open-book">
+		The canonical project documentation is plain Markdown in the repository, covering architecture, configuration, testing, releases, and dated decisions.
+  </Card>
 	<Card title="Multiple environment builds support" icon="setting">
 		Multiple app environments with a robust solution to manage and validate environment variables with Zod. It enables easy switching between different environments throughout the development and deployment processes.
 	</Card>
@@ -61,11 +59,10 @@ import Reviews from '../../components/reviews.astro';
   a set of inputs for your app. We also include keyboard handling to provide a
   seamless user experience.
 </Card>
-<Card title="Auth Flow" icon="open-book">
-  We have included a complete authentication flow based on Zustand as a state
-  management library and `react-native-mmkv` as a secure and fast solution for
-  storing tokens and other sensitive data.
-</Card>
+  <Card title="Auth Flow" icon="open-book">
+  We have included a demo authentication flow based on Zustand. The template's
+  MMKV storage is not encrypted; replace the demo token flow before production.
+  </Card>
 
   <Card title="React Query + Axios" icon="open-book">
 		We manage data fetching using React Query and Axios. These powerful libraries make it easy to fetch, cache, and update data in your React applications. We also include a set of VSCode snippets to make your life easier when creating queries and mutations.
@@ -75,12 +72,6 @@ import Reviews from '../../components/reviews.astro';
 	</Card>
 </CardGrid>
 
-<Reviews />
+## Contributing
 
-<About title="Built with ❤️ by">
-
-In addition to maintaining this starter kit, we provide expertise in custom projects and app development. If you're looking for experienced and reliable developers to bring your app vision to life, reach out to us. Let's discuss your project and explore how we can help you achieve your goals.
-
-[Hire Us](https://obytes.com/contact?utm_source=starter.obytes.com)
-
-</About>
+Use the repository's issue tracker and pull requests to share improvements, bug fixes, and documentation updates.

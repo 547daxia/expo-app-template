@@ -24,24 +24,24 @@ const EXPO_PUBLIC_APP_ENV = (process.env.EXPO_PUBLIC_APP_ENV
   ?? 'development') as z.infer<typeof envSchema>['EXPO_PUBLIC_APP_ENV'];
 
 const BUNDLE_IDS = {
-  development: 'com.obytes.development',
-  preview: 'com.obytes.preview',
-  production: 'com.obytes',
+  development: 'com.example.mobileapp.development',
+  preview: 'com.example.mobileapp.preview',
+  production: 'com.example.mobileapp',
 } as const;
 
 const PACKAGES = {
-  development: 'com.obytes.development',
-  preview: 'com.obytes.preview',
-  production: 'com.obytes',
+  development: 'com.example.mobileapp.development',
+  preview: 'com.example.mobileapp.preview',
+  production: 'com.example.mobileapp',
 } as const;
 
 const SCHEMES = {
-  development: 'obytesApp',
-  preview: 'obytesApp.preview',
-  production: 'obytesApp',
+  development: 'mobileapp',
+  preview: 'mobileapp.preview',
+  production: 'mobileapp',
 } as const;
 
-const NAME = 'ObytesApp';
+const NAME = 'MobileApp';
 
 // Check if strict validation is required (before prebuild)
 const STRICT_ENV_VALIDATION = process.env.STRICT_ENV_VALIDATION === '1';
@@ -54,7 +54,10 @@ const _env: z.infer<typeof envSchema> = {
   EXPO_PUBLIC_BUNDLE_ID: BUNDLE_IDS[EXPO_PUBLIC_APP_ENV],
   EXPO_PUBLIC_PACKAGE: PACKAGES[EXPO_PUBLIC_APP_ENV],
   EXPO_PUBLIC_VERSION: packageJSON.version,
-  EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL ?? '',
+  // Development can use a harmless placeholder before `.env` is created.
+  // Prebuilds must provide an explicit endpoint so they cannot ship this value.
+  EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL
+    ?? (STRICT_ENV_VALIDATION ? '' : 'https://api.example.com'),
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN,
   EXPO_PUBLIC_VAR_NUMBER: Number(process.env.EXPO_PUBLIC_VAR_NUMBER ?? 0),
   EXPO_PUBLIC_VAR_BOOL: process.env.EXPO_PUBLIC_VAR_BOOL === 'true',

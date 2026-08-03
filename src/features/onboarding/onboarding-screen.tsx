@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import * as React from 'react';
 
 import {
@@ -9,11 +8,11 @@ import {
   View,
 } from '@/components/ui';
 import { useIsFirstTime } from '@/lib/hooks';
+import { navigate } from '@/lib/navigation';
 import { Cover } from './components/cover';
 
 export function OnboardingScreen() {
   const [_, setIsFirstTime] = useIsFirstTime();
-  const router = useRouter();
   return (
     <View className="flex h-full items-center justify-center">
       <FocusAwareStatusBar />
@@ -22,7 +21,7 @@ export function OnboardingScreen() {
       </View>
       <View className="justify-end">
         <Text className="my-3 text-center text-5xl font-bold">
-          Obytes Starter
+          Expo App Template
         </Text>
         <Text className="mb-2 text-center text-lg text-gray-600">
           The right way to build your mobile app
@@ -47,7 +46,7 @@ export function OnboardingScreen() {
           label="Let's Get Started "
           onPress={() => {
             setIsFirstTime(false);
-            router.replace('/login');
+            navigate.replace('/login');
           }}
         />
       </SafeAreaView>

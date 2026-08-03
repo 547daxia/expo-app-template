@@ -39,6 +39,8 @@ Before creating an EAS build or update, configure the following values for your 
 
 See [README-project.md](./README-project.md) for the project setup and daily development commands.
 
+Project structure and operational guidance are indexed in [documentation/Readme.md](./documentation/Readme.md). The browsable Astro/Starlight documentation source remains under [docs/](./docs/).
+
 ## Common commands
 
 ```sh
@@ -48,6 +50,7 @@ pnpm android               # Run an Android development build
 pnpm test                  # Run unit tests
 pnpm check-all             # Run lint, types, tests, dependency checks, and Expo Doctor
 pnpm doctor                # Run Expo Doctor
+pnpm docs:build            # Build the browsable documentation site (after docs install)
 ```
 
 ## Contributing

@@ -1,51 +1,40 @@
-# Starlight Starter Kit: Basics
+# Documentation Site
 
-```
-npm create astro@latest -- --template starlight
-```
+This directory contains the Astro/Starlight source for the browsable documentation site.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
+The operational project documentation is maintained as plain Markdown in [`../documentation/`](../documentation/). Start there when you need repository structure, environment, testing, or release instructions.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project Structure
 
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+Inside this documentation site you will find:
 
 ```
 .
 ├── public/
 ├── src/
 │   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   │   └── config.ts
-│   └── env.d.ts
+│   ├── content/docs/
+│   └── styles/
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+Starlight exposes `.md` and `.mdx` files in `src/content/docs/` as site routes.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## Commands
 
-Static assets, like favicons, can be placed in the `public/` directory.
+Run these commands from this directory:
 
-## 🧞 Commands
+| Command | Action |
+| --- | --- |
+| `pnpm install` | Install documentation dependencies |
+| `pnpm dev` | Start the local site |
+| `pnpm build` | Build the documentation site |
+| `pnpm preview` | Preview the production build |
 
-All commands are run from the root of the project, from a terminal:
+## Learn more
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:3000`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Read [Starlight's docs](https://starlight.astro.build/) or [the Astro documentation](https://docs.astro.build/).
 
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+When deploying this site for a fork, set `PUBLIC_DOCUMENTATION_REPOSITORY` and `PUBLIC_DOCUMENTATION_BRANCH` so the project documentation link resolves to the correct repository and branch.

@@ -6,7 +6,7 @@ head:
     content: Overview | React Native / Expo Starter
 ---
 
-Welcome to the Obytes Mobile Tribe's Expo / React Native Starter Kit!
+Welcome to the Expo App Template documentation!
 
 ## 🚀 Motivation
 
@@ -36,7 +36,7 @@ When creating this starter kit, we had several guiding principles in mind::
 - 🚫 Lint-staged: Run Eslint and TypeScript checks on Git staged files to maintain code quality.
 - 🗂 VSCode recommended extensions, settings, and snippets for an enhanced developer experience.
 - ☂️ Pre-installed [Expo Router](https://docs.expo.dev/router/introduction/) with examples for comprehensive app navigation.
-- 💫 Auth flow implementation using [Zustand](https://github.com/pmndrs/zustand) for state management and [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv) for secure data storage.
+- 💫 Demo auth flow using [Zustand](https://github.com/pmndrs/zustand); MMKV storage is unencrypted in the template and must not hold production secrets without an explicit encrypted strategy.
 - 🛠 10+ [Github Actions](https://github.com/features/actions) workflows for building, releasing, testing, and distributing your app.
 - 🔥 [TanStack Query](https://tanstack.com/query/latest) and [axios](https://github.com/axios/axios) for efficient data fetching and state management.
 - 🧵 Robust form handling with [TanStack Form](https://tanstack.com/form/latest) and [zod](https://github.com/colinhacks/zod) for validation, plus keyboard handling.
@@ -108,10 +108,10 @@ We value the feedback and contributions of our users, and we encourage you to le
 
 ## Contributors
 
-This starter is maintained by [Obytes mobile tribe team](https://www.obytes.com/team) and we welcome new contributors to join us in improving it. If you are interested in getting involved in the project, please don't hesitate to open an issue or submit a pull request.
+This starter is maintained in the repository, and we welcome contributors who want to improve the code or documentation. If you are interested in getting involved, please open an issue or pull request.
 
-In addition to maintaining this starter kit, we are also available to work on custom projects and help you build your dream app. If you are looking for experienced and reliable developers to bring your app vision to life, please visit our website at [obytes.com/contact](https://www.obytes.com/contact) to get in touch with us. We would be happy to discuss your project in more detail and explore how we can help you achieve your goals.
+The project is maintained in the repository and welcomes improvements to the starter code and documentation.
 
 ## ❓ FAQ
 
-If you have any questions about the starter and want answers, please check out the [Discussions](https://github.com/obytes/react-native-template-obytes/discussions) page.
+If you have any questions about the starter and want answers, please check out the [Discussions](https://github.com/547daxia/expo-app-template/discussions) page.

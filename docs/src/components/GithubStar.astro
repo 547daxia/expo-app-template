@@ -1,6 +1,10 @@
 ---
 import { Icon } from '@astrojs/starlight/components';
 
+const repository = import.meta.env.PUBLIC_DOCUMENTATION_REPOSITORY
+  ?? 'https://github.com/547daxia/expo-app-template';
+const repositoryPath = repository.replace(/^https:\/\/github\.com\//, '').replace(/\/$/, '');
+
 ---
 
 <style>
@@ -90,7 +94,9 @@ import { Icon } from '@astrojs/starlight/components';
     if (starCountElement) {
       starCountElement.classList.add("spinner");
 
-      fetch("https://api.github.com/repos/obytes/react-native-template-obytes")
+      const repository = document.querySelector('[data-repository]')?.getAttribute('data-repository');
+      if (!repository) return;
+      fetch(`https://api.github.com/repos/${repository}`)
         .then((response) => response.json())
         .then((data) => {
           starCountElement.classList.remove("spinner");
@@ -108,7 +114,8 @@ import { Icon } from '@astrojs/starlight/components';
 <a
   target="_blank"
   rel="noreferrer noopener"
-  href="https://github.com/obytes/react-native-template-obytes"
+  href={repository}
+  data-repository={repositoryPath}
   class="link">
   <span
     id="star-count"
