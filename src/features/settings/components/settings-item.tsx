@@ -1,6 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import * as React from 'react';
-import { Pressable, Text, View } from '@/components/ui';
-import { ArrowRight } from '@/components/ui/icons';
+
+import { colors, Pressable, Text, View } from '@/components/ui';
 
 type ItemProps = {
   text: string;
@@ -25,7 +26,11 @@ export function SettingsItem({ text, value, icon, onPress }: ItemProps) {
         <Text className="text-neutral-600 dark:text-white">{value}</Text>
         {isPressable && (
           <View className="pl-2">
-            <ArrowRight />
+            <Ionicons
+              name="chevron-forward"
+              color={colors.neutral[300]}
+              size={18}
+            />
           </View>
         )}
       </View>

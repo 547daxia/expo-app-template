@@ -11,6 +11,10 @@ jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock
 // in-memory manual mock so storage behavior remains testable without native code.
 jest.mock('react-native-mmkv');
 
+// Vector icon fonts load asynchronously on device. The mock keeps component
+// tests deterministic without initializing native font loading.
+jest.mock('@expo/vector-icons');
+
 // TanStack Form starts a devtools connection interval when a form mounts. The
 // devtools event bus is not part of unit tests, so replace it with a no-op client
 // to keep Jest's lifecycle deterministic.

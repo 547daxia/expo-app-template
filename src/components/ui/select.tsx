@@ -2,6 +2,7 @@
 import type { BottomSheetModal } from '@gorhom/bottom-sheet';
 import type { PressableProps } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
+import { Ionicons } from '@expo/vector-icons';
 import {
   BottomSheetFlatList,
 
@@ -15,7 +16,6 @@ import { tv } from 'tailwind-variants';
 import { useUniwind } from 'uniwind';
 import colors from '@/components/ui/colors';
 
-import { CaretDown } from '@/components/ui/icons';
 import { Modal, useModal } from './modal';
 import { Text } from './text';
 
@@ -150,6 +150,7 @@ export function Select(props: SelectProps) {
     testID,
   } = props;
   const modal = useModal();
+  const { theme } = useUniwind();
 
   const onSelectOption = React.useCallback(
     (option: OptionType) => {
@@ -196,7 +197,11 @@ export function Select(props: SelectProps) {
           <View className="flex-1">
             <Text className={styles.inputValue()}>{textValue}</Text>
           </View>
-          <CaretDown />
+          <Ionicons
+            name="chevron-down"
+            size={18}
+            color={theme === 'dark' ? colors.white : colors.black}
+          />
         </Pressable>
         {error && (
           <Text

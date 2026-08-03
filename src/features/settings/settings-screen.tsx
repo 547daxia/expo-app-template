@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import Env from 'env';
 import { useUniwind } from 'uniwind';
 
@@ -8,7 +9,6 @@ import {
   Text,
   View,
 } from '@/components/ui';
-import { Github, Rate, Share, Support, Website } from '@/components/ui/icons';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { SettingsContainer } from './components/settings-container';
 import { SettingsItem } from './components/settings-item';
@@ -46,17 +46,17 @@ export function SettingsScreen() {
           <SettingsContainer title="Support Us">
             <SettingsItem
               text="Share"
-              icon={<Share color={iconColor} />}
+              icon={<Ionicons name="share-outline" color={iconColor} size={20} />}
               onPress={() => {}}
             />
             <SettingsItem
               text="Rate"
-              icon={<Rate color={iconColor} />}
+              icon={<Ionicons name="star-outline" color={iconColor} size={20} />}
               onPress={() => {}}
             />
             <SettingsItem
               text="Support"
-              icon={<Support color={iconColor} />}
+              icon={<Ionicons name="heart-outline" color={iconColor} size={20} />}
               onPress={() => {}}
             />
           </SettingsContainer>
@@ -66,12 +66,12 @@ export function SettingsScreen() {
             <SettingsItem text="Terms of Service" onPress={() => {}} />
             <SettingsItem
               text="GitHub"
-              icon={<Github color={iconColor} />}
+              icon={<Ionicons name="logo-github" color={iconColor} size={20} />}
               onPress={() => {}}
             />
             <SettingsItem
               text="Website"
-              icon={<Website color={iconColor} />}
+              icon={<Ionicons name="globe-outline" color={iconColor} size={20} />}
               onPress={() => {}}
             />
           </SettingsContainer>
