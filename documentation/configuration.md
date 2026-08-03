@@ -18,7 +18,7 @@ The identifiers above are safe placeholders and must be replaced before publishi
 cp .env.example .env
 ```
 
-Required client-visible values include `EXPO_PUBLIC_APP_ENV`, `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_VAR_NUMBER`, and `EXPO_PUBLIC_VAR_BOOL`. `EXPO_PUBLIC_API_URL` must be a valid URL. The repository currently has no committed `.env` file.
+The example file sets `EXPO_PUBLIC_APP_ENV`, `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_VAR_NUMBER`, and `EXPO_PUBLIC_VAR_BOOL` explicitly. If omitted, `env.ts` defaults the environment to `development`, the number to `0`, and the boolean to `false`. A strict prebuild still requires an explicit, valid `EXPO_PUBLIC_API_URL`; the development server uses a harmless placeholder while `.env` is absent. The repository currently has no committed `.env` file.
 
 `EXPO_PUBLIC_*` values are bundled into the client and must not contain secrets. Non-prefixed values such as `APP_BUILD_ONLY_VAR` are available only while evaluating `app.config.ts`.
 

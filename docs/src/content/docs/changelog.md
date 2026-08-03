@@ -1,9 +1,9 @@
 ---
 title: CHANGELOG
-description: New features, improvements, and bug fixes for the React Native / Expo Starter.
+description: New features, improvements, and bug fixes for Expo App Template.
 head:
   - tag: title
-    content: Expo App Template ChangeLog | React Native / Expo Starter
+    content: Changelog | Expo App Template
 ---
 
 For complete changelog, please check the [GitHub releases](https://github.com/547daxia/expo-app-template/releases) page.

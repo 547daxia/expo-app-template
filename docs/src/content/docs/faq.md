@@ -1,12 +1,12 @@
 ---
 title: Frequently asked questions
-description: Frequently asked questions about the React Native / Expo Starter.
+description: Frequently asked questions about Expo App Template.
 head:
   - tag: title
-    content: FAQ | React Native / Expo Starter
+    content: FAQ | Expo App Template
 ---
 
-This page is a collection of frequently asked questions about the React Native / Expo Starter.
+This page is a collection of frequently asked questions about Expo App Template.
 
 ### Is this starter for me?
 
@@ -40,7 +40,7 @@ Still hesitating? Check out this [article](https://reactnative.dev/blog/2024/06/
 
 ### Who is behind the starter kit?
 
-This starter kit has been maintained by the [Expo App Template maintainers team](https://github.com/547daxia/expo-app-template) since 2021. We actively use it for our internal projects and are excited to share it with the amazing React Native / Expo community. The project is open-source, released under the MIT license, ensuring flexibility for users. Our commitment to this starter kit is ongoing; we will continue to maintain and improve it as long as it remains a core part of our internal development process. We welcome contributions and feedback from the community to help make this starter kit even better.
+This project is based on [obytes/react-native-template-obytes](https://github.com/obytes/react-native-template-obytes) and is independently maintained by [@547daxia](https://github.com/547daxia). It preserves the original MIT license and copyright notice. Issues and pull requests are welcome in the repository.
 
 ### Can you include X feature or library?
 

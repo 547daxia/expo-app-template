@@ -43,7 +43,9 @@
     "test:ci": "pnpm run test --coverage",
     "test:watch": "pnpm run test --watch",
     "install-maestro": "curl -Ls 'https://get.maestro.mobile.dev' | bash",
-    "e2e-test": "maestro test .maestro/ -e APP_ID=com.example.mobileapp.development"
+    "e2e-test": "pnpm run e2e-test:development",
+    "e2e-test:development": "maestro test .maestro/ -e APP_ID=com.example.mobileapp.development",
+    "e2e-test:preview": "maestro test .maestro/ -e APP_ID=com.example.mobileapp.preview"
   },
   "dependencies": {
     "@dev-plugins/react-query": "0.4.0",

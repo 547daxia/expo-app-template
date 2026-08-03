@@ -20,10 +20,11 @@ Maestro flows live under [`.maestro/`](../.maestro/). They cover onboarding, log
 
 ```bash
 pnpm install-maestro
-pnpm e2e-test
+pnpm e2e-test                  # development build (backwards-compatible default)
+pnpm e2e-test:preview          # preview build
 ```
 
-E2E tests require a development or preview build installed on a device/emulator. The default flow uses the template app ID; update it when application identifiers are changed.
+E2E tests require the matching development or preview build to be installed on a device/emulator. The two scripts target `com.example.mobileapp.development` and `com.example.mobileapp.preview` respectively. Update the scripts, or pass the appropriate `APP_ID` directly to Maestro, after changing application identifiers.
 
 ## Verification expectations
 

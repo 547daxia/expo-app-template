@@ -17,7 +17,7 @@ Complete project ownership and environment configuration before running these co
 
 ## Continuous integration
 
-GitHub Actions under [`.github/workflows/`](../.github/workflows/) run lint, TypeScript, Jest, Expo Doctor, EAS builds, release automation, and optional Maestro Android flows. EAS workflows require an `EXPO_TOKEN` repository secret. Release automation also requires the repository token configuration described in the workflow.
+GitHub Actions under [`.github/workflows/`](../.github/workflows/) run lint, TypeScript, Jest, Expo Doctor, EAS builds, release automation, and optional Maestro Android flows. EAS workflows require an `EXPO_TOKEN` repository secret. The manual versioning workflow also requires its repository token configuration.
 
 The maintained workflow groups are:
 
@@ -39,7 +39,7 @@ A pushed version tag creates a GitHub Release only after all required checks pas
 - a strict, isolated development `prebuild` using a placeholder API URL
 - documentation dependency installation and site build
 
-EAS builds and Maestro end-to-end tests remain separate opt-in workflows. The template does not ship an Expo account, EAS project, signing credentials, or an `EXPO_TOKEN`, so making those requirements part of the default release gate would prevent an unconfigured template from releasing.
+The preview EAS workflow declares a published GitHub Release trigger as well as manual dispatch; the production EAS workflow is manual. The template's GitHub Release workflow creates releases with the default [`GITHUB_TOKEN`](https://docs.github.com/en/actions/concepts/security/github_token), so GitHub does not start the preview workflow from that workflow-created release. Run the preview workflow manually, or use a GitHub App or personal access token for the release event if automatic chaining is required. Maestro end-to-end workflows remain opt-in. None of these EAS or Maestro workflows are part of the GitHub Release gate. The template does not ship an Expo account, EAS project, signing credentials, or an `EXPO_TOKEN`, so an unconfigured repository can publish a GitHub Release while any separately triggered EAS workflow requires its own setup.
 
 ## Versioning
 

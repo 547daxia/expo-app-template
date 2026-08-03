@@ -3,22 +3,20 @@ title: Overview
 description: An overview of why we built this starter, including its features, the libraries used, and more.
 head:
   - tag: title
-    content: Overview | React Native / Expo Starter
+    content: Overview | Expo App Template
 ---
 
 Welcome to the Expo App Template documentation!
 
 ## 🚀 Motivation
 
-Our goal with this starter kit was to streamline the process of building React Native apps, both for our own team and for our clients. We wanted to create a resource that would allow us to create high-quality apps faster and with less effort, while ensuring that all of our projects adhere to the same code standards and architectural principles.
+This independently maintained template provides an opinionated foundation for Expo applications: typed configuration, feature boundaries, reusable UI primitives, automated quality checks, and release tooling. It is intended to remove repeatable setup work while leaving product decisions to the project that adopts it.
 
-The benefits of using this starter kit are numerous. It helps our team easily switch between projects, as we can rely on a consistent foundation of code. It also allows us to focus on the business logic of each project rather than getting bogged down in boilerplate code. And, because it promotes consistency across projects, it makes it easier to maintain and scale our apps, as well as share code between teams.
-
-Overall, our starter kit is designed to facilitate efficient and effective app development, helping us to bring the best possible products to our clients
+The template is based on the Obytes starter and retains its MIT license and copyright notice. Its current code, workflows, and project documentation are maintained in this repository.
 
 ## ✍️ Philosophy
 
-When creating this starter kit, we had several guiding principles in mind::
+When creating this starter kit, we had several guiding principles in mind:
 
 - **🚀 Production-ready**: We wanted to ensure that this starter was ready for real-world use, providing a solid foundation for building production-grade apps.
 - **🥷 Developer experience and productivity**: Our focus was on creating a starter that would enhance the developer experience and increase productivity.
@@ -33,7 +31,7 @@ When creating this starter kit, we had several guiding principles in mind::
 - ⚙️ Multi-environment build support (Production, Preview, Development) using Expo configuration.
 - 🦊 Husky for Git Hooks: Automate your git hooks and enforce code standards.
 - 💡 Clean project structure with Absolute Imports for easier code navigation and management.
-- 🚫 Lint-staged: Run Eslint and TypeScript checks on Git staged files to maintain code quality.
+- 🚫 Lint-staged: Run ESLint on staged JavaScript, TypeScript, and JSON files; pre-commit also performs a whole-project TypeScript check.
 - 🗂 VSCode recommended extensions, settings, and snippets for an enhanced developer experience.
 - ☂️ Pre-installed [Expo Router](https://docs.expo.dev/router/introduction/) with examples for comprehensive app navigation.
 - 💫 Demo auth flow using [Zustand](https://github.com/pmndrs/zustand); MMKV storage is unencrypted in the template and must not hold production secrets without an explicit encrypted strategy.
@@ -97,6 +95,7 @@ We value the feedback and contributions of our users, and we encourage you to le
 - [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/)
 - [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/docs/)
 - [React Native Svg](https://github.com/software-mansion/react-native-svg)
+- [Expo Vector Icons](https://docs.expo.dev/guides/icons/)
 - [React Error Boundaries](https://github.com/bvaughn/react-error-boundary)
 - [Expo Image](https://docs.expo.dev/versions/unversioned/sdk/image/)
 - [React Native Keyboard Controller](https://github.com/kirillzyusko/react-native-keyboard-controller)

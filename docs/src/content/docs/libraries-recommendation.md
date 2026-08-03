@@ -1,14 +1,14 @@
 ---
 title: Libraries Recommendation
-description: React Native / Expo Libraries recommendation for the project based on use cases.
+description: Library recommendations for Expo App Template based on common use cases.
 head:
   - tag: title
-    content: Libraries Recommendation | React Native / Expo Starter
+    content: Libraries Recommendation | Expo App Template
 ---
 
 The starter kit comes with a set of pre-installed and configured libraries. We recommend using these libraries for your project.
 
-Below, we'll list other libraries we often use in our projects. These aren't included in the starter because:
+Below are other libraries you can consider. These aren't included in the starter because:
 
 1. They're for specific use cases.
 2. They need a lot of setup.
@@ -44,4 +44,4 @@ There is no solution fit all for notifications, but based on your use case we wo
 
 ---
 
-For sure we are missing some great libraries here, so we count on your contribution to add them in the comments sections below.
+This list is intentionally selective. Open an issue or pull request if you have a recommendation that fits the template's scope.

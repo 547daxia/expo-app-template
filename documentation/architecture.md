@@ -6,6 +6,7 @@
 - Expo Router with Continuous Native Generation (CNG)
 - TypeScript with strict checking and `@/` absolute imports
 - Uniwind and Tailwind CSS for styling
+- `@expo/vector-icons` for standard UI icons and `react-native-svg` for custom artwork
 - TanStack Query + Axios + React Query Kit for server state
 - TanStack Form + Zod for forms and validation
 - Zustand for global client state

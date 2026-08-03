@@ -52,17 +52,19 @@ export function EmailForm() {
 `getFieldError(field)` only displays an error after the field is touched and supports both string and Zod error values. For a `Select`, update the field with its value:
 
 ```tsx
-<form.Field name="category">
-  {field => (
-    <Select
-      label="Category"
-      value={field.state.value}
-      options={categories}
-      onSelect={field.handleChange}
-      error={getFieldError(field)}
-    />
-  )}
-</form.Field>;
+return (
+  <form.Field name="category">
+    {field => (
+      <Select
+        label="Category"
+        value={field.state.value}
+        options={categories}
+        onSelect={field.handleChange}
+        error={getFieldError(field)}
+      />
+    )}
+  </form.Field>
+);
 ```
 
 Use `KeyboardAvoidingView` from `react-native-keyboard-controller` for forms that can be covered by the keyboard. The login and add-post screens are maintained end-to-end examples.

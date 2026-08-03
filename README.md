@@ -13,6 +13,7 @@ Originally based on [obytes/react-native-template-obytes](https://github.com/oby
 - Expo SDK 56, React Native 0.85, React 19, and TypeScript
 - Expo Router with Continuous Native Generation (CNG)
 - Uniwind and Tailwind CSS for styling
+- `@expo/vector-icons` for common UI icons, with `react-native-svg` retained for custom artwork
 - TanStack Query, TanStack Form, Zod, and Zustand
 - Development, preview, and production environment support
 - ESLint, Husky, lint-staged, Jest, and Maestro end-to-end testing

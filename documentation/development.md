@@ -39,7 +39,7 @@ pnpm check-all
 pnpm doctor
 ```
 
-`check-all` runs linting, TypeScript, Jest, Expo dependency alignment, and Expo Doctor. The pre-commit hook checks staged lint and TypeScript changes, while the commit-msg hook enforces Conventional Commits.
+`check-all` runs linting, TypeScript, Jest, Expo dependency alignment, and Expo Doctor. The pre-commit hook runs TypeScript against the whole project, then applies the staged-file ESLint checks from `lint-staged` (JavaScript, TypeScript, and JSON). The commit-msg hook enforces Conventional Commits.
 
 ## Adding a feature
 
