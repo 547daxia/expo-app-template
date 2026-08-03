@@ -1,4 +1,4 @@
-> This project was generated from the [Obytes React Native Template](https://github.com/obytes/react-native-template-obytes), a production-ready React Native starter with modern tooling and best practices.
+> Originally based on the [Obytes React Native Template](https://github.com/obytes/react-native-template-obytes), this repository is independently maintained as Expo App Template.
 
 ## What: Technology Stack
 
@@ -9,7 +9,7 @@
 - **Zustand** - Lightweight global state management
 - **React Query** - Server state and data fetching
 - **TanStack Form + Zod** - Type-safe form handling and validation
-- **MMKV** - High-performance local key-value storage with optional encryption
+- **MMKV** - High-performance local key-value storage for non-sensitive app data
 - **Jest + React Testing Library** - Unit testing
 
 ## What: Project Structure
@@ -33,7 +33,8 @@ Root Files:
 **Essential Commands:**
 ```bash
 pnpm start              # Start dev server
-pnpm ios/android        # Run on platform
+pnpm ios                # Run an iOS development build
+pnpm android            # Run an Android development build
 pnpm lint               # ESLint check
 pnpm type-check         # TypeScript validation
 pnpm test               # Run Jest tests
@@ -64,7 +65,7 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 - **Data fetching**: Use React Query (see `src/features/feed/api.ts`)
 - **Global state**: Use Zustand (see `src/features/auth/use-auth-store.tsx`)
 - **Styling**: Uniwind/Tailwind classes (see `src/components/ui/button.tsx`)
-- **Storage**: Use MMKV via `src/lib/storage.tsx` for sensitive data
+- **Storage**: Use MMKV via `src/lib/storage.tsx` for non-sensitive app data. Do not persist credentials or tokens there unless encrypted storage has been explicitly configured.
 - **Imports**: Use `@/` for cross-feature or shared-module imports; relative imports are allowed within a feature or sibling component folder
 
 ## How: Ownership and Configuration
@@ -86,7 +87,8 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 - ✅ **DO** use absolute imports: `@/components/ui/button`
 - ✅ **DO** follow feature-based structure: `src/features/[name]/`
 - ✅ **DO** use TanStack Form for forms (not react-hook-form)
-- ✅ **DO** use MMKV storage for sensitive data (not AsyncStorage)
+- ✅ **DO** use MMKV for non-sensitive app data
+- ❌ **DO NOT** persist credentials or tokens in MMKV unless encrypted storage has been explicitly configured
 - ✅ **DO** use EAS Build for production: `pnpm build:production:ios`
 - ✅ **DO** use the current environment profile (`development`, `preview`, or `production`) in scripts and EAS builds
 - ✅ **DO** use `EXPO_PUBLIC_*` only for non-sensitive values required by app code
