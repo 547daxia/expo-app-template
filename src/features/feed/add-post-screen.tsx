@@ -63,7 +63,8 @@ export function AddPostScreen() {
       <View className="flex-1 p-4">
         <form.Field
           name="title"
-          children={field => (
+        >
+          {field => (
             <Input
               label="Title"
               testID="title"
@@ -73,10 +74,11 @@ export function AddPostScreen() {
               error={getFieldError(field)}
             />
           )}
-        />
+        </form.Field>
         <form.Field
           name="body"
-          children={field => (
+        >
+          {field => (
             <Input
               label="Content"
               multiline
@@ -87,10 +89,11 @@ export function AddPostScreen() {
               error={getFieldError(field)}
             />
           )}
-        />
+        </form.Field>
         <form.Subscribe
           selector={state => [state.isSubmitting]}
-          children={([isSubmitting]) => (
+        >
+          {([isSubmitting]) => (
             <Button
               label="Add Post"
               loading={isPending || isSubmitting}
@@ -98,7 +101,7 @@ export function AddPostScreen() {
               testID="add-post-button"
             />
           )}
-        />
+        </form.Subscribe>
       </View>
     </>
   );

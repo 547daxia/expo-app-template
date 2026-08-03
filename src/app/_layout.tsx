@@ -35,14 +35,14 @@ SplashScreen.setOptions({
 });
 
 export default function RootLayout() {
-  const hasHiddenSplash = React.useRef(false);
+  const hasHiddenSplashRef = React.useRef(false);
 
   const onLayoutRootView = React.useCallback(() => {
-    if (hasHiddenSplash.current) {
+    if (hasHiddenSplashRef.current) {
       return;
     }
 
-    hasHiddenSplash.current = true;
+    hasHiddenSplashRef.current = true;
     SplashScreen.hide();
   }, []);
 

@@ -135,6 +135,8 @@ function CheckboxBase({
   );
 }
 
+// Compound components expose static subcomponents, which Fast Refresh cannot track.
+// eslint-disable-next-line react-refresh/only-export-components
 export const Checkbox = Object.assign(CheckboxBase, {
   Icon: CheckboxIcon,
   Root: CheckboxRoot,
@@ -193,6 +195,8 @@ function RadioBase({
   );
 }
 
+// Compound components expose static subcomponents, which Fast Refresh cannot track.
+// eslint-disable-next-line react-refresh/only-export-components
 export const Radio = Object.assign(RadioBase, {
   Icon: RadioIcon,
   Root: RadioRoot,
@@ -260,6 +264,8 @@ function SwitchBase({
   );
 }
 
+// Compound components expose static subcomponents, which Fast Refresh cannot track.
+// eslint-disable-next-line react-refresh/only-export-components
 export const Switch = Object.assign(SwitchBase, {
   Icon: SwitchIcon,
   Root: SwitchRoot,

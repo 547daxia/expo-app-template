@@ -68,7 +68,8 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
 
         <form.Field
           name="name"
-          children={field => (
+        >
+          {field => (
             <Input
               testID="name"
               label="Name"
@@ -78,11 +79,12 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
               error={getFieldError(field)}
             />
           )}
-        />
+        </form.Field>
 
         <form.Field
           name="email"
-          children={field => (
+        >
+          {field => (
             <Input
               testID="email-input"
               label="Email"
@@ -92,11 +94,12 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
               error={getFieldError(field)}
             />
           )}
-        />
+        </form.Field>
 
         <form.Field
           name="password"
-          children={field => (
+        >
+          {field => (
             <Input
               testID="password-input"
               label="Password"
@@ -108,11 +111,12 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
               error={getFieldError(field)}
             />
           )}
-        />
+        </form.Field>
 
         <form.Subscribe
           selector={state => [state.isSubmitting]}
-          children={([isSubmitting]) => (
+        >
+          {([isSubmitting]) => (
             <Button
               testID="login-button"
               label="Login"
@@ -120,7 +124,7 @@ export function LoginForm({ onSubmit = () => {} }: LoginFormProps) {
               loading={isSubmitting}
             />
           )}
-        />
+        </form.Subscribe>
       </View>
     </KeyboardAvoidingView>
   );
