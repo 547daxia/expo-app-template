@@ -1,41 +1,48 @@
 import type { Post } from '../api';
 
 import { Link } from 'expo-router';
-import * as React from 'react';
+import React from 'react';
 
-import { Image, Pressable, Text, View } from '@/components/ui';
+import { Card } from '@/components/ui/card';
+import { Image } from '@/components/ui/image';
+import { Pressable } from '@/components/ui/pressable';
+import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
 
-const images = [
+const POST_IMAGES = [
   'https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1515386474292-47555758ef2e?auto=format&fit=crop&w=800&q=80',
-  'https://plus.unsplash.com/premium_photo-1666815503002-5f07a44ac8fb?auto=format&fit=crop&w=800&q=80',
   'https://images.unsplash.com/photo-1587974928442-77dc3e0dba72?auto=format&fit=crop&w=800&q=80',
 ];
 
-type Props = Post;
+export function PostCard({ title, body, id }: Post) {
+  const imageUrl = POST_IMAGES[Math.abs(id) % POST_IMAGES.length];
 
-export function PostCard({ title, body, id }: Props) {
   return (
     <Link href={`/feed/${id}`} asChild>
-      <Pressable>
-        <View className="m-2 overflow-hidden rounded-xl border border-neutral-300 bg-white dark:bg-neutral-900">
+      <Pressable accessibilityLabel={`Open post: ${title}`}>
+        <Card className="overflow-hidden rounded-2xl border border-border bg-card p-0">
           <Image
-            className="h-56 w-full overflow-hidden rounded-t-xl"
-            contentFit="cover"
-            source={{
-              // eslint-disable-next-line react/purity
-              uri: images[Math.floor(Math.random() * images.length)],
-            }}
+            alt="Post cover"
+            accessibilityLabel="Post cover"
+            className="h-48 w-full"
+            resizeMode="cover"
+            source={{ uri: imageUrl }}
           />
-
-          <View className="p-2">
-            <Text className="py-3 text-2xl">{title}</Text>
-            <Text numberOfLines={3} className="leading-snug text-gray-600">
+          <VStack className="gap-2 p-4">
+            <Text selectable className="text-xl font-semibold">
+              {title}
+            </Text>
+            <Text
+              selectable
+              className="leading-5 text-muted-foreground"
+              numberOfLines={3}
+            >
               {body}
             </Text>
-          </View>
-        </View>
+          </VStack>
+        </Card>
       </Pressable>
     </Link>
   );

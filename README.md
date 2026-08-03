@@ -12,8 +12,9 @@ Originally based on [obytes/react-native-template-obytes](https://github.com/oby
 
 - Expo SDK 56, React Native 0.85, React 19, and TypeScript
 - Expo Router with Continuous Native Generation (CNG)
-- Uniwind and Tailwind CSS for styling
-- `@expo/vector-icons` for common UI icons, with `react-native-svg` retained for custom artwork
+- A maintained Gluestack UI component library styled with Uniwind and Tailwind CSS
+- A Style Demo catalog covering all 60 shared component groups
+- Gluestack SVG icons for shared controls and `@expo/vector-icons` for navigator icons
 - TanStack Query, TanStack Form, Zod, and Zustand
 - Development, preview, and production environment support
 - ESLint, Husky, lint-staged, Jest, and Maestro end-to-end testing
@@ -49,6 +50,7 @@ pnpm start                 # Start the Expo development server
 pnpm ios                   # Run an iOS development build
 pnpm android               # Run an Android development build
 pnpm test                  # Run unit tests
+pnpm test:ci               # Run tests with coverage thresholds
 pnpm check-all             # Run lint, types, tests, dependency checks, and Expo Doctor
 pnpm doctor                # Run Expo Doctor
 pnpm docs:build            # Build the browsable documentation site (after docs install)
@@ -57,6 +59,7 @@ pnpm docs:build            # Build the browsable documentation site (after docs 
 ## Contributing
 
 Issues and pull requests are welcome. Please run `pnpm check-all` before opening a pull request.
+When shared UI changes, also verify the Style tab and keep its component inventory in sync.
 
 ## Credits and license
 

@@ -9,7 +9,8 @@ import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
-import { useThemeConfig } from '@/components/ui/use-theme-config';
+import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { useThemeConfig } from '@/components/ui/gluestack-ui-provider/theme';
 import { hydrateAuth } from '@/features/auth/use-auth-store';
 
 import { APIProvider } from '@/lib/api';
@@ -72,16 +73,18 @@ function Providers({
       // eslint-disable-next-line better-tailwindcss/no-unknown-classes
       className={theme.dark ? `dark` : undefined}
     >
-      <KeyboardProvider>
-        <ThemeProvider value={theme}>
-          <APIProvider>
-            <BottomSheetModalProvider>
-              {children}
-              <FlashMessage position="top" />
-            </BottomSheetModalProvider>
-          </APIProvider>
-        </ThemeProvider>
-      </KeyboardProvider>
+      <GluestackUIProvider mode={theme.dark ? 'dark' : 'light'}>
+        <KeyboardProvider>
+          <ThemeProvider value={theme}>
+            <APIProvider>
+              <BottomSheetModalProvider>
+                {children}
+                <FlashMessage position="top" />
+              </BottomSheetModalProvider>
+            </APIProvider>
+          </ThemeProvider>
+        </KeyboardProvider>
+      </GluestackUIProvider>
     </GestureHandlerRootView>
   );
 }

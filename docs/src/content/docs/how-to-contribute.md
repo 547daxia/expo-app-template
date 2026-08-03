@@ -6,11 +6,12 @@ head:
     content: How to Contribute | Expo App Template
 ---
 
-Thank you for your interest in contributing to our project. Your involvement is greatly appreciated and we welcome your contributions. Here are some ways you can help us improve this project:
+Contributions to code, tests, documentation, and project tooling are welcome.
 
-1. Show your support for the project by giving it a 🌟 on [Github](https://github.com/547daxia/expo-app-template). This helps us increase visibility and attract more contributors.
-2. Share your thoughts and ideas with us by [opening an issue](https://github.com/547daxia/expo-app-template/issues). If you have any suggestions or feedback about any aspect of the project, we are always eager to hear from you and have a [discussion](https://github.com/547daxia/expo-app-template/discussions).
-3. If you have questions about the project, open a new [QA discussion](https://github.com/547daxia/expo-app-template/discussions/categories/q-a) and the maintainers will respond when available.
-4. If you encounter a bug or typo while using the starter kit or reading the documentation, we would be grateful if you could bring it to our attention. You can open an issue to report the issue, or even better, submit a pull request with a fix.
+1. Use [issues](https://github.com/547daxia/expo-app-template/issues) for reproducible bugs or scoped enhancements.
+2. Use [discussions](https://github.com/547daxia/expo-app-template/discussions) for questions and broader proposals.
+3. Keep feature code inside its owning `src/features/` directory and shared UI under `src/components/ui/`.
+4. Update canonical files under `documentation/` whenever behavior, configuration, testing, or release requirements change.
+5. Run `pnpm check-all` before opening a pull request. Verify affected native/Web platforms and update the Style Demo inventory when shared UI changes.
 
-We value the input and contributions of our community and look forward to working with you to improve this project.
+Pull requests should explain the motivation, affected surfaces, and verification performed. Never include `.env` files, credentials, generated native projects, or another project's EAS identifiers.

@@ -1,49 +1,24 @@
 ---
-title: Stay Up-to-Date with React Native
-description: Stay up-to-date with React Native news.
+title: Official Update Sources
+description: First-party sources for Expo and React Native changes.
 head:
   - tag: title
     content: Stay Updated | Expo App Template
 ---
 
-Make sure to check out the links below to stay up-to-date with React Native news.
+Prefer first-party release notes and documentation when evaluating framework or
+dependency changes:
 
-:::note
-We are in favor of reducing the number of news sources you use to avoid feeling overwhelmed. Therefore, we have only included resources that we think are essential and deserve your attention.
-
-:::
-
-## Websites
-
-- [React Native Documentation](https://reactnative.dev/)
-- [React Native Directory](https://reactnative.directory/)
-- [React Native Reddit Channel](https://www.reddit.com/r/reactnative/)
-
-## Blogs
-
+- [Expo documentation](https://docs.expo.dev/)
+- [Expo changelog](https://expo.dev/changelog)
 - [Expo blog](https://blog.expo.dev/)
-- [React Native Dev Blog](https://reactnative.dev/blog)
-- [TkDodo's blog](https://tkdodo.eu/blog/)
-- [Developer way](https://www.developerway.com/)
-- [Bam React Native blog](https://www.bam.tech/blog/react-native)
+- [React Native documentation](https://reactnative.dev/)
+- [React Native releases](https://github.com/facebook/react-native/releases)
+- [React Native blog](https://reactnative.dev/blog)
+- [React Native Directory](https://reactnative.directory/) for library health
+  and platform compatibility signals
 
-## Newsletters
-
-- [This week in react](https://thisweekinreact.com/)
-- [The React Native Newsletter](https://reactnativenewsletter.com/)
-
-## Twitter accounts
-
-- [Evan Bacon](https://twitter.com/Baconbrix)
-- [React Native](https://twitter.com/reactnative)
-- [Expo](https://twitter.com/expo)
-- [Sebastien Lorber](https://twitter.com/sebastienlorber)
-
-## Open source projects
-
-A list of open-source projects and production-ready apps that you can use to learn and get inspired from.
-
-- [showtime-frontend](https://github.com/showtime-xyz/showtime-frontend)
-- [xLog-mobile](https://github.com/Crossbell-Box/xLog-mobile)
-- [CommE2E](https://github.com/CommE2E/comm)
-- [Expensify](https://github.com/Expensify/App)
+For this repository, also watch GitHub releases and run
+`pnpm exec expo install --check` plus `pnpm doctor` before accepting dependency
+updates. Follow the canonical dependency-upgrade guide from the Project
+Documentation page.

@@ -5,8 +5,9 @@
 - Expo SDK 56, React Native 0.85, and React 19
 - Expo Router with Continuous Native Generation (CNG)
 - TypeScript with strict checking and `@/` absolute imports
-- Uniwind and Tailwind CSS for styling
-- `@expo/vector-icons` for standard UI icons and `react-native-svg` for custom artwork
+- Gluestack UI with Uniwind and Tailwind CSS for shared components and styling
+- Gluestack SVG icons for shared controls, `@expo/vector-icons` for navigator
+  icons, and `react-native-svg` for custom artwork
 - TanStack Query + Axios + React Query Kit for server state
 - TanStack Form + Zod for forms and validation
 - Zustand for global client state
@@ -18,7 +19,7 @@
 | --- | --- |
 | `src/app/` | Expo Router layouts and thin route re-exports |
 | `src/features/` | Feature-owned screens, components, API hooks, and state |
-| `src/components/ui/` | Shared UI primitives and theme utilities |
+| `src/components/ui/` | Maintained Gluestack UI component groups and theme utilities |
 | `src/lib/` | API infrastructure, storage, navigation, auth utilities, and global hooks |
 | `assets/` | App icon, splash, adaptive icon, and web favicon |
 | `documentation/` | Plain Markdown operational documentation |
@@ -26,7 +27,7 @@
 
 ## Feature conventions
 
-Feature directories use kebab-case names. Screens use the `*-screen.tsx` suffix. Feature-only components live under that feature's `components/` directory; shared components belong in `src/components/ui/` once they are used by multiple features and contain no feature-specific behavior.
+Feature directories use kebab-case names. Screens use the `*-screen.tsx` suffix. Feature-only components live under that feature's `components/` directory; shared components belong in `src/components/ui/` once they are used by multiple features and contain no feature-specific behavior. There is no shared UI barrel or legacy compatibility directory; import each component group directly.
 
 Feature routes should remain small:
 
@@ -38,9 +39,18 @@ Use direct imports instead of feature barrel exports. Relative imports are appro
 
 ## Root composition
 
-[`src/app/_layout.tsx`](../src/app/_layout.tsx) composes the runtime providers in this order: gesture handling, keyboard handling, navigation theme, React Query, bottom-sheet modals, and flash messages. It also hydrates authentication, restores the selected theme, and controls the splash screen.
+[`src/app/_layout.tsx`](../src/app/_layout.tsx) composes the runtime providers in this order: gesture handling, Gluestack UI, keyboard handling, navigation theme, React Query, bottom-sheet modals, and flash messages. It also hydrates authentication, restores the selected theme, and controls the splash screen.
 
 The authenticated area is defined by [`src/app/(app)/_layout.tsx`](../src/app/%28app%29/_layout.tsx). It redirects first-time users to onboarding, signed-out users to login, and otherwise renders the Feed, Style, and Settings tabs.
+
+## Included application surfaces
+
+- Onboarding records first-use completion and routes to login.
+- Login validates a demo form and signs in only outside production.
+- Feed supports loading, empty, error, refresh, detail, and create-post flows.
+- Style is the interactive catalog for every shared UI component group.
+- Settings controls the persisted theme, displays app metadata, shares the
+  repository, and signs the user out.
 
 ## Native generation
 

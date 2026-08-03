@@ -11,7 +11,7 @@ env:
     id: style-tab
 - tapOn:
     id: style-tab
-- assertVisible: Typography
+- assertVisible: 60 component groups
 - tapOn:
     id: settings-tab
 - assertVisible: Settings

@@ -1,47 +1,49 @@
 ---
-title: Libraries Recommendation
-description: Library recommendations for Expo App Template based on common use cases.
+title: Optional Libraries
+description: Optional integrations to evaluate for common Expo application needs.
 head:
   - tag: title
-    content: Libraries Recommendation | Expo App Template
+    content: Optional Libraries | Expo App Template
 ---
 
-The starter kit comes with a set of pre-installed and configured libraries. We recommend using these libraries for your project.
+The template already includes the libraries listed in `package.json`. Add an
+optional integration only when the product has a concrete requirement, and
+evaluate Expo compatibility, native configuration, privacy, bundle impact, and
+ongoing ownership first.
 
-Below are other libraries you can consider. These aren't included in the starter because:
+## Complex workflows
 
-1. They're for specific use cases.
-2. They need a lot of setup.
+[XState](https://stately.ai/docs) is an option when application behavior is best
+modeled as explicit state machines or actors. Continue using Zustand for small,
+straightforward client state.
 
-This way, you can add them to your project only if you need them, keeping things simple to start with.
+## Error reporting
 
-### State Management:
+[Sentry](https://docs.expo.dev/guides/using-sentry/) supports Expo and EAS. It is
+not installed by this template; follow the [Sentry setup recipe](/recipes/sentry-setup/)
+and keep authentication tokens outside `EXPO_PUBLIC_*` variables.
 
-The starter kit comes with Zustand out of the box but if your application implements a lot of workflows, you might want to use [XState](https://xstate.js.org/) as it's more powerful on managing complex workflows and state machines.
-
-For example, if you have a workflow to create a new card for user and this workflow has a lot of steps and conditions, Zustand might not be the best choice as it's more designed for simple state management and XState is your best choice in this case.
-
-### Error Reporting:
-
-- [Sentry](https://sentry.io/welcome/): very popular solution for error reporting in the javascript ecosystem and has a great integration with Expo.
-
-### Notifications:
-
-There is no solution fit all for notifications, but based on your use case we would recommend one of the following:
+## Notifications
 
 - [Expo Push Notifications](https://docs.expo.dev/push-notifications/overview/)
 - [OneSignal](https://onesignal.com/)
 
-### Analytics:
+Push notifications require native credentials and a development build. Decide
+who owns delivery, user consent, token lifecycle, and backend integration before
+choosing a provider.
 
-- [PostHog](https://posthog.com/docs/libraries/react-native) : Easy to setup and use and has a great free tier.
+## Analytics
 
-- [Google Analytics](https://rnfirebase.io/analytics/usage)
+- [PostHog for React Native](https://posthog.com/docs/libraries/react-native)
+- [React Native Firebase Analytics](https://rnfirebase.io/analytics/usage)
 
-### Charts:
+Document the event contract and implement consent, data minimization, and
+environment separation before enabling analytics.
 
-- [Victory Native](https://github.com/FormidableLabs/victory-native-xl)
+## Charts
 
----
+[Victory Native](https://github.com/FormidableLabs/victory-native-xl) is one
+option for native charts. Validate its current Expo SDK and rendering-engine
+requirements against the project before installation.
 
-This list is intentionally selective. Open an issue or pull request if you have a recommendation that fits the template's scope.
+This list is intentionally selective and is not an endorsement for every app.

@@ -6,6 +6,7 @@
 - **TypeScript** - Strict type safety throughout
 - **Expo Router 56** - File-based routing (like Next.js)
 - **TailwindCSS** via Uniwind - Utility-first styling for React Native
+- **Gluestack UI** - Locally owned compound components under `src/components/ui/`
 - **Zustand** - Lightweight global state management
 - **React Query** - Server state and data fetching
 - **TanStack Form + Zod** - Type-safe form handling and validation
@@ -18,14 +19,15 @@
 src/
 ├── app/              # Expo Router file-based routes (add new routes here)
 ├── features/         # Feature modules - auth, feed, settings are EXAMPLES
-├── components/ui/    # Pre-built UI components (button, input, modal, etc.)
+├── components/ui/    # Maintained Gluestack UI library (60 component groups)
 ├── lib/              # Pre-configured utilities (api, auth, storage)
 └── global.css        # TailwindCSS configuration
 
 Root Files:
 ├── env.ts           # Environment config (CUSTOMIZE bundle IDs, API URLs)
 ├── app.config.ts    # Expo configuration
-└── README.md        # Project-specific documentation
+├── documentation/  # Canonical operational documentation
+└── README.md        # Repository overview and quick start
 ```
 
 ## How: Development Workflow
@@ -61,10 +63,12 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 
 - **Create features**: New folder in `src/features/[your-feature]/` with screens, components, API hooks
 - **Add routes**: Create files in `src/app/` (file-based routing)
-- **Forms**: Use TanStack Form + Zod (see `src/features/auth/components/login-form.tsx`)
+- **Forms**: Use TanStack Form + Zod (see `documentation/forms.md`)
 - **Data fetching**: Use React Query (see `src/features/feed/api.ts`)
 - **Global state**: Use Zustand (see `src/features/auth/use-auth-store.tsx`)
-- **Styling**: Uniwind/Tailwind classes (see `src/components/ui/button.tsx`)
+- **Styling**: Uniwind/Tailwind classes (see `src/components/ui/button/index.tsx`)
+- **UI catalog**: Keep `src/features/style-demo/` synchronized with every top-level `src/components/ui/` directory
+- **Custom UI tests**: Test behavior added around generated primitives; Gluestack CLI-generated source is excluded from coverage
 - **Storage**: Use MMKV via `src/lib/storage.tsx` for non-sensitive app data. Do not persist credentials or tokens there unless encrypted storage has been explicitly configured.
 - **Imports**: Use `@/` for cross-feature or shared-module imports; relative imports are allowed within a feature or sibling component folder
 
@@ -85,6 +89,8 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 ## How: Essential Rules
 
 - ✅ **DO** use absolute imports: `@/components/ui/button`
+- ✅ **DO** import UI components from their own directories; there is no shared UI barrel
+- ✅ **DO** keep all installed `src/components/ui/` component groups maintained and represented in the Style Demo
 - ✅ **DO** follow feature-based structure: `src/features/[name]/`
 - ✅ **DO** use TanStack Form for forms (not react-hook-form)
 - ✅ **DO** use MMKV for non-sensitive app data
@@ -94,3 +100,4 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 - ✅ **DO** use `EXPO_PUBLIC_*` only for non-sensitive values required by app code
 - ❌ **DO NOT** commit generated `android/` or `ios/` projects; this template uses CNG and config plugins
 - ❌ **DO NOT** change the Expo account or EAS project identifiers without completing the ownership checklist
+- ❌ **DO NOT** recreate `src/components/legacy-ui/` or reintroduce the retired `Chat`, `ChatMessages`, and `useChat` APIs

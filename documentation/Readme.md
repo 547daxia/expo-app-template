@@ -22,6 +22,7 @@ The Astro/Starlight site under [`docs/`](../docs/) remains the browsable referen
 - [Release and CI/CD](./release.md)
 - [Dependency upgrades](./dependency-upgrades.md)
 - [Documentation structure decision](./decisions/2026-08-03-documentation-structure.md)
+- [Gluestack UI migration decision](./decisions/2026-08-03-gluestack-ui-migration.md)
 
 ## Quick start
 

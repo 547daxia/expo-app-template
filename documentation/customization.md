@@ -12,4 +12,4 @@ After changing an asset or native configuration, create a development build to v
 
 ## Template surfaces
 
-Before release, replace or remove the template-branded onboarding screen, mock authentication, feed demo API, style demo, placeholder support links, and template artwork.
+Before release, replace or remove the template-branded onboarding screen, mock authentication, feed demo API, style demo, template repository links, and template artwork. Production login intentionally remains disabled until a real authentication adapter is configured.

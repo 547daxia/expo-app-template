@@ -4,13 +4,15 @@
 
 Authentication state is owned by [`src/features/auth/use-auth-store.tsx`](../src/features/auth/use-auth-store.tsx). The store exposes `idle`, `signOut`, and `signIn` states plus `signIn`, `signOut`, and `hydrate` actions.
 
-At module startup, `hydrateAuth()` reads the stored token. The authenticated layout then redirects based on the result. Login currently accepts the demo form and writes mock access and refresh values:
+At module startup, `hydrateAuth()` reads the stored token. The authenticated layout then redirects based on the result. In development and preview, login accepts any valid email plus a password of at least six characters and writes mock access and refresh values:
 
 ```ts
 const demoToken = { access: 'access-token', refresh: 'refresh-token' };
 ```
 
 This is template behavior, not a production authentication implementation.
+The login screen explicitly refuses demo sign-in when
+`EXPO_PUBLIC_APP_ENV=production` and displays an integration warning instead.
 
 ## Token storage boundary
 

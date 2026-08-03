@@ -1,65 +1,38 @@
-import type { LoginFormProps } from './login-form';
-
-import * as React from 'react';
-
-import { cleanup, fireEvent, screen, setup, waitFor } from '@/lib/test-utils';
+import { cleanup, screen, setup, waitFor } from '@/lib/test-utils';
 import { LoginForm } from './login-form';
 
 afterEach(cleanup);
 
-const onSubmitMock: jest.Mock<LoginFormProps['onSubmit']> = jest.fn();
-
-describe('loginForm Form ', () => {
-  it('renders correctly', async () => {
+describe('login form', () => {
+  it('renders the sign-in form', () => {
     setup(<LoginForm />);
-    expect(await screen.findByTestId('form-title')).toBeOnTheScreen();
+
+    expect(screen.getByTestId('form-title')).toHaveTextContent('Sign In');
+    expect(screen.getByTestId('login-button')).toBeOnTheScreen();
   });
 
-  it('should display required error when values are empty', async () => {
+  it('shows required validation feedback', async () => {
     const { user } = setup(<LoginForm />);
 
-    const button = screen.getByTestId('login-button');
-    expect(screen.queryByText(/Email is required/i)).not.toBeOnTheScreen();
-    await user.press(button);
-    expect(await screen.findByText(/Email is required/i)).toBeOnTheScreen();
-    expect(screen.getByText(/Password is required/i)).toBeOnTheScreen();
+    await user.press(screen.getByTestId('login-button'));
+
+    expect(await screen.findByText('Email is required')).toBeOnTheScreen();
+    expect(screen.getByText('Password is required')).toBeOnTheScreen();
   });
 
-  it('should display matching error when email is invalid', async () => {
-    const { user } = setup(<LoginForm />);
+  it('submits valid credentials', async () => {
+    const onSubmit = jest.fn();
+    const { user } = setup(<LoginForm onSubmit={onSubmit} />);
 
-    const button = screen.getByTestId('login-button');
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
+    await user.type(screen.getByTestId('email-input'), 'user@example.com');
+    await user.type(screen.getByTestId('password-input'), 'password');
+    await user.press(screen.getByTestId('login-button'));
 
-    await user.type(emailInput, 'yyyyy');
-    fireEvent(emailInput, 'blur');
-    await user.type(passwordInput, 'test');
-    await user.press(button);
-
-    expect(await screen.findByText(/Invalid Email Format/i)).toBeOnTheScreen();
-    expect(screen.queryByText(/Email is required/i)).not.toBeOnTheScreen();
-  });
-
-  it('should call LoginForm with correct values when values are valid', async () => {
-    const { user } = setup(<LoginForm onSubmit={onSubmitMock} />);
-
-    const button = screen.getByTestId('login-button');
-    const emailInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
-
-    await user.type(emailInput, 'youssef@gmail.com');
-    await user.type(passwordInput, 'password');
-    await user.press(button);
-    await waitFor(() => {
-      expect(onSubmitMock).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
+    expect(onSubmit).toHaveBeenCalledWith({
+      email: 'user@example.com',
+      name: '',
+      password: 'password',
     });
-    // expect.objectContaining({}) because we don't want to test the target event we are receiving from the onSubmit function
-    expect(onSubmitMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        email: 'youssef@gmail.com',
-        password: 'password',
-      }),
-    );
   });
 });

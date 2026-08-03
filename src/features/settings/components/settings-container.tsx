@@ -1,18 +1,23 @@
-import * as React from 'react';
-import { Text, View } from '@/components/ui';
+import type { PropsWithChildren } from 'react';
 
-type Props = {
-  children: React.ReactNode;
-  title?: string;
-};
+import { Card } from '@/components/ui/card';
+import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
 
-export function SettingsContainer({ children, title }: Props) {
+export function SettingsContainer({
+  children,
+  title,
+}: PropsWithChildren<{ title?: string }>) {
   return (
-    <>
-      {title && <Text className="pt-4 pb-2 text-lg">{title}</Text>}
-      <View className="rounded-md border border-neutral-200 dark:border-neutral-700 dark:bg-neutral-800">
+    <VStack className="gap-2">
+      {title && (
+        <Text selectable className="px-1 text-sm font-semibold text-muted-foreground uppercase">
+          {title}
+        </Text>
+      )}
+      <Card className="overflow-hidden rounded-xl border border-border bg-card p-0">
         {children}
-      </View>
-    </>
+      </Card>
+    </VStack>
   );
 }

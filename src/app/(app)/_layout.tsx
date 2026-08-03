@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Link, Redirect, Tabs } from 'expo-router';
 import * as React from 'react';
 
-import { Pressable, Text } from '@/components/ui';
+import { Pressable } from '@/components/ui/pressable';
+import { Text } from '@/components/ui/text';
 import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
 import { useIsFirstTime } from '@/lib/hooks/use-is-first-time';
 

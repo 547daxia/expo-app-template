@@ -7,7 +7,7 @@ The template bundles Inter through `@expo-google-fonts/inter` and configures its
 Use the configured family through Tailwind classes or component styles:
 
 ```tsx
-import { Text } from '@/components/ui';
+import { Text } from '@/components/ui/text';
 
 export function Heading() {
   return <Text className="font-sans text-xl font-semibold">Heading</Text>;

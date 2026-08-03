@@ -21,3 +21,10 @@ _Does your code affect something downstream? Are there side effects people shoul
 <!---
 _How did you test your change? Document it here._
 -->
+
+## Checklist
+
+- [ ] I ran `pnpm check-all`, or documented why a check does not apply.
+- [ ] I updated canonical files under `documentation/` when behavior changed.
+- [ ] I kept the Style Demo inventory synchronized when shared UI changed.
+- [ ] I verified the affected native/Web platform behavior where applicable.

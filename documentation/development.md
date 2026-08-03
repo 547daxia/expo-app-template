@@ -49,6 +49,21 @@ pnpm doctor
 4. Add `api.ts` for feature queries/mutations and a Zustand store only when feature state needs to be global.
 5. Add focused tests for validation, business logic, or complex interactions.
 
+## Adding shared UI
+
+Use the Gluestack CLI when starting from an upstream component, then treat the
+generated source as repository-owned code:
+
+```bash
+pnpm dlx gluestack-ui@latest add <component>
+```
+
+Keep components in `src/components/ui/<component>/`, import them from that
+directory, and add an interactive example to `src/features/style-demo/`.
+Update `component-groups.ts` whenever a top-level UI directory changes; its
+inventory test fails if the catalog and filesystem drift apart. Add focused
+tests for custom behavior layered around generated primitives.
+
 ## Naming and imports
 
 Use kebab-case for files and folders, camelCase for variables and functions, and direct absolute imports across module boundaries. Do not introduce credentials or tokens into `EXPO_PUBLIC_*` variables.

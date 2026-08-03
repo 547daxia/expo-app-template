@@ -1,6 +1,8 @@
 # Forms
 
-Forms use TanStack Form and Zod. Define schemas outside the component, validate on change, and render only the state each control needs.
+Forms use TanStack Form and Zod. Define schemas outside the component, validate
+on change, and compose controls from the Gluestack components in
+`src/components/ui`.
 
 ## Basic pattern
 
@@ -8,8 +10,17 @@ Forms use TanStack Form and Zod. Define schemas outside the component, validate 
 import { useForm } from '@tanstack/react-form';
 import * as z from 'zod';
 
-import { Button, Input, View } from '@/components/ui';
-import { getFieldError } from '@/components/ui/form-utils';
+import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
+import {
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
+  FormControlLabel,
+  FormControlLabelText,
+} from '@/components/ui/form-control';
+import { Input, InputField } from '@/components/ui/input';
+import { VStack } from '@/components/ui/vstack';
+import { getFieldError } from '@/lib/form-utils';
 
 const schema = z.object({
   email: z.string().email('Enter a valid email'),
@@ -18,53 +29,61 @@ const schema = z.object({
 export function EmailForm() {
   const form = useForm({
     defaultValues: { email: '' },
-    validators: { onChange: schema as any },
+    validators: { onChange: schema },
     onSubmit: () => {
-      // Send validated values to your feature's API adapter.
+      // Send validated values to the feature API adapter.
     },
   });
 
   return (
-    <View>
+    <VStack className="gap-4">
       <form.Field name="email">
-        {field => (
-          <Input
-            label="Email"
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChangeText={field.handleChange}
-            error={getFieldError(field)}
-          />
-        )}
+        {(field) => {
+          const error = getFieldError(field);
+
+          return (
+            <FormControl isInvalid={Boolean(error)}>
+              <FormControlLabel>
+                <FormControlLabelText>Email</FormControlLabelText>
+              </FormControlLabel>
+              <Input>
+                <InputField
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChangeText={field.handleChange}
+                />
+              </Input>
+              {error && (
+                <FormControlError>
+                  <FormControlErrorText>{error}</FormControlErrorText>
+                </FormControlError>
+              )}
+            </FormControl>
+          );
+        }}
       </form.Field>
-      <form.Subscribe selector={state => [state.isSubmitting]}>
-        {([isSubmitting]) => (
-          <Button label="Submit" loading={isSubmitting} onPress={form.handleSubmit} />
+
+      <form.Subscribe selector={state => state.isSubmitting}>
+        {isSubmitting => (
+          <Button
+            isDisabled={isSubmitting}
+            onPress={() => void form.handleSubmit()}
+          >
+            {isSubmitting && <ButtonSpinner />}
+            <ButtonText>Submit</ButtonText>
+          </Button>
         )}
       </form.Subscribe>
-    </View>
+    </VStack>
   );
 }
 ```
 
-## Field errors and Select
+`getFieldError` lives in [`src/lib/form-utils.ts`](../src/lib/form-utils.ts). It
+only returns an error after a field is touched and supports both string and
+object-shaped validation errors.
 
-`getFieldError(field)` only displays an error after the field is touched and supports both string and Zod error values. For a `Select`, update the field with its value:
-
-```tsx
-return (
-  <form.Field name="category">
-    {field => (
-      <Select
-        label="Category"
-        value={field.state.value}
-        options={categories}
-        onSelect={field.handleChange}
-        error={getFieldError(field)}
-      />
-    )}
-  </form.Field>
-);
-```
-
-Use `KeyboardAvoidingView` from `react-native-keyboard-controller` for forms that can be covered by the keyboard. The login and add-post screens are maintained end-to-end examples.
+Use the shared `KeyboardAvoidingView` or an inset-adjusting `ScrollView` when a
+form can be covered by the keyboard. Keep feature forms and their tests within
+the owning feature; the login and add-post screens are the current reference
+implementations.

@@ -2,17 +2,26 @@
 
 ## Styling
 
-Uniwind maps Tailwind utility classes to React Native styles. The shared theme is defined in [`src/global.css`](../src/global.css), including Inter fonts, neutral/primary palettes, semantic colors, and dark-mode values.
+Uniwind maps Tailwind v4 utility classes to React Native styles. The shared
+theme is defined in [`src/global.css`](../src/global.css), including Inter font
+families, custom text/tracking tokens, neutral/status palettes, semantic colors,
+and dark-mode values.
 
-Prefer shared primitives from [`src/components/ui/`](../src/components/ui/) such as `View`, `Text`, `Button`, `Input`, `Select`, `Modal`, `List`, and `Checkbox`. Promote a component to this directory only when it is reusable across features and has no feature-specific behavior.
+Import shared Gluestack components from their component directories, for
+example `@/components/ui/button` or `@/components/ui/input`. There is no UI
+barrel export or legacy compatibility directory. Every installed top-level UI
+directory is maintained and represented in the Style Demo.
 
 ## Theme lifecycle
 
-`useSelectedTheme` stores the user's `light`, `dark`, or `system` choice in MMKV and applies it through Uniwind. `loadSelectedTheme()` runs before the root layout renders so the selected theme is restored during startup. Use `useUniwind()` for styling decisions inside components.
+`useSelectedTheme` stores the user's `light`, `dark`, or `system` choice in MMKV and applies it through Uniwind. `loadSelectedTheme()` runs before the root layout renders so the selected theme is restored during startup. `GluestackUIProvider` supplies overlay/toast infrastructure and keeps its mode aligned with the navigation theme. Use `useUniwind()` for styling decisions inside components.
 
 ## Forms
 
-Use TanStack Form with a Zod schema. Bind fields to `Input` or `Select`, pass validation feedback through `getFieldError`, and subscribe only to the form state needed by a control. See [Forms](./forms.md) for an implementation pattern.
+Use TanStack Form with a Zod schema. Compose fields with `FormControl` and the
+relevant Gluestack input, obtain validation feedback from
+`@/lib/form-utils`, and subscribe only to the form state needed by a control.
+See [Forms](./forms.md) for an implementation pattern.
 
 ## Adding fonts
 

@@ -6,46 +6,47 @@ head:
     content: FAQ | Expo App Template
 ---
 
-This page is a collection of frequently asked questions about Expo App Template.
+### Is this a finished production app?
 
-### Is this starter for me?
+No. It is a production-oriented template with working reference flows. Replace
+the demo authentication, feed API, template identity, repository links, and
+artwork before release. Demo sign-in is disabled in the production environment.
 
-Yes 😀
+### Why does the project use Expo?
 
-This starter kit is designed to benefit a wide range of React Native developers, from beginners to experienced professionals. Here's why it might be a good fit for you:
+Expo Router and Continuous Native Generation provide file-based navigation and
+reproducible native projects without committing generated `ios/` and `android/`
+directories. Native configuration belongs in `app.config.ts` or config plugins.
+See Expo's [CNG documentation](https://docs.expo.dev/workflow/continuous-native-generation/).
 
-1. **For beginners:** It provides a solid foundation with best practices and common solutions, helping you learn industry-standard approaches to React Native development.
+### Where is the shared UI library?
 
-2. **For experienced developers:** It offers a well-structured, production-ready setup that can save you time and effort in project initialization and configuration.
+All shared UI lives in `src/components/ui/`. The repository maintains every
+installed Gluestack component group and demonstrates it in the Style tab. There
+is no shared barrel or `legacy-ui` compatibility layer.
 
-3. **For teams:** It ensures consistency across projects and team members, making it easier to onboard new developers and maintain code quality.
+### Can generated Gluestack components be edited?
 
-4. **For explorers:** Even if you prefer not to use starter kits, this project can serve as a valuable reference. You can explore the codebase, documentation, and architectural decisions to gain insights and potentially adopt specific solutions for your projects.
+Yes. They are repository-owned source after generation. Keep upstream-style
+primitives focused, put reusable custom behavior in the appropriate component
+directory, update the Style Demo inventory, and test custom behavior.
 
-5. **For learners:** The starter kit incorporates up-to-date libraries and patterns, allowing you to familiarize yourself with current best practices in the React Native ecosystem.
+### Is MMKV suitable for production tokens?
 
-6. **For AI-assisted development:** This starter kit works well with AI coding tools. It provides a solid structure and best practices that can guide AI-generated code. This helps ensure that AI assistance leads to high-quality, maintainable code that fits well within your project.
+Not with the template's current setup. Its MMKV instance is not encrypted. Use
+it only for non-sensitive preferences until an encrypted credential strategy is
+implemented and reviewed.
 
-Remember, you don't have to use the entire starter kit as-is. Feel free to cherry-pick ideas, configurations, or code snippets that align with your project needs. Whether you're building a new app from scratch or looking to improve your existing development process, this starter kit can provide valuable insights and practical solutions.
+### Who maintains the template?
 
-### Why Expo and not React Native CLI?
+The project is based on
+[obytes/react-native-template-obytes](https://github.com/obytes/react-native-template-obytes)
+and is independently maintained by
+[@547daxia](https://github.com/547daxia). It preserves the original MIT license
+and copyright notice.
 
-We have been using Expo as our main framework since the introduction of [Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/) concept and we are happy with the experience.
+### Can another feature or library be included?
 
-I think this question is not valid anymore, especially after the last React conference when the core React native team recommended using Expo for new projects.
-
-> "As of today, the only recommended community framework for React Native is Expo. Folks at Expo have been investing in the React Native ecosystem since the early days of React Native and as of today, we believe the developer experience offered by Expo is best in class." React native core team
-
-Still hesitating? Check out this [article](https://reactnative.dev/blog/2024/06/25/use-a-framework-to-build-react-native-apps) or this [video](https://www.youtube.com/watch?v=lifGTznLBcw), maybe this one [video](https://www.youtube.com/watch?v=ek_IdGC0G80) too.
-
-### Who is behind the starter kit?
-
-This project is based on [obytes/react-native-template-obytes](https://github.com/obytes/react-native-template-obytes) and is independently maintained by [@547daxia](https://github.com/547daxia). It preserves the original MIT license and copyright notice. Issues and pull requests are welcome in the repository.
-
-### Can you include X feature or library?
-
-We aim to keep the starter as simple as possible. Based on our experience, we believe the current setup provides a solid foundation for most projects.
-
-The starter is opinionated, reflecting our best practices. If you disagree with some of our choices, that's perfectly fine. The starter is designed to be easily customizable to suit your specific needs.
-
-We often receive requests to provide multiple choices for libraries and tools through a CLI. While this may seem appealing, it would significantly increase complexity and maintenance overhead, which we are trying to avoid.
+Add dependencies when a concrete project requirement justifies their runtime,
+native-build, privacy, and maintenance costs. Template-wide additions should
+solve a common need and include configuration, tests, and documentation.

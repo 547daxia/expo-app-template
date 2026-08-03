@@ -1,38 +1,37 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as React from 'react';
+import type { ReactNode } from 'react';
 
-import { colors, Pressable, Text, View } from '@/components/ui';
+import { ChevronRightIcon, Icon } from '@/components/ui/icon';
+import { Pressable } from '@/components/ui/pressable';
+import { Text } from '@/components/ui/text';
+import { View } from '@/components/ui/view';
 
-type ItemProps = {
+type SettingsItemProps = {
+  icon?: ReactNode;
+  onPress?: () => void;
   text: string;
   value?: string;
-  onPress?: () => void;
-  icon?: React.ReactNode;
 };
 
-export function SettingsItem({ text, value, icon, onPress }: ItemProps) {
-  const isPressable = onPress !== undefined;
+export function SettingsItem({
+  icon,
+  onPress,
+  text,
+  value,
+}: SettingsItemProps) {
   return (
     <Pressable
+      accessibilityRole={onPress ? 'button' : undefined}
+      className="min-h-12 flex-row items-center justify-between gap-3 px-4 py-3"
+      disabled={!onPress}
       onPress={onPress}
-      pointerEvents={isPressable ? 'auto' : 'none'}
-      className="flex-1 flex-row items-center justify-between px-4 py-2"
     >
-      <View className="flex-row items-center">
-        {icon && <View className="pr-2">{icon}</View>}
-        <Text>{text}</Text>
+      <View className="flex-1 flex-row items-center gap-3">
+        {icon}
+        <Text selectable={!onPress}>{text}</Text>
       </View>
-      <View className="flex-row items-center">
-        <Text className="text-neutral-600 dark:text-white">{value}</Text>
-        {isPressable && (
-          <View className="pl-2">
-            <Ionicons
-              name="chevron-forward"
-              color={colors.neutral[300]}
-              size={18}
-            />
-          </View>
-        )}
+      <View className="flex-row items-center gap-2">
+        {value && <Text selectable className="text-muted-foreground">{value}</Text>}
+        {onPress && <Icon as={ChevronRightIcon} className="text-muted-foreground" size="sm" />}
       </View>
     </Pressable>
   );

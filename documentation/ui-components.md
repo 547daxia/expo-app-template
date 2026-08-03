@@ -1,77 +1,132 @@
 # UI Components
 
-Shared primitives are exported from [`src/components/ui/`](../src/components/ui/). Keep feature-specific components inside their feature until they are reused by multiple features without feature-owned logic.
-
-## Button
-
-`Button` extends React Native `Pressable` and accepts `label`, `loading`, `variant`, `size`, `fullWidth`, and normal pressable props. It disables press handling while loading.
+Shared UI lives in [`src/components/ui/`](../src/components/ui/) and is built
+with Gluestack UI and Uniwind. Import each component from its own directory;
+there is intentionally no shared barrel file.
 
 ```tsx
-import { Button } from '@/components/ui';
+import { Button, ButtonText } from '@/components/ui/button';
 
 export function SaveButton() {
-  return <Button label="Save" variant="secondary" onPress={() => {}} />;
-}
-```
-
-Available variants are `default`, `secondary`, `outline`, `destructive`, `ghost`, and `link`; sizes are `sm`, `default`, `lg`, and `icon`.
-
-## Input and Select
-
-`Input` adds `label`, `error`, and `disabled` to native `TextInput` props. `Select` renders a bottom-sheet selector and accepts `{ label, value, options, onSelect, placeholder, disabled, error }`.
-
-```tsx
-import { Input, Select, View } from '@/components/ui';
-
-const options = [{ label: 'Personal', value: 'personal' }];
-
-export function ProfileFields() {
   return (
-    <View>
-      <Input label="Name" value="" onChangeText={() => {}} />
-      <Select label="Account type" options={options} onSelect={() => {}} />
-    </View>
+    <Button onPress={save}>
+      <ButtonText>Save</ButtonText>
+    </Button>
   );
 }
 ```
 
-## Icons
+The root layout installs `GluestackUIProvider`. Reusable components should use
+the semantic classes defined in [`src/global.css`](../src/global.css), such as
+`bg-background`, `text-foreground`, `bg-primary`, and `border-border`, so both
+light and dark themes remain consistent.
 
-Use [`@expo/vector-icons`](https://docs.expo.dev/guides/icons/) for standard navigation, action, and status icons. Import the family you need directly; the template uses `Ionicons` for its tabs, settings items, and select affordances.
+All 60 component directories currently installed under `src/components/ui/`
+are part of the maintained shared library. The
+[`StyleScreen`](../src/features/style-demo/style-screen.tsx) is the interactive
+visual catalog for that library. Its inventory test compares
+`component-groups.ts` with the filesystem, so every component group must remain
+represented when directories are added or removed.
+
+## Compound components
+
+Gluestack controls are composed from explicit parts. For example, an input with
+a label and validation message uses `FormControl`, `Input`, and their child
+components rather than custom `label` or `error` props:
 
 ```tsx
-import { Ionicons } from '@expo/vector-icons';
+import {
+  FormControl,
+  FormControlError,
+  FormControlErrorText,
+  FormControlLabel,
+  FormControlLabelText,
+} from '@/components/ui/form-control';
+import { Input, InputField } from '@/components/ui/input';
 
-import { colors } from '@/components/ui';
-
-export function FavoriteButton() {
+export function EmailField({ error }: { error?: string }) {
   return (
-    <Ionicons
-      accessibilityLabel="Favorite"
-      color={colors.primary[500]}
-      name="heart-outline"
-      size={24}
+    <FormControl isInvalid={Boolean(error)}>
+      <FormControlLabel>
+        <FormControlLabelText>Email</FormControlLabelText>
+      </FormControlLabel>
+      <Input>
+        <InputField keyboardType="email-address" />
+      </Input>
+      {error && (
+        <FormControlError>
+          <FormControlErrorText>{error}</FormControlErrorText>
+        </FormControlError>
+      )}
+    </FormControl>
+  );
+}
+```
+
+## Date picker
+
+`DatePicker` is the retained convenience wrapper for the common controlled-date
+field. It now lives alongside the Gluestack components and composes the shared
+`DateTimePicker` internally.
+
+```tsx
+import * as React from 'react';
+
+import { DatePicker } from '@/components/ui/date-picker';
+
+const today = new Date();
+
+export function BirthdayField() {
+  const [birthday, setBirthday] = React.useState(() => new Date());
+
+  return (
+    <DatePicker
+      label="Birthday"
+      value={birthday}
+      maximumDate={today}
+      onChange={setBirthday}
+      testID="birthday"
     />
   );
 }
 ```
 
-For a tab icon, use the `color` and `size` supplied by Expo Router:
+Use `DateTimePicker` directly when a screen needs time or date-time modes. Native
+picker appearance follows platform defaults; Android resource-level color
+changes require the `@react-native-community/datetimepicker` Expo config plugin
+and a rebuilt native app.
 
-```tsx
-tabBarIcon: ({ color, size }) => (
-  <Ionicons name="settings-outline" color={color} size={size} />
-);
-```
+On every platform, picker changes remain a draft until the user presses
+Confirm/Done. Cancel closes the picker without changing the controlled value.
 
-`react-native-svg` remains part of the template for custom shapes and illustrations, including the checkbox, select checkmark, empty states, and onboarding cover. Do not add a custom SVG component for a common UI icon that exists in `@expo/vector-icons`; reserve SVG for brand artwork or a genuinely custom visual.
+## Chat AI
 
-## Other primitives
+The supported chat API is composed from `Conversation`, `Message`, and
+`PromptInput` under `src/components/ui/chat-ai/`. Keep message state and model
+transport in the owning feature; the shared components only provide rendering,
+attachments, input behavior, and conversation layout. The removed legacy
+`Chat`, `ChatMessages`, and `useChat` APIs must not be reintroduced.
 
-- `Text`, `View`, `ScrollView`, `Pressable`, and `SafeAreaView` provide the shared styling baseline.
-- `List` and `EmptyList` support list screens and loading/empty states.
-- `Image` wraps Expo Image behavior.
-- `Modal` and `useModal` expose the shared bottom-sheet modal pattern.
-- `Checkbox`, `ProgressBar`, and `FocusAwareStatusBar` cover common controls.
+## Icons
 
-Use `testID` on interactive components so Jest and Maestro tests can address them reliably.
+Prefer icons exported from [`src/components/ui/icon/`](../src/components/ui/icon/)
+so their size and semantic color work with compound Gluestack controls. Expo
+Router tab icons may continue to use the `color` and `size` values supplied by
+the navigator.
+
+## Adding or changing components
+
+- Start upstream additions with
+  `pnpm dlx gluestack-ui@latest add <component>` and review the generated diff.
+- Keep reusable, feature-independent primitives in `src/components/ui/<name>/`.
+- Keep feature-specific behavior under `src/features/<feature>/components/`.
+- Use kebab-case directory and file names.
+- Preserve accessibility labels and `testID` values on interactive controls.
+- Add focused tests for custom components and behavior. Gluestack CLI-generated
+  source is excluded from coverage, but the custom chat, date-picker,
+  date-time-picker, image-viewer, and tabs layers are included.
+- Run lint, TypeScript, and focused tests after generating or updating a
+  Gluestack component.
+
+The previous template UI layer has been removed. Do not recreate a second UI
+abstraction or add imports through a legacy compatibility directory.

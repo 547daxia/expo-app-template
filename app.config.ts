@@ -97,6 +97,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-router',
+    '@react-native-community/datetimepicker',
     ['react-native-edge-to-edge'],
   ],
   extra: EAS_PROJECT_ID ? { eas: { projectId: EAS_PROJECT_ID } } : {},

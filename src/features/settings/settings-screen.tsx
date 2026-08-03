@@ -1,88 +1,60 @@
-import { Ionicons } from '@expo/vector-icons';
 import Env from 'env';
-import { useUniwind } from 'uniwind';
+import { Linking, Share } from 'react-native';
 
-import {
-  colors,
-  FocusAwareStatusBar,
-  ScrollView,
-  Text,
-  View,
-} from '@/components/ui';
-import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
+import { Divider } from '@/components/ui/divider';
+import { Heading } from '@/components/ui/heading';
+import { ScrollView } from '@/components/ui/scroll-view';
+import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
+import { useAuthStore } from '@/features/auth/use-auth-store';
 import { SettingsContainer } from './components/settings-container';
 import { SettingsItem } from './components/settings-item';
 import { ThemeItem } from './components/theme-item';
 
+const REPOSITORY_URL = 'https://github.com/547daxia/expo-app-template';
+
 export function SettingsScreen() {
-  const signOut = useAuth.use.signOut();
-  const { theme } = useUniwind();
-  const iconColor
-    = theme === 'dark' ? colors.neutral[400] : colors.neutral[500];
+  const signOut = useAuthStore.use.signOut();
+
   return (
-    <>
-      <FocusAwareStatusBar />
-
-      <ScrollView>
-        <View className="flex-1 px-4 pt-16">
-          <Text className="text-xl font-bold">
-            Settings
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ padding: 20, paddingBottom: 48 }}
+    >
+      <VStack className="gap-6">
+        <VStack className="gap-1">
+          <Heading selectable size="2xl">Settings</Heading>
+          <Text selectable className="text-muted-foreground">
+            Manage appearance, app information and your session.
           </Text>
-          <SettingsContainer title="General">
-            <ThemeItem />
-          </SettingsContainer>
+        </VStack>
 
-          <SettingsContainer title="About">
-            <SettingsItem
-              text="App Name"
-              value={Env.EXPO_PUBLIC_NAME}
-            />
-            <SettingsItem
-              text="Version"
-              value={Env.EXPO_PUBLIC_VERSION}
-            />
-          </SettingsContainer>
+        <SettingsContainer title="Appearance">
+          <ThemeItem />
+        </SettingsContainer>
 
-          <SettingsContainer title="Support Us">
-            <SettingsItem
-              text="Share"
-              icon={<Ionicons name="share-outline" color={iconColor} size={20} />}
-              onPress={() => {}}
-            />
-            <SettingsItem
-              text="Rate"
-              icon={<Ionicons name="star-outline" color={iconColor} size={20} />}
-              onPress={() => {}}
-            />
-            <SettingsItem
-              text="Support"
-              icon={<Ionicons name="heart-outline" color={iconColor} size={20} />}
-              onPress={() => {}}
-            />
-          </SettingsContainer>
+        <SettingsContainer title="About">
+          <SettingsItem text="App Name" value={Env.EXPO_PUBLIC_NAME} />
+          <Divider />
+          <SettingsItem text="Version" value={Env.EXPO_PUBLIC_VERSION} />
+          <Divider />
+          <SettingsItem
+            text="Source Code"
+            onPress={() => void Linking.openURL(REPOSITORY_URL)}
+          />
+          <Divider />
+          <SettingsItem
+            text="Share"
+            onPress={() => void Share.share({
+              message: `${Env.EXPO_PUBLIC_NAME}: ${REPOSITORY_URL}`,
+            })}
+          />
+        </SettingsContainer>
 
-          <SettingsContainer title="Links">
-            <SettingsItem text="Privacy Policy" onPress={() => {}} />
-            <SettingsItem text="Terms of Service" onPress={() => {}} />
-            <SettingsItem
-              text="GitHub"
-              icon={<Ionicons name="logo-github" color={iconColor} size={20} />}
-              onPress={() => {}}
-            />
-            <SettingsItem
-              text="Website"
-              icon={<Ionicons name="globe-outline" color={iconColor} size={20} />}
-              onPress={() => {}}
-            />
-          </SettingsContainer>
-
-          <View className="my-8">
-            <SettingsContainer>
-              <SettingsItem text="Logout" onPress={signOut} />
-            </SettingsContainer>
-          </View>
-        </View>
-      </ScrollView>
-    </>
+        <SettingsContainer title="Account">
+          <SettingsItem text="Logout" onPress={signOut} />
+        </SettingsContainer>
+      </VStack>
+    </ScrollView>
   );
 }

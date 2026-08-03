@@ -31,18 +31,18 @@ import GithubStar from '../../components/GithubStar.astro';
 		This template uses Expo SDK 56, React Native 0.85, and a custom development client so native dependencies can be tested outside Expo Go.
 	</Card>
   <Card title="Expo Router" icon="add-document">
-		The latest version of Expo Router comes pre-installed and includes examples that demonstrate how to implement comprehensive navigation within your app.
+		File-based routes include onboarding, guarded tabs, feed detail, and create-post examples.
 	</Card>
-  <Card title="10+ GitHub workflows" icon="open-book">
+  <Card title="GitHub workflows" icon="open-book">
     Type checks, tests, linting, release automation, documentation builds, and
     EAS build workflow templates are included. Configure the repository and Expo
     secrets before using versioning or EAS workflows.
   </Card>
-  <Card title="Minimal UI kit with Uniwind" icon="open-book">
-		We've included a minimal UI with most of the components you'll need to get started with your project. It uses Uniwind with Tailwind CSS and is easy to customize.
+  <Card title="Gluestack UI catalog" icon="open-book">
+		All 60 shared component groups are maintained locally, styled with Uniwind and Tailwind CSS v4, and represented in the interactive Style Demo.
   </Card>
 	<Card title="Icons and custom artwork" icon="open-book">
-		Use @expo/vector-icons for common UI icons. React Native SVG remains available for branded artwork, illustrations, and genuinely custom shapes.
+		Use the shared Gluestack SVG icons inside controls and the navigator-provided @expo/vector-icons integration for tabs. React Native SVG remains available for custom artwork.
 	</Card>
 	<Card title="VSCode Setup" icon="laptop">
 		A complete list of recommended extensions, settings, and snippets for Visual Studio Code (VSCode) that enhance the developer experience and boost productivity.
@@ -64,14 +64,16 @@ import GithubStar from '../../components/GithubStar.astro';
 </Card>
   <Card title="Auth Flow" icon="open-book">
   We have included a demo authentication flow based on Zustand. The template's
-  MMKV storage is not encrypted; replace the demo token flow before production.
+  MMKV storage is not encrypted, and demo sign-in is disabled in production.
+  Replace the token flow before release.
   </Card>
 
   <Card title="React Query + Axios" icon="open-book">
 		We manage data fetching using React Query and Axios. These powerful libraries make it easy to fetch, cache, and update data in your React applications. We also include a set of VSCode snippets to make your life easier when creating queries and mutations.
 	</Card>
   <Card title="Unit + E2E tests" icon="document">
-  We provide a complete setup for unit and end-to-end tests using Jest, React Testing Library, and Maestro. This helps you verify the app as it evolves.
+  Jest, React Native Testing Library, coverage thresholds, a UI inventory test,
+  and Maestro flows help verify the app as it evolves.
 	</Card>
 </CardGrid>
 

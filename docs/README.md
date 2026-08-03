@@ -2,7 +2,7 @@
 
 This directory contains the Astro/Starlight source for the browsable documentation site.
 
-The operational project documentation is maintained as plain Markdown in [`../documentation/`](../documentation/). Start there when you need repository structure, environment, testing, or release instructions.
+The operational project documentation is maintained as plain Markdown in [`../documentation/`](../documentation/). Start there when you need repository structure, environment, UI ownership, testing, or release instructions. Starlight topic routes are compatibility links to that canonical source; do not duplicate operational guidance in both places.
 
 ## Project Structure
 

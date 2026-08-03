@@ -15,6 +15,35 @@ jest.mock('react-native-mmkv');
 // tests deterministic without initializing native font loading.
 jest.mock('@expo/vector-icons');
 
+// Lucide ships ESM icon modules. Tests only need stable host components, not
+// SVG path data, so expose a lightweight named-export proxy.
+jest.mock('lucide-react-native', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  const MockIcon = (props: Record<string, unknown>) => React.createElement(View, props);
+
+  return new Proxy(
+    { __esModule: true },
+    {
+      get(target, property) {
+        return property in target
+          ? target[property as keyof typeof target]
+          : MockIcon;
+      },
+    },
+  );
+});
+
+jest.mock('@legendapp/motion', () => {
+  const { View } = require('react-native');
+
+  return {
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => children,
+    createMotionAnimatedComponent: (Component: React.ComponentType) => Component,
+    Motion: { View },
+  };
+});
+
 // TanStack Form starts a devtools connection interval when a form mounts. The
 // devtools event bus is not part of unit tests, so replace it with a no-op client
 // to keep Jest's lifecycle deterministic.

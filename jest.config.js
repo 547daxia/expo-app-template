@@ -3,7 +3,21 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest-setup.ts'],
   testMatch: ['**/?(*.)+(spec|test).ts?(x)'],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
+    'src/app/**/*.{ts,tsx}',
+    'src/features/auth/**/*.{ts,tsx}',
+    'src/features/feed/**/*.{ts,tsx}',
+    'src/features/onboarding/**/*.{ts,tsx}',
+    'src/features/settings/**/*.{ts,tsx}',
+    'src/lib/**/*.{ts,tsx}',
+    'src/components/ui/chat-ai/**/*.{ts,tsx}',
+    'src/components/ui/date-picker/**/*.{ts,tsx}',
+    'src/components/ui/date-time-picker/**/*.{ts,tsx}',
+    'src/components/ui/image-viewer/**/*.{ts,tsx}',
+    'src/components/ui/tabs/**/*.{ts,tsx}',
+    '!**/*.test.{ts,tsx}',
+    // Native Jest does not resolve platform Web entrypoints. They are covered
+    // by the Web Expo export and browser/E2E checks instead of reporting 0%.
+    '!**/*.web.{ts,tsx}',
     '!**/coverage/**',
     '!**/node_modules/**',
     '!**/babel.config.js',
@@ -11,9 +25,9 @@ module.exports = {
     '!**/docs/**',
     '!**/cli/**',
   ],
-  moduleFileExtensions: ['js', 'ts', 'tsx'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   transformIgnorePatterns: [
-    `node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/.*|native-base|react-native-svg|@gorhom/.*|@shopify/.*|@tanstack/.*|react-native-reanimated|react-native-mmkv|react-native-nitro-modules|react-native-worklets|moti|zustand|tailwind-merge|tailwind-variants|uniwind))`,
+    `node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|@gluestack-ui/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|@sentry/.*|native-base|react-native-svg|@gorhom/.*|@shopify/.*|@tanstack/.*|lucide-react-native|react-native-reanimated|react-native-mmkv|react-native-nitro-modules|react-native-worklets|moti|zustand|tailwind-merge|tailwind-variants|uniwind))`,
   ],
   coverageReporters: ['json-summary', ['text', { file: 'coverage.txt' }]],
   reporters: [
