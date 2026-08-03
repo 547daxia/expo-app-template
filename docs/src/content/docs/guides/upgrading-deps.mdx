@@ -1,0 +1,75 @@
+---
+title: Upgrading project dependencies
+description: Safely update Expo-managed and JavaScript dependencies.
+head:
+  - tag: title
+    content: Upgrading project dependencies | React Native / Expo Starter
+---
+
+This template currently uses Expo SDK 56, React Native 0.85, React 19.2, and pnpm. Treat Expo-managed dependencies differently from ordinary JavaScript dependencies: Expo chooses the compatible native versions.
+
+## Before you begin
+
+- Read the target Expo SDK release notes and the changelogs for any package with a major update.
+- Commit or stash your work first so the upgrade can be reviewed independently.
+- This template uses Continuous Native Generation (CNG). There are no committed `ios/` or `android/` directories; do not create or edit native projects unless you intend to switch workflows.
+
+## Upgrade Expo SDK
+
+Use Expo's installer rather than `pnpm add` for Expo and React Native packages:
+
+```bash
+# Replace 57 with the target Expo SDK major version.
+pnpm exec expo install expo@^57.0.0 --fix
+pnpm exec expo install --fix
+pnpm exec expo install --check
+pnpm doctor
+```
+
+The first command updates Expo and its compatible React Native / React versions; the second aligns all Expo-managed packages. Follow any migration instructions shown by the CLI or in the Expo release notes.
+
+:::caution
+Do not override Expo-managed versions manually just to make an outdated package install. Prefer an upstream-compatible package version or complete the migration required by the target SDK.
+:::
+
+After an SDK upgrade, check application imports and configuration, then validate the project:
+
+```bash
+pnpm lint
+pnpm type-check
+pnpm test
+pnpm exec expo install --check
+pnpm doctor
+```
+
+For an end-to-end native validation, build a development client with `pnpm ios` or `pnpm android`. Run `pnpm prebuild` only when you intentionally need to inspect generated native projects.
+
+## Upgrade JavaScript dependencies
+
+For packages that do not ship native code or are not managed by Expo, inspect available updates:
+
+```bash
+pnpm outdated
+```
+
+Apply upgrades in small groups, starting with development-only tooling, and run the same validation commands after each group. For packages that participate in the React Native runtime (navigation, animation, lists, native modules, and Expo packages), use `expo install` or consult that package's React Native compatibility notes before upgrading.
+
+Run a production dependency audit after updating:
+
+```bash
+pnpm audit --prod --audit-level=high
+```
+
+The root `package.json` contains a small set of `pnpm.overrides` for patched transitive dependencies. Keep an override only while its parent dependency cannot safely be updated, and remove it once the upstream dependency provides the fix.
+
+## Recovery
+
+If an upgrade leaves the dependency graph in an invalid state, restore the last known-good `package.json` and `pnpm-lock.yaml`, then run:
+
+```bash
+pnpm install
+pnpm exec expo install --check
+pnpm doctor
+```
+
+Avoid deleting generated native directories as a routine cleanup step: this CNG project does not keep them in version control.
