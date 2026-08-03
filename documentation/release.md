@@ -33,7 +33,7 @@ Match EAS secrets and environment variables to the profile (`development`, `prev
 
 A pushed version tag creates a GitHub Release only after all required checks pass:
 
-- the tag matches `v${package.json.version}`
+- the tag matches `v${package.json.version}` (validated by `scripts/check-release-tag.js`)
 - TypeScript, ESLint, and Jest coverage checks
 - `expo install --check` dependency alignment and Expo Doctor
 - a strict, isolated development `prebuild` using a placeholder API URL

@@ -31,12 +31,7 @@ jobs:
         uses: ./.github/actions/setup-node-pnpm-install
 
       - name: 🏷️ Verify tag matches app version
-        run: |
-          expected_tag="v$(node -p 'require(\"./package.json\").version')"
-          if [ "$GITHUB_REF_NAME" != "$expected_tag" ]; then
-            echo "Expected tag $expected_tag, received $GITHUB_REF_NAME."
-            exit 1
-          fi
+        run: node scripts/check-release-tag.js
 
       - name: 🔎 Type check
         run: pnpm run type-check
