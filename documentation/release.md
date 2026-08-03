@@ -29,6 +29,18 @@ The maintained workflow groups are:
 
 Match EAS secrets and environment variables to the profile (`development`, `preview`, or `production`). Never put build-only secrets in `EXPO_PUBLIC_*` values.
 
+### Release gate
+
+A pushed version tag creates a GitHub Release only after all required checks pass:
+
+- the tag matches `v${package.json.version}`
+- TypeScript, ESLint, and Jest coverage checks
+- `expo install --check` dependency alignment and Expo Doctor
+- a strict, isolated development `prebuild` using a placeholder API URL
+- documentation dependency installation and site build
+
+EAS builds and Maestro end-to-end tests remain separate opt-in workflows. The template does not ship an Expo account, EAS project, signing credentials, or an `EXPO_TOKEN`, so making those requirements part of the default release gate would prevent an unconfigured template from releasing.
+
 ## Versioning
 
 The app version comes from `package.json`. The `app-release` script uses `np` to update the version and create a release tag without publishing an npm package. Commit messages follow Conventional Commits and are checked by commitlint.
