@@ -32,7 +32,7 @@ jobs:
 
       - name: 🏷️ Verify tag matches app version
         run: |
-          expected_tag="v$(node -p \"require('./package.json').version\")"
+          expected_tag="v$(node -p 'require(\"./package.json\").version')"
           if [ "$GITHUB_REF_NAME" != "$expected_tag" ]; then
             echo "Expected tag $expected_tag, received $GITHUB_REF_NAME."
             exit 1
