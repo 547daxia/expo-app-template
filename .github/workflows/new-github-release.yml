@@ -3,8 +3,8 @@
 # Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
 
 # ✍️ Description:
-# This workflow will be triggered automatically after the new app version workflow has been executed successfully.
-# It will create a new GitHub release with the new app version and the release notes.
+# This workflow runs the required quality checks for a version tag before creating
+# the corresponding GitHub release with generated release notes.
 
 # 🚨 GITHUB SECRETS REQUIRED: None
 
@@ -27,7 +27,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 🏃‍♂️Create A Draft Github Release
+      - name: 📦 Setup Node + PNPM + install deps
+        uses: ./.github/actions/setup-node-pnpm-install
+
+      - name: 🔎 Type check
+        run: pnpm run type-check
+
+      - name: ✨ Lint
+        run: pnpm run lint
+
+      - name: 🧪 Run tests
+        run: pnpm run test:ci
+
+      - name: 🚑 Expo Doctor
+        run: pnpm run doctor
+
+      - name: 🚀 Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           generateReleaseNotes: true
