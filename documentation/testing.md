@@ -13,8 +13,20 @@ pnpm test:ci
 ```
 
 Jest executes every matching test file. Coverage collection currently targets
-routes, Auth, Feed, Onboarding, Settings, shared libraries, and the hand-written
+routes, Auth, Feed, Onboarding, Settings, shared libraries, API infrastructure, and the hand-written
 transitional DatePicker, DateTimePicker, ImageViewer, and Tabs groups.
+
+### API and authentication test coverage
+
+The template includes comprehensive test coverage for the API layer:
+
+- **`src/lib/api/client.test.ts`** - Request/response interceptors, token injection, 401 refresh flow, concurrent request handling, and cache management
+- **`src/lib/api/utils.test.ts`** - Pagination utilities (URL parsing, page params, data normalization)
+- **`src/features/feed/api.test.ts`** - Example feature API hooks using `axios-mock-adapter`
+- **`src/features/auth/use-auth-store.test.ts`** - Auth state management, hydration timeout, and cache synchronization
+
+Use `axios-mock-adapter` to mock HTTP requests in your feature tests. The existing tests demonstrate patterns for mocking API responses, testing error handling, and validating cache behavior.
+
 The remaining Gluestack CLI-generated primitives and native-Jest-incompatible
 Web entrypoints are excluded. New project tests must not be added to
 `src/components/ui/`; transitional tests currently located there must move with

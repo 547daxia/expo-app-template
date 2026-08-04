@@ -1,11 +1,18 @@
+import { clearTokenCache } from '@/lib/api/client';
 import { getToken, removeToken, setToken } from '@/lib/auth/utils';
 import { hydrateAuth, signIn, signOut, useAuthStore } from './use-auth-store';
 
 jest.mock('@/lib/auth/utils');
+jest.mock('@/lib/api/client', () => ({
+  ...jest.requireActual('@/lib/api/client'),
+  clearTokenCache: jest.fn(),
+  setTokenCache: jest.fn(),
+}));
 
 const mockGetToken = jest.mocked(getToken);
 const mockRemoveToken = jest.mocked(removeToken);
 const mockSetToken = jest.mocked(setToken);
+const mockClearTokenCache = jest.mocked(clearTokenCache);
 
 describe('authentication store', () => {
   beforeEach(() => {
@@ -40,6 +47,17 @@ describe('authentication store', () => {
     expect(consoleError).toHaveBeenCalledTimes(1);
   });
 
+  it('times out after 10 seconds if token retrieval is slow', async () => {
+    const consoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    // Simulate slow getToken that never resolves
+    mockGetToken.mockImplementation(() => new Promise(() => {}));
+
+    await hydrateAuth();
+
+    expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
+    expect(consoleWarn).toHaveBeenCalledWith('Token hydration timed out after', 10_000, 'ms');
+  }, 15000);
+
   it('updates signed-in state only after the token is stored', async () => {
     const token = { access: 'access-token', refresh: 'refresh-token' };
 
@@ -47,6 +65,19 @@ describe('authentication store', () => {
 
     expect(mockSetToken).toHaveBeenCalledWith(token);
     expect(useAuthStore.getState()).toMatchObject({ status: 'signIn', token });
+  });
+
+  it('clears token cache when signing out', async () => {
+    useAuthStore.setState({
+      status: 'signIn',
+      token: { access: 'access-token', refresh: 'refresh-token' },
+    });
+
+    await signOut();
+
+    expect(mockRemoveToken).toHaveBeenCalledTimes(1);
+    expect(mockClearTokenCache).toHaveBeenCalledTimes(1);
+    expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
   });
 
   it('keeps the session active when its persisted token cannot be removed', async () => {

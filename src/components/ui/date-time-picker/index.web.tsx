@@ -161,7 +161,7 @@ function WebDateTimePickerPopover() {
   return (
     <View
       role="dialog"
-      className="absolute top-full right-0 left-0 z-50 mt-2 gap-4 rounded-lg border border-border bg-background p-4 shadow-lg"
+      className="absolute inset-x-0 top-full z-50 mt-2 gap-4 rounded-lg border border-border bg-background p-4 shadow-lg"
     >
       {(mode === 'date' || mode === 'datetime') && (
         <Calendar
