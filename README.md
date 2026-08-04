@@ -16,6 +16,7 @@ Originally based on [obytes/react-native-template-obytes](https://github.com/oby
   styled with Uniwind and Tailwind CSS
 - A Style Demo catalog covering installed generated groups and reusable project UI
 - Gluestack SVG icons for shared controls and `@expo/vector-icons` for navigator icons
+- FlashList as the standard for project-owned scrollable data lists
 - TanStack Query, TanStack Form, Zod, and Zustand
 - SecureStore for native credentials and MMKV for non-sensitive preferences
 - Development, preview, and production environment support

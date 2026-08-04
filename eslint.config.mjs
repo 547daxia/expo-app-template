@@ -93,6 +93,41 @@ export default antfu(
     },
   },
 
+  // Project-owned application code uses FlashList for scrollable data sets.
+  // Generated Gluestack primitives and the Style Demo retain FlatList only as
+  // upstream/catalog coverage, not as a business-code pattern.
+  {
+    files: [
+      'src/app/**/*.{ts,tsx}',
+      'src/components/**/*.{ts,tsx}',
+      'src/features/**/*.{ts,tsx}',
+      'src/lib/**/*.{ts,tsx}',
+    ],
+    ignores: [
+      'src/components/ui/**',
+      'src/features/style-demo/**',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-native',
+              importNames: ['FlatList'],
+              message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
+            },
+            {
+              name: '@/components/ui/flat-list',
+              importNames: ['FlatList'],
+              message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   // Better TailwindCSS plugin
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
@@ -125,7 +160,6 @@ export default antfu(
   {
     files: ['src/components/ui/**/*.{ts,tsx}'],
     ignores: [
-      'src/components/ui/chat-ai/**',
       'src/components/ui/date-picker/**',
       'src/components/ui/date-time-picker/**',
       'src/components/ui/image-viewer/**',
@@ -153,7 +187,6 @@ export default antfu(
   // relax rules that conflict with public refs, context, or UI-thread values.
   {
     files: [
-      'src/components/ui/chat-ai/**/*.{ts,tsx}',
       'src/components/ui/date-picker/**/*.{ts,tsx}',
       'src/components/ui/date-time-picker/**/*.{ts,tsx}',
       'src/components/ui/image-viewer/**/*.{ts,tsx}',
@@ -184,7 +217,6 @@ export default antfu(
   // sequences; their upstream data models do not provide stable item IDs.
   {
     files: [
-      'src/components/ui/chat-ai/message.tsx',
       'src/components/ui/skeleton/index.tsx',
     ],
     rules: {

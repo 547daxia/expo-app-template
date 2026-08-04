@@ -139,14 +139,22 @@ and a rebuilt native app.
 On every platform, picker changes remain a draft until the user presses
 Confirm/Done. Cancel closes the picker without changing the controlled value.
 
-## Chat AI
+## Data lists
 
-The supported project contract is composed from `Conversation`, `Message`, and
-`PromptInput`. Keep message state and model transport in the owning feature.
-Rendering, attachments, input behavior, and conversation layout must move to a
-project-owned component before the generated Chat AI group is refreshed. The
-removed legacy `Chat`, `ChatMessages`, and `useChat` APIs must not be
-reintroduced.
+Use `FlashList` from `@shopify/flash-list` for project-owned scrollable data
+lists. It is the template's single application-level list implementation and
+is enforced by ESLint in routes, features, shared components, and libraries.
+
+```tsx
+import { FlashList } from '@shopify/flash-list';
+
+<FlashList data={posts} renderItem={({ item }) => <PostCard {...item} />} />;
+```
+
+Do not import `FlatList` from `react-native` or
+`@/components/ui/flat-list` in project-owned code. The generated UI layer and
+Style Demo retain their native list primitives for upstream component coverage;
+they are maintenance exceptions, not a pattern for feature code.
 
 ## Icons
 

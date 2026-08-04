@@ -15,16 +15,17 @@
   `component-groups.test.ts` prevents the generated inventory from drifting.
 - Coverage: generated primitives are excluded from Jest coverage. Project-owned
   behavior must be covered by focused tests without lowering global thresholds.
-- Transition: existing customizations in BottomSheet, Chat AI, DatePicker,
+- Transition: existing customizations in BottomSheet, DatePicker,
   DateTimePicker, ImageViewer, Tabs, and compatibility files are historical
   exceptions. Do not extend them; extract them before refreshing the affected
   generated group.
 - Date and time behavior: native and web pickers use a draft value. Confirm or
   Done commits it; Cancel discards it. Preserve this in a project-owned wrapper
   or compound component during extraction.
-- Chat behavior: keep the compound `Conversation`, `Message`, and `PromptInput`
-  API as a project-owned contract. The unfinished `Chat`, `ChatMessages`, and
-  `useChat` API is retired.
+- Chat removal: the transitional Chat AI component group and its demo-only
+  dependencies were removed. Do not reintroduce the retired `Chat`,
+  `ChatMessages`, or `useChat` APIs; implement any future chat experience as a
+  feature-owned component with explicit, product-specific dependencies.
 - Compatibility: do not add a barrel or legacy adapter to emulate the removed
   template UI API.
 - Procedure: follow

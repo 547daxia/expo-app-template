@@ -21,6 +21,7 @@ are maintained in this repository.
 - Continuous Native Generation with a custom development client
 - A project-local Expo Module example for Android and iOS, with a Web fallback
 - Gluestack UI, Uniwind, Tailwind CSS v4, and a generated component catalog
+- FlashList for project-owned scrollable data lists
 - TanStack Query, Axios, and React Query Kit for server state
 - TanStack Form and Zod for validated forms
 - Zustand, Expo SecureStore for native credentials, and MMKV for non-sensitive local state

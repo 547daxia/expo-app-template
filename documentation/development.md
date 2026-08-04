@@ -102,6 +102,12 @@ config-plugin boundary, and verification commands.
 
 Use kebab-case for files and folders, camelCase for variables and functions, and direct absolute imports across module boundaries. Do not introduce credentials or tokens into `EXPO_PUBLIC_*` variables.
 
+Use `FlashList` from `@shopify/flash-list` for project-owned scrollable data
+lists. ESLint rejects `FlatList` imports from `react-native` and the generated
+`@/components/ui/flat-list` wrapper in application code. The generated UI layer
+and Style Demo are excluded because they preserve upstream component coverage;
+do not use those exclusions as a business-feature pattern.
+
 ## Editor tooling
 
 The optional [`.vscode/`](../.vscode/) configuration recommends extensions,

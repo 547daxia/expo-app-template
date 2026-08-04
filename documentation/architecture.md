@@ -8,6 +8,8 @@
 - Gluestack UI with Uniwind and Tailwind CSS for shared components and styling
 - Gluestack SVG icons for shared controls, `@expo/vector-icons` for navigator
   icons, and `react-native-svg` for custom artwork
+- FlashList for project-owned scrollable data lists; generated Gluestack list
+  primitives remain available only as upstream UI-layer dependencies
 - TanStack Query + Axios + React Query Kit for server state
 - TanStack Form + Zod for forms and validation
 - Zustand for global client state

@@ -9,6 +9,7 @@
 - **Gluestack UI** - Replaceable generated primitives under `src/components/ui/`
 - **Zustand** - Lightweight global state management
 - **React Query** - Server state and data fetching
+- **FlashList** - Required for project-owned scrollable data lists
 - **TanStack Form + Zod** - Type-safe form handling and validation
 - **MMKV** - High-performance local key-value storage for non-sensitive app data
 - **Expo SecureStore** - Native encrypted-at-rest credential storage
@@ -69,6 +70,7 @@ Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and 
 - **Add routes**: Create files in `src/app/` (file-based routing)
 - **Forms**: Use TanStack Form + Zod (see `documentation/forms.md`)
 - **Data fetching**: Use React Query (see `src/features/feed/api.ts`)
+- **Data lists**: Use `FlashList` from `@shopify/flash-list` in project-owned code; do not import `FlatList` from React Native or `src/components/ui/flat-list`. Generated UI and the Style Demo are maintenance exceptions.
 - **Global state**: Use Zustand (see `src/features/auth/use-auth-store.tsx`)
 - **Styling**: Uniwind/Tailwind classes (see `src/components/ui/button/index.tsx`)
 - **UI catalog**: Keep `src/features/style-demo/` synchronized with every top-level `src/components/ui/` directory and demonstrate reusable project components as appropriate

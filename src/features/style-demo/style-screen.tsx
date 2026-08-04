@@ -6,7 +6,6 @@ import { ScrollView } from '@/components/ui/scroll-view';
 import { StatusBar } from '@/components/ui/status-bar';
 import { View } from '@/components/ui/view';
 import { CatalogIntro, ComponentCoverageList } from './components/catalog-layout';
-import { ChatAIDemo } from './components/chat-ai-demo';
 import { DataDisplayDemo } from './components/data-display-demo';
 import { FeedbackDemo } from './components/feedback-demo';
 import { FormsDemo } from './components/forms-demo';
@@ -39,7 +38,6 @@ export function StyleScreen() {
           <OverlaysDemo />
           <DataDisplayDemo />
           <MediaDemo />
-          <ChatAIDemo />
           <ComponentCoverageList />
         </View>
       </SafeAreaView>

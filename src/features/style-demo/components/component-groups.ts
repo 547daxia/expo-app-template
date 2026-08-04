@@ -11,7 +11,6 @@ export const COMPONENT_GROUPS = [
   'calendar',
   'card',
   'center',
-  'chat-ai',
   'checkbox',
   'date-picker',
   'date-time-picker',

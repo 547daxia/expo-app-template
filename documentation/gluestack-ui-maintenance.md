@@ -175,7 +175,7 @@ template produced copied source. The explicit CLI record closes that gap.
 This boundary is the policy for all new work, but the current directory is not
 yet a clean generated baseline. At the time this policy was adopted, existing
 project changes remained in generated component groups including BottomSheet,
-Chat AI, DateTimePicker, ImageViewer, and Tabs. DatePicker, tests, helpers, Web
+DateTimePicker, ImageViewer, and Tabs. DatePicker, tests, helpers, Web
 compatibility files, file-name corrections, and several generated-source
 compatibility fixes also remain under `src/components/ui/`.
 

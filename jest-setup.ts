@@ -15,25 +15,6 @@ jest.mock('react-native-mmkv');
 // tests deterministic without initializing native font loading.
 jest.mock('@expo/vector-icons');
 
-// Lucide ships ESM icon modules. Tests only need stable host components, not
-// SVG path data, so expose a lightweight named-export proxy.
-jest.mock('lucide-react-native', () => {
-  const React = require('react');
-  const { View } = require('react-native');
-  const MockIcon = (props: Record<string, unknown>) => React.createElement(View, props);
-
-  return new Proxy(
-    { __esModule: true },
-    {
-      get(target, property) {
-        return property in target
-          ? target[property as keyof typeof target]
-          : MockIcon;
-      },
-    },
-  );
-});
-
 jest.mock('@legendapp/motion', () => {
   const { View } = require('react-native');
 

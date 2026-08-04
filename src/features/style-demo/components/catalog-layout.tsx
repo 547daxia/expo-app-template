@@ -67,7 +67,7 @@ export function CatalogIntro() {
             Gluestack UI catalog
           </Text>
           <Heading selectable className="text-primary-foreground" size="2xl">
-            60 component groups
+            {`${COMPONENT_GROUPS.length} component groups`}
           </Heading>
           <Text selectable className="leading-5 text-primary-foreground/80">
             Interactive, cross-platform examples for every shared UI directory.

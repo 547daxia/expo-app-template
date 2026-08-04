@@ -1,8 +1,7 @@
 import type { Post } from './api';
 
+import { FlashList } from '@shopify/flash-list';
 import React from 'react';
-
-import { FlatList } from '@/components/ui/flat-list';
 import { RefreshControl } from '@/components/ui/refresh-control';
 import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
@@ -19,7 +18,7 @@ export function FeedScreen() {
   );
 
   return (
-    <FlatList
+    <FlashList
       contentInsetAdjustmentBehavior="automatic"
       data={data ?? []}
       renderItem={renderItem}

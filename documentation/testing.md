@@ -14,7 +14,7 @@ pnpm test:ci
 
 Jest executes every matching test file. Coverage collection currently targets
 routes, Auth, Feed, Onboarding, Settings, shared libraries, and the hand-written
-transitional Chat AI, DatePicker, DateTimePicker, ImageViewer, and Tabs groups.
+transitional DatePicker, DateTimePicker, ImageViewer, and Tabs groups.
 The remaining Gluestack CLI-generated primitives and native-Jest-incompatible
 Web entrypoints are excluded. New project tests must not be added to
 `src/components/ui/`; transitional tests currently located there must move with
