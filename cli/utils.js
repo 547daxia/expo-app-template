@@ -1,46 +1,55 @@
 #!/usr/bin/env node
-const { exec } = require('child_process');
-const { consola } = require('consola');
+const { spawn } = require('node:child_process');
 
-const execShellCommand = (cmd) => {
+function runCommand(command, args, options = {}) {
+  const {
+    cwd,
+    loading = `Running ${command}`,
+    stdio = 'inherit',
+    success = `${command} completed`,
+  } = options;
+
+  console.log(`▶ ${loading}`);
   return new Promise((resolve, reject) => {
-    exec(cmd, (error, stdout, stderr) => {
-      if (error) {
-        console.warn(error);
-        reject(error);
+    const child = spawn(command, args, {
+      cwd,
+      shell: false,
+      stdio,
+    });
+
+    child.once('error', (error) => {
+      reject(new Error(`Unable to start ${command}: ${error.message}`, { cause: error }));
+    });
+    child.once('exit', (code, signal) => {
+      if (code === 0) {
+        console.log(`✓ ${success}`);
+        resolve();
+        return;
       }
-      resolve(stdout ? stdout : stderr);
+      const reason = signal ? `signal ${signal}` : `exit code ${code}`;
+      reject(new Error(`${command} failed with ${reason}.`));
     });
   });
-};
+}
 
-const runCommand = async (
-  command,
-  { loading = 'loading ....', success = 'success', error = 'error' }
-) => {
-  consola.start(loading);
-  try {
-    await execShellCommand(command);
-    consola.success(success);
-  } catch (err) {
-    consola.error(`Failed to execute ${command}`, err);
-    process.exit(1);
-  }
-};
-// show more details message using chalk
-const showMoreDetails = (projectName) => {
-  consola.box(
-    'Your project is ready to go! \n\n\n',
-    '🚀 To get started, run the following commands: \n\n',
-    `   \`cd ${projectName}\` \n`,
-    '   IOS     :  `pnpm ios` \n',
-    '   Android :  `pnpm android` \n\n',
-    '📚 Documentation: see the project README and documentation/ directory'
-  );
-};
+function showIntroduction() {
+  console.log('\nExpo App Template');
+  console.log('Create a production-oriented Expo project\n');
+}
+
+function showMoreDetails(project) {
+  console.log('\n✓ Your project is ready.');
+  console.log('\nNext steps:');
+  console.log(`  cd ${project.directoryName}`);
+  console.log('  cp .env.example .env');
+  console.log('  pnpm start');
+  console.log('\nBefore EAS or production builds, follow:');
+  console.log('  documentation/configuration.md');
+  console.log('  documentation/production-readiness.md');
+}
 
 module.exports = {
   runCommand,
+  showIntroduction,
   showMoreDetails,
-  execShellCommand,
 };

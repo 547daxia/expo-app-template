@@ -27,9 +27,18 @@ import GithubStar from '../../components/GithubStar.astro';
 ## Features
 
 <CardGrid stagger>
+  <Card title="Maintained project generator" icon="add-document">
+    The Node 22 CLI creates a fresh Git project from a reviewed template
+    release, applies a safe identity, installs dependencies, and is covered by
+    unit and end-to-end generator tests.
+  </Card>
 	<Card title="Expo SDK 56 + Dev Client" icon="star">
 		This template uses Expo SDK 56, React Native 0.85, and a custom development client so native dependencies can be tested outside Expo Go.
 	</Card>
+  <Card title="Local native module" icon="setting">
+    A minimal Expo Module includes Kotlin, Swift, a typed TypeScript facade,
+    and a Web fallback, with autolinking and CNG maintenance guidance.
+  </Card>
   <Card title="Expo Router" icon="add-document">
 		File-based routes include onboarding, guarded tabs, feed detail, and create-post examples.
 	</Card>
@@ -39,7 +48,7 @@ import GithubStar from '../../components/GithubStar.astro';
     secrets before using versioning or EAS workflows.
   </Card>
   <Card title="Gluestack UI catalog" icon="open-book">
-		All 60 shared component groups are maintained locally, styled with Uniwind and Tailwind CSS v4, and represented in the interactive Style Demo.
+		Gluestack-generated primitives and reusable project components are styled with Uniwind and Tailwind CSS v4 and represented in the interactive Style Demo.
   </Card>
 	<Card title="Icons and custom artwork" icon="open-book">
 		Use the shared Gluestack SVG icons inside controls and the navigator-provided @expo/vector-icons integration for tabs. React Native SVG remains available for custom artwork.
@@ -54,7 +63,8 @@ import GithubStar from '../../components/GithubStar.astro';
 		The canonical project documentation is plain Markdown in the repository, covering architecture, configuration, testing, releases, and dated decisions.
   </Card>
 	<Card title="Multiple environment builds support" icon="setting">
-		Multiple app environments with a robust solution to manage and validate environment variables with Zod. It enables easy switching between different environments throughout the development and deployment processes.
+		Multiple app environments with Zod validation. Production configuration
+    always fails closed and requires project-owned identity plus an HTTPS API.
 	</Card>
 
 <Card title="Form and Keyboard Handling" icon="open-book">
@@ -63,9 +73,9 @@ import GithubStar from '../../components/GithubStar.astro';
   seamless user experience.
 </Card>
   <Card title="Auth Flow" icon="open-book">
-  We have included a demo authentication flow based on Zustand. The template's
-  MMKV storage is not encrypted, and demo sign-in is disabled in production.
-  Replace the token flow before release.
+  Native credentials use Expo SecureStore, authentication hydration fails
+  closed, and Web does not persist bearer tokens in browser storage. Demo
+  sign-in remains disabled in production until a real backend is connected.
   </Card>
 
   <Card title="React Query + Axios" icon="open-book">

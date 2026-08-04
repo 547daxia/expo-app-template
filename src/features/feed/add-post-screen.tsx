@@ -19,6 +19,7 @@ import { Textarea, TextareaInput } from '@/components/ui/textarea';
 import { VStack } from '@/components/ui/vstack';
 import { queryClient } from '@/lib/api';
 import { getFieldError } from '@/lib/form-utils';
+import { navigate } from '@/lib/navigation';
 import { useAddPost, usePosts } from './api';
 
 const postSchema = z.object({
@@ -55,10 +56,13 @@ export function AddPostScreen() {
     validators: { onChange: postSchema },
     onSubmit: async ({ value }) => {
       try {
-        await addPost({ ...value, userId: 1 });
-        await queryClient.invalidateQueries({ queryKey: usePosts.getKey() });
+        const createdPost = await addPost({ ...value, userId: 1 });
+        queryClient.setQueryData(usePosts.getKey(), (posts: Array<typeof createdPost> | undefined) => (
+          [createdPost, ...(posts ?? [])]
+        ));
         showMessage({ message: 'Post added successfully', type: 'success' });
         form.reset();
+        navigate.back();
       }
       catch {
         showMessage({

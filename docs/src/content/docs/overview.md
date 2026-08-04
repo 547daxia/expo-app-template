@@ -19,10 +19,11 @@ are maintained in this repository.
 
 - Expo SDK 56, React Native 0.85, React 19, TypeScript, and Expo Router
 - Continuous Native Generation with a custom development client
-- Gluestack UI, Uniwind, Tailwind CSS v4, and 60 maintained component groups
+- A project-local Expo Module example for Android and iOS, with a Web fallback
+- Gluestack UI, Uniwind, Tailwind CSS v4, and a generated component catalog
 - TanStack Query, Axios, and React Query Kit for server state
 - TanStack Form and Zod for validated forms
-- Zustand and MMKV for non-sensitive local state
+- Zustand, Expo SecureStore for native credentials, and MMKV for non-sensitive local state
 - Jest, React Native Testing Library, coverage thresholds, and Maestro
 - Development, preview, and production environment profiles
 
@@ -30,16 +31,22 @@ are maintained in this repository.
 
 The app includes onboarding, guarded authentication, feed list/detail/create
 flows, persisted light/dark/system themes, settings, and an interactive Style
-Demo. These are working reference implementations, not finished product
-features. Demo authentication and the feed API must be replaced before release;
-demo sign-in is deliberately disabled in production.
+Demo that intentionally remains available in production. Reference product
+content still needs project-specific branding, API, and authentication. Strict
+production validation rejects the template identity, non-HTTPS endpoints, and
+demo API, while demo sign-in is disabled instead of shipping mock access.
+Settings also displays a small runtime value supplied by the included local
+Expo Module so its native and Web integration remains exercised.
 
 ## UI ownership
 
-`src/components/ui/` is the only shared UI layer. Every installed component
-group is maintained and represented in the Style Demo. Gluestack CLI-generated
-primitives are excluded from Jest coverage, while custom behavior such as Chat
-AI, date/time pickers, ImageViewer, and Tabs remains covered by focused tests.
+`src/components/ui/` is the replaceable Gluestack-generated layer.
+Project-owned wrappers and compound components live in `src/components/`, and
+feature-only UI remains inside its feature. Installed generated groups and
+important reusable components are represented in the Style Demo. Generated
+primitives are excluded from Jest coverage. Historical hand-written groups and
+tests still under the generated directory are documented transitional
+exceptions; new project-owned behavior and tests belong outside that boundary.
 
 ## Documentation
 
@@ -54,6 +61,9 @@ The project follows Expo's [Continuous Native Generation
 workflow](https://docs.expo.dev/workflow/continuous-native-generation/): native
 projects are generated when needed, and durable native configuration stays in
 app config or config plugins.
+
+The project-local module boundary, official scaffolding workflow, and native
+verification expectations are documented in [Local Native Modules](/guides/native-modules/).
 
 ## Contributing
 

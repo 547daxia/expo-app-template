@@ -7,6 +7,8 @@ Expo Router maps files under [`src/app/`](../src/app/) to routes:
 ```text
 src/app/
 ├── _layout.tsx              # root providers and stack
+├── +html.tsx                # Web document shell and viewport policy
+├── +not-found.tsx           # unmatched-route fallback
 ├── onboarding.tsx           # first-use flow
 ├── login.tsx                # authentication flow
 ├── (app)/_layout.tsx        # guarded tabs

@@ -97,6 +97,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-router',
+    'expo-secure-store',
     '@react-native-community/datetimepicker',
     ['react-native-edge-to-edge'],
   ],

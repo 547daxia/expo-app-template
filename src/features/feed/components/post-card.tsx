@@ -21,11 +21,11 @@ export function PostCard({ title, body, id }: Post) {
 
   return (
     <Link href={`/feed/${id}`} asChild>
-      <Pressable accessibilityLabel={`Open post: ${title}`}>
+      <Pressable accessibilityLabel={`Open post: ${title}`} accessibilityRole="link">
         <Card className="overflow-hidden rounded-2xl border border-border bg-card p-0">
           <Image
-            alt="Post cover"
-            accessibilityLabel="Post cover"
+            alt={`Cover image for ${title}`}
+            accessibilityLabel={`Cover image for ${title}`}
             className="h-48 w-full"
             resizeMode="cover"
             source={{ uri: imageUrl }}

@@ -6,6 +6,7 @@ The Astro/Starlight site under [`docs/`](../docs/) remains the browsable referen
 
 ## Table of Contents
 
+- [Project creation](./project-creation.md)
 - [Architecture](./architecture.md)
 - [Development workflow](./development.md)
 - [Configuration and environments](./configuration.md)
@@ -14,12 +15,15 @@ The Astro/Starlight site under [`docs/`](../docs/) remains the browsable referen
 - [Navigation](./navigation.md)
 - [Data fetching](./data-fetching.md)
 - [Storage](./storage.md)
+- [Local native modules](./native-modules.md)
 - [UI and theming](./ui-and-theming.md)
 - [UI components](./ui-components.md)
+- [Gluestack UI maintenance](./gluestack-ui-maintenance.md)
 - [Forms](./forms.md)
 - [Fonts](./fonts.md)
 - [Testing](./testing.md)
 - [Release and CI/CD](./release.md)
+- [Production readiness](./production-readiness.md)
 - [Dependency upgrades](./dependency-upgrades.md)
 - [Documentation structure decision](./decisions/2026-08-03-documentation-structure.md)
 - [Gluestack UI migration decision](./decisions/2026-08-03-gluestack-ui-migration.md)

@@ -23,7 +23,7 @@ jobs:
       contents: write
     steps:
       - name: 📦 Checkout project repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -51,7 +51,10 @@ jobs:
           EXPO_PUBLIC_APP_ENV: development
           STRICT_ENV_VALIDATION: '1'
           EXPO_NO_DOTENV: '1'
-          EXPO_PUBLIC_API_URL: https://api.example.com
+          EXPO_PUBLIC_API_URL: https://dummyjson.com
+
+      - name: 🔐 Audit production dependencies
+        run: pnpm run audit:ci
 
       - name: 🚑 Expo Doctor
         run: pnpm run doctor

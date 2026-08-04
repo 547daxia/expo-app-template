@@ -5,4 +5,6 @@ description: This compatibility page points to the canonical project documentati
 
 import CanonicalDoc from '../../../components/CanonicalDoc.astro';
 
-This route is retained for existing links. The canonical setup and development instructions are in <CanonicalDoc path="development.md" label="Development Workflow" />.
+This route is retained for existing links. CLI generation, GitHub template and
+direct-clone behavior are documented in <CanonicalDoc path="project-creation.md" label="Project Creation" />.
+Daily commands are in <CanonicalDoc path="development.md" label="Development Workflow" />.

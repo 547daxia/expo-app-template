@@ -2,17 +2,18 @@
 . "$(dirname "$0")/common.sh"
 
 
-echo "===\n>> Checking branch name..."
+echo ">> Checking branch name..."
 
 # Check if branch protection is enabled
-if [[ -z $SKIP_BRANCH_PROTECTION ]]; then
+if [ -z "${SKIP_BRANCH_PROTECTION:-}" ]; then
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    PROTECTED_BRANCHES="^(main|master)"
 
-    if [[ $BRANCH =~ $PROTECTED_BRANCHES ]]; then
-        echo ">> Direct commits to the $BRANCH branch are not allowed. Please choose a new branch name."
-        exit 1
-    fi
+    case "$BRANCH" in
+        main|master)
+            echo ">> Direct commits to the $BRANCH branch are not allowed. Please choose a new branch name."
+            exit 1
+            ;;
+    esac
 else
     echo ">> Skipping branch protection."
 fi

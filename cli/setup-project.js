@@ -1,90 +1,113 @@
-const { execShellCommand, runCommand } = require('./utils.js');
-const { consola } = require('consola');
-const fs = require('fs-extra');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
-const initGit = async (projectName) => {
-  await execShellCommand(`cd ${projectName} && git init && cd ..`);
-};
+const { updateEnvSource } = require('./project.js');
+const { runCommand } = require('./utils.js');
 
-const installDeps = async (projectName) => {
-  await runCommand(`cd ${projectName} && pnpm install`, {
-    loading: 'Installing  project dependencies',
-    success: 'Dependencies installed',
-    error: 'Failed to install dependencies, Make sure you have pnpm installed',
-  });
-};
+const TEMPLATE_ONLY_PATHS = [
+  '.git',
+  'README.md',
+  'android',
+  'ios',
+  'cli',
+];
 
-// remove unnecessary files, such us .git, ios, android, docs, cli, LICENSE
-const removeFiles = async (projectName) => {
-  const FILES_TO_REMOVE = [
-    '.git',
-    'README.md',
-    'ios',
-    'android',
-    'docs',
-    'cli',
-    'LICENSE',
-  ];
-
-  FILES_TO_REMOVE.forEach((file) => {
-    fs.removeSync(path.join(process.cwd(), `${projectName}/${file}`));
-  });
-};
-
-// Update package.json infos, name and  set version to 0.0.1 + add initial version to osMetadata
-const updatePackageInfos = async (projectName) => {
-  const packageJsonPath = path.join(
-    process.cwd(),
-    `${projectName}/package.json`
-  );
-  const packageJson = fs.readJsonSync(packageJsonPath);
-  packageJson.osMetadata = { initVersion: packageJson.version };
-  packageJson.version = '0.0.1';
-  packageJson.name = projectName?.toLowerCase();
-  packageJson.repository = {
-    type: 'git',
-    url: 'git+https://github.com/user/repo-name.git',
-  };
-  fs.writeJsonSync(packageJsonPath, packageJson, { spaces: 2 });
-};
-
-const updateProjectConfig = async (projectName) => {
-  const configPath = path.join(process.cwd(), `${projectName}/env.ts`);
-  const contents = fs.readFileSync(configPath, {
-    encoding: 'utf-8',
-  });
-  const replaced = contents
-    .replace(/MobileApp/gi, projectName)
-    .replace(/com\.example\.mobileapp/gi, `com.${projectName.toLowerCase()}`)
-    .replace(/mobileapp/gi, projectName.toLowerCase());
-
-  fs.writeFileSync(configPath, replaced, { spaces: 2 });
-  const readmeFilePath = path.join(
-    process.cwd(),
-    `${projectName}/README-project.md`
-  );
-  fs.renameSync(
-    readmeFilePath,
-    path.join(process.cwd(), `${projectName}/README.md`)
-  );
-};
-
-const setupProject = async (projectName) => {
-  consola.start(`Clean up and setup your project 🧹`);
-  try {
-    removeFiles(projectName);
-    await initGit(projectName);
-    updatePackageInfos(projectName);
-    updateProjectConfig(projectName);
-    consola.success(`Clean up and setup your project 🧹`);
-  } catch (error) {
-    consola.error(`Failed to clean up project folder`, error);
-    process.exit(1);
+function readRequiredFile(file) {
+  if (!fs.existsSync(file)) {
+    throw new Error(`The template is missing ${file}.`);
   }
-};
+  return fs.readFileSync(file, 'utf8');
+}
+
+function updatePackageJson(targetDirectory, identity) {
+  const packagePath = path.join(targetDirectory, 'package.json');
+  const packageJson = JSON.parse(readRequiredFile(packagePath));
+  packageJson.name = identity.packageName;
+  packageJson.version = '0.0.1';
+  if (packageJson.scripts) {
+    delete packageJson.scripts['test:cli'];
+    packageJson.scripts['test:ci'] = packageJson.scripts['test:ci']
+      ?.replace(' && pnpm run test:cli', '');
+    for (const [name, command] of Object.entries(packageJson.scripts)) {
+      if (typeof command === 'string') {
+        packageJson.scripts[name] = command.replaceAll(
+          'com.example.mobileapp',
+          identity.applicationIdBase,
+        );
+      }
+    }
+  }
+  delete packageJson.osMetadata;
+  delete packageJson.repository;
+  fs.writeFileSync(packagePath, `${JSON.stringify(packageJson, null, 2)}\n`);
+}
+
+function updateProjectConfig(targetDirectory, identity) {
+  const configPath = path.join(targetDirectory, 'env.ts');
+  const source = readRequiredFile(configPath);
+  fs.writeFileSync(configPath, updateEnvSource(source, identity));
+
+  replaceRequiredText(
+    path.join(targetDirectory, 'app.config.ts'),
+    'const EXPO_SLUG = process.env.EXPO_SLUG ?? \'mobile-app\';',
+    `const EXPO_SLUG = process.env.EXPO_SLUG ?? '${identity.slug}';`,
+  );
+  replaceRequiredText(
+    path.join(targetDirectory, '.env.example'),
+    'EXPO_SLUG=mobile-app',
+    `EXPO_SLUG=${identity.slug}`,
+  );
+}
+
+function replaceRequiredText(file, search, replacement) {
+  const source = readRequiredFile(file);
+  if (!source.includes(search)) {
+    throw new Error(`The template placeholder was not found in ${file}.`);
+  }
+  fs.writeFileSync(file, source.replace(search, replacement));
+}
+
+function prepareProjectFiles(targetDirectory, identity) {
+  for (const relativePath of TEMPLATE_ONLY_PATHS) {
+    fs.rmSync(path.join(targetDirectory, relativePath), {
+      force: true,
+      recursive: true,
+    });
+  }
+
+  updatePackageJson(targetDirectory, identity);
+  updateProjectConfig(targetDirectory, identity);
+
+  const projectReadme = path.join(targetDirectory, 'README-project.md');
+  readRequiredFile(projectReadme);
+  fs.renameSync(projectReadme, path.join(targetDirectory, 'README.md'));
+}
+
+async function setupProject(targetDirectory, identity) {
+  console.log('▶ Applying project identity and removing template-only files');
+  prepareProjectFiles(targetDirectory, identity);
+  await runCommand(
+    'git',
+    ['init', '--initial-branch=main'],
+    {
+      cwd: targetDirectory,
+      loading: 'Initializing a fresh Git repository',
+      success: 'Git repository initialized on main',
+    },
+  );
+}
+
+async function installDependencies(targetDirectory) {
+  await runCommand('pnpm', ['install'], {
+    cwd: targetDirectory,
+    loading: 'Installing project dependencies with pnpm',
+    success: 'Project dependencies installed',
+  });
+}
 
 module.exports = {
+  installDependencies,
+  prepareProjectFiles,
   setupProject,
-  installDeps,
+  TEMPLATE_ONLY_PATHS,
 };

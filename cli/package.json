@@ -2,27 +2,11 @@
   "name": "create-expo-app-template",
   "version": "1.8.0",
   "description": "Expo and React Native template CLI",
+  "license": "MIT",
   "homepage": "https://github.com/547daxia/expo-app-template",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/547daxia/expo-app-template.git"
-  },
-  "main": "index.js",
-  "scripts": {
-    "start": "node ."
-  },
-  "bin": {
-    "create-expo-app-template": "index.js"
-  },
-  "files": [
-    "index.js",
-    "utils.js",
-    "clone-repo.js",
-    "setup-project.js"
-  ],
-  "dependencies": {
-    "consola": "^3.2.3",
-    "fs-extra": "^10.1.0"
   },
   "keywords": [
     "react-native",
@@ -33,5 +17,25 @@
     "react-native-boilerplate",
     "expo-boilerplate",
     "cli"
-  ]
+  ],
+  "main": "index.js",
+  "bin": {
+    "create-expo-app-template": "index.js"
+  },
+  "files": [
+    "LICENSE",
+    "clone-repo.js",
+    "index.js",
+    "project.js",
+    "setup-project.js",
+    "utils.js"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node .",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {}
 }

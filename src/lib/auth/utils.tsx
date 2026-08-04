@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
-import { getItem, removeItem, setItem } from '@/lib/storage';
-
-const TOKEN = 'token';
+import { getTokenValue, removeTokenValue, setTokenValue } from './token-storage';
 
 const tokenSchema = z.object({
   access: z.string().min(1),
@@ -11,10 +9,28 @@ const tokenSchema = z.object({
 
 export type TokenType = z.infer<typeof tokenSchema>;
 
-export function getToken() {
-  const value = getItem<unknown>(TOKEN);
-  const parsed = tokenSchema.safeParse(value);
-  return parsed.success ? parsed.data : null;
+export async function getToken() {
+  const value = await getTokenValue();
+  if (value === null) {
+    return null;
+  }
+
+  try {
+    const parsed = tokenSchema.safeParse(JSON.parse(value));
+    if (parsed.success) {
+      return parsed.data;
+    }
+  }
+  catch {
+    // Invalid secure storage contents are removed below.
+  }
+
+  await removeTokenValue();
+  return null;
 }
-export const removeToken = () => removeItem(TOKEN);
-export const setToken = (value: TokenType) => setItem<TokenType>(TOKEN, value);
+
+export const removeToken = () => removeTokenValue();
+
+export function setToken(value: TokenType) {
+  return setTokenValue(JSON.stringify(tokenSchema.parse(value)));
+}

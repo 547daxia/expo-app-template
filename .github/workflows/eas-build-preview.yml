@@ -3,15 +3,15 @@
 # Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
 
 # ✍️ Description:
-# This workflow is used to trigger a build on EAS for the preview environment.
+# This workflow triggers an Android build on EAS for the preview environment.
 # It will run on every GitHub release published on the repo or can be triggered manually from the actions tab.
-# This workflow will use ./actions/eas-build action to trigger the build on EAS with the preview environment.
+# iOS remains disabled until preview signing credentials are configured.
 
 # 🚨 GITHUB SECRETS REQUIRED:
 #         - EXPO_TOKEN: Expo token to authenticate with EAS
 #         - You can get it from https://expo.dev/settings/access-tokens
 
-name: EAS Preview Build (Android & iOS)
+name: EAS Preview Build (Android)
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ on:
 
 jobs:
   Build:
-    name: EAS Preview Build (Android & iOS)
+    name: EAS Preview Build (Android)
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -30,7 +30,7 @@ jobs:
             exit 1
           fi
       - name: 📦 Checkout project repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

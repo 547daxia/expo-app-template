@@ -35,7 +35,6 @@ export default antfu(
       '__mocks__/**',
       '.vscode',
       'docs/',
-      'cli/',
       'expo-env.d.ts',
       'uniwind-types.d.ts',
       'migration/*',

@@ -9,6 +9,7 @@
 
 # 🚨 GITHUB SECRETS REQUIRED:
 # MAESTRO_CLOUD_API_KEY: API key for Maestro Cloud. You can get it from https://cloud.mobile.dev/ci-integration/github-actions#add-your-api-key-secret
+# MAESTRO_CLOUD_PROJECT_ID: Project ID shown in the Maestro Cloud workspace settings.
 
 name: E2E Tests Android (Maestro Cloud)
 
@@ -24,8 +25,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check Maestro Cloud configuration
+        env:
+          MAESTRO_CLOUD_API_KEY: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          MAESTRO_CLOUD_PROJECT_ID: ${{ secrets.MAESTRO_CLOUD_PROJECT_ID }}
+        run: |
+          if [ -z "$MAESTRO_CLOUD_API_KEY" ] || [ -z "$MAESTRO_CLOUD_PROJECT_ID" ]; then
+            echo "Configure MAESTRO_CLOUD_API_KEY and MAESTRO_CLOUD_PROJECT_ID before running this workflow."
+            exit 1
+          fi
+
       - name: 📦 Checkout project repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -38,15 +49,16 @@ jobs:
           APP_ENV: preview
 
       - name: Upload Test APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: test-apk
           path: ./android/app/build/outputs/apk/release/app-release.apk
 
       - name: 📱 Run E2E Tests with Maestro Cloud
-        uses: mobile-dev-inc/action-maestro-cloud@v1.4.1
+        uses: mobile-dev-inc/action-maestro-cloud@v3.0.1
         with:
           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          project-id: ${{ secrets.MAESTRO_CLOUD_PROJECT_ID }}
           app-file: ./android/app/build/outputs/apk/release/app-release.apk
           env: |
             APP_ID=com.example.mobileapp.preview

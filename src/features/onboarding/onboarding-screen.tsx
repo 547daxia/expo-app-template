@@ -1,3 +1,5 @@
+import Env from 'env';
+
 import { Button, ButtonText } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
@@ -33,7 +35,7 @@ export function OnboardingScreen() {
           <Text selectable className="text-sm font-semibold text-primary uppercase">
             Welcome
           </Text>
-          <Heading selectable size="3xl">Expo App Template</Heading>
+          <Heading selectable size="3xl">{Env.EXPO_PUBLIC_NAME}</Heading>
           <Text selectable className="text-lg/7 text-muted-foreground">
             A focused foundation for building reliable cross-platform applications.
           </Text>

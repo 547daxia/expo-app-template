@@ -1,5 +1,5 @@
 # 🔗 Links:
-# Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/lint-ts.yml
+# Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/new-app-version.yml
 # Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
 
 # ✍️ Description:
@@ -9,9 +9,8 @@
 #         1. Choose your release type (patch, minor, major)
 #         2. The workflow will run the np-release script which runs the following steps:
 #             - Bump the version in package.json based on the release type using np
-#             - Run the prebuild of the app to align the package.json version with the native code
-#             - Create a new tag with the new version
-#             - Push the new tag to the repo
+#             - Create the release commit and version tag
+#             - Push the release commit and tag to the repository
 #
 
 # 🚨 GITHUB SECRETS REQUIRED:
@@ -41,16 +40,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: 🔍 GH_TOKEN
-        if: env.GH_TOKEN == ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: echo "GH_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
       - name: 📦 Checkout project repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.GH_TOKEN || github.token }}
 
       - name: 📝 Git User Setup
         run: |

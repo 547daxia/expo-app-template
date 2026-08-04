@@ -1,6 +1,5 @@
 appId: ${APP_ID}
 env:
-  Name: User
   EMAIL: user@test.com
   PASSWORD: password
 ---
@@ -16,10 +15,6 @@ env:
     id: login-button
 - assertVisible: Email is required
 - assertVisible: Password is required
-- tapOn:
-    id: name
-- inputText: ${Name}
-- runFlow: ../utils/hide-keyboard.yaml
 - tapOn:
     id: email-input
 - inputText: email

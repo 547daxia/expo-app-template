@@ -2,7 +2,15 @@
 
 ## Shared infrastructure
 
-[`src/lib/api/`](../src/lib/api/) provides the Axios client, React Query client, provider, and shared query utilities. The Axios base URL comes from `Env.EXPO_PUBLIC_API_URL`. `APIProvider` is mounted by the root layout.
+[`src/lib/api/`](../src/lib/api/) provides the Axios client, React Query client,
+provider, and shared query utilities. The Axios base URL comes from
+`Env.EXPO_PUBLIC_API_URL`, requests time out after 15 seconds, queries remain
+fresh for 30 seconds and retry twice, and mutations do not retry automatically.
+`APIProvider` is mounted by the root layout.
+
+Development defaults to DummyJSON so the feed works after the initial setup.
+Production validation rejects this demo endpoint and requires a project-owned
+HTTPS API URL.
 
 ## Feature API modules
 

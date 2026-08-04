@@ -12,4 +12,9 @@ After changing an asset or native configuration, create a development build to v
 
 ## Template surfaces
 
-Before release, replace or remove the template-branded onboarding screen, mock authentication, feed demo API, style demo, template repository links, and template artwork. Production login intentionally remains disabled until a real authentication adapter is configured.
+Before release, configure the application identity and artwork, connect real
+authentication, and replace the DummyJSON feed endpoint. Production validation
+always fails closed and blocks the template name, identifiers, non-HTTPS
+endpoints, and demo API. The Style Demo is an intentional production surface in
+this template: keep it registered, update its examples with the shared UI
+inventory, and include it in release verification.

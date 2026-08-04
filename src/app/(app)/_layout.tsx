@@ -14,6 +14,9 @@ export default function TabLayout() {
   if (isFirstTime) {
     return <Redirect href="/onboarding" />;
   }
+  if (status === 'idle') {
+    return null;
+  }
   if (status === 'signOut') {
     return <Redirect href="/login" />;
   }

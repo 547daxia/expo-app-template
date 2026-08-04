@@ -7,10 +7,13 @@ theme is defined in [`src/global.css`](../src/global.css), including Inter font
 families, custom text/tracking tokens, neutral/status palettes, semantic colors,
 and dark-mode values.
 
-Import shared Gluestack components from their component directories, for
-example `@/components/ui/button` or `@/components/ui/input`. There is no UI
-barrel export or legacy compatibility directory. Every installed top-level UI
-directory is maintained and represented in the Style Demo.
+Import unmodified Gluestack primitives from their generated component
+directories, for example `@/components/ui/button` or `@/components/ui/input`.
+Reusable project defaults and behavior belong in named wrappers under
+`src/components/`; feature-specific UI remains inside its feature. There is no
+UI barrel export or legacy compatibility directory. Installed generated groups
+and reusable project components are represented in the Style Demo as
+appropriate.
 
 ## Theme lifecycle
 
@@ -30,5 +33,6 @@ Fonts are configured through the `expo-font` plugin in [`app.config.ts`](../app.
 ## References
 
 - [UI Components](./ui-components.md): shared primitive contracts and examples
+- [Gluestack UI Maintenance](./gluestack-ui-maintenance.md): generated-source ownership and upgrades
 - [Forms](./forms.md): validation, submission, and keyboard patterns
 - [Fonts](./fonts.md): Inter setup and adding native or local fonts

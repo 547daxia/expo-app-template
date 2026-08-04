@@ -1,32 +1,48 @@
 #!/usr/bin/env node
+const { cloneTemplate } = require('./clone-repo.js');
+const {
+  createProjectIdentity,
+  resolveTargetDirectory,
+} = require('./project.js');
+const {
+  installDependencies,
+  setupProject,
+} = require('./setup-project.js');
+const {
+  showIntroduction,
+  showMoreDetails,
+} = require('./utils.js');
 
-const { consola } = require('consola');
-const { showMoreDetails } = require('./utils.js');
-const { cloneLastTemplateRelease } = require('./clone-repo.js');
-const { setupProject, installDeps } = require('./setup-project.js');
-
-const createExpoAppTemplate = async () => {
-  consola.box('Expo App Template\nA practical React Native kickstart 🚀!');
-  // get project name from command line
-  const projectName = process.argv[2];
-  // check if project name is provided
-  if (!projectName) {
-    consola.error(
-      'Please provide a name for your project: `npx create-expo-app-template@latest <project-name>`'
-    );
-    process.exit(1);
+async function main({
+  argv = process.argv.slice(2),
+  cwd = process.cwd(),
+  env = process.env,
+  fetchImpl,
+} = {}) {
+  if (argv.length !== 1) {
+    throw new TypeError('Usage: create-expo-app-template <project-name>');
   }
-  // clone the last release of the template from github
-  await cloneLastTemplateRelease(projectName);
 
-  // setup the project: remove unnecessary files, update package.json infos, name and  set version to 0.0.1 + add initial version to osMetadata
-  await setupProject(projectName);
+  const project = createProjectIdentity(argv[0]);
+  const targetDirectory = resolveTargetDirectory(cwd, project.directoryName);
 
-  // install project dependencies using pnpm
-  await installDeps(projectName);
+  showIntroduction();
+  const source = await cloneTemplate({ env, fetchImpl, targetDirectory });
+  await setupProject(targetDirectory, project);
+  await installDependencies(targetDirectory);
+  showMoreDetails(project);
 
-  // show instructions to run the project + link to the documentation
-  showMoreDetails(projectName);
-};
+  return { project, source, targetDirectory };
+}
 
-createExpoAppTemplate();
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(`\n✖ ${error.message}`);
+    if (process.env.DEBUG === '1') {
+      console.error(error.stack);
+    }
+    process.exitCode = 1;
+  });
+}
+
+module.exports = { main };

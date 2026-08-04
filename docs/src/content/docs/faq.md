@@ -8,9 +8,12 @@ head:
 
 ### Is this a finished production app?
 
-No. It is a production-oriented template with working reference flows. Replace
-the demo authentication, feed API, template identity, repository links, and
-artwork before release. Demo sign-in is disabled in the production environment.
+It is a production-ready application foundation, with working reference flows
+and release safeguards. A project must still provide its own identity, artwork,
+API, authentication backend, EAS ownership, credentials, privacy disclosures,
+and store metadata. Production validation always fails closed and blocks the
+template identity, non-HTTPS endpoints, and demo API. Demo sign-in is disabled
+instead of silently shipping mock access.
 
 ### Why does the project use Expo?
 
@@ -21,21 +24,27 @@ See Expo's [CNG documentation](https://docs.expo.dev/workflow/continuous-native-
 
 ### Where is the shared UI library?
 
-All shared UI lives in `src/components/ui/`. The repository maintains every
-installed Gluestack component group and demonstrates it in the Style tab. There
-is no shared barrel or `legacy-ui` compatibility layer.
+`src/components/ui/` contains replaceable Gluestack-generated primitives.
+Reusable project wrappers and compound components belong in `src/components/`,
+while feature-only components remain in their feature. Installed generated
+groups and important reusable components are demonstrated in the Style tab.
+There is no shared barrel or `legacy-ui` compatibility layer.
 
 ### Can generated Gluestack components be edited?
 
-Yes. They are repository-owned source after generation. Keep upstream-style
-primitives focused, put reusable custom behavior in the appropriate component
-directory, update the Style Demo inventory, and test custom behavior.
+No. The files are committed for reproducible builds, but this project treats
+`src/components/ui/` as an upstream-generated boundary that may be overwritten.
+Use props or theme tokens for local changes, wrap or compose primitives under
+`src/components/` for reusable behavior, and keep feature-only UI in its
+feature. Existing generated-file customizations are transitional exceptions and
+must not be extended.
 
-### Is MMKV suitable for production tokens?
+### Where are production tokens stored?
 
-Not with the template's current setup. Its MMKV instance is not encrypted. Use
-it only for non-sensitive preferences until an encrypted credential strategy is
-implemented and reviewed.
+Native bearer tokens use Expo SecureStore and malformed values are removed.
+MMKV remains limited to non-sensitive preferences. Web deliberately does not
+persist bearer tokens in localStorage or IndexedDB; use server-managed Secure
+and HttpOnly cookies for persistent browser sessions.
 
 ### Who maintains the template?
 

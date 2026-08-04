@@ -1,13 +1,13 @@
 
 
-function changed {
-    git diff --name-only HEAD@{1} HEAD | grep "^$1" >/dev/null 2>&1
+changed() {
+    git diff --name-only HEAD@{1} HEAD | grep -Fqx "$1"
 }
 
-echo 'Checking for changes in pnpm-lock.yml...'
+echo 'Checking for changes in pnpm-lock.yaml...'
 
-if changed 'pnpm-lock.yml'; then
-    echo "📦 pnpm-lock.yml changed. Run pnpm install to bring your dependencies up to date."
+if changed 'pnpm-lock.yaml'; then
+    echo "📦 pnpm-lock.yaml changed. Installing updated dependencies."
     pnpm install
 fi
 

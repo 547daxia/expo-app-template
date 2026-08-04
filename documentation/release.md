@@ -14,10 +14,23 @@ pnpm build:production:android
 ```
 
 Complete project ownership and environment configuration before running these commands.
+The manual production EAS workflow triggers both Android and iOS builds. The
+preview workflow keeps iOS disabled until preview signing credentials are
+configured; despite the available `build:preview:ios` command, the automated
+preview workflow currently submits Android only.
 
 ## Continuous integration
 
-GitHub Actions under [`.github/workflows/`](../.github/workflows/) run lint, TypeScript, Jest, Expo Doctor, EAS builds, release automation, and optional Maestro Android flows. EAS workflows require an `EXPO_TOKEN` repository secret. The manual versioning workflow also requires its repository token configuration.
+GitHub Actions under [`.github/workflows/`](../.github/workflows/) run lint,
+TypeScript, Jest, dependency auditing, documentation builds, Expo checks, EAS
+builds, release automation, and optional Maestro Android flows. Lint, type
+checking, Jest, and dependency auditing run on ordinary pull requests. Expo
+Doctor and documentation builds are path-filtered for relevant manifest or
+documentation changes, while the GitHub Release workflow runs the complete
+release gate. EAS workflows require an `EXPO_TOKEN` repository secret. The
+manual versioning workflow can use an
+optional `GH_TOKEN` and otherwise uses the job-scoped `GITHUB_TOKEN`. Maestro
+Cloud requires `MAESTRO_CLOUD_API_KEY` and `MAESTRO_CLOUD_PROJECT_ID`.
 
 The maintained workflow groups are:
 
@@ -27,7 +40,7 @@ The maintained workflow groups are:
 - `e2e-android*.yml` for opt-in Maestro verification
 - `new-app-version.yml` and `new-github-release.yml` for versioning and releases
 
-Match EAS secrets and environment variables to the profile (`development`, `preview`, or `production`). Never put build-only secrets in `EXPO_PUBLIC_*` values.
+Match EAS secrets and environment variables to the profile (`development`, `preview`, or `production`). Client-visible values needed by dynamic app config must use Plain text or Sensitive visibility; Secret values are not available to EAS CLI during local config resolution. Never put build-only secrets in `EXPO_PUBLIC_*` values.
 
 ### Release gate
 
@@ -35,11 +48,12 @@ A pushed version tag creates a GitHub Release only after all required checks pas
 
 - the tag matches `v${package.json.version}` (validated by `scripts/check-release-tag.js`)
 - TypeScript, ESLint, and Jest coverage checks
+- a zero-known-vulnerability production dependency audit
 - `expo install --check` dependency alignment and Expo Doctor
 - a strict, isolated development `prebuild` using a placeholder API URL
 - documentation dependency installation and site build
 
-The preview EAS workflow declares a published GitHub Release trigger as well as manual dispatch; the production EAS workflow is manual. The template's GitHub Release workflow creates releases with the default [`GITHUB_TOKEN`](https://docs.github.com/en/actions/concepts/security/github_token), so GitHub does not start the preview workflow from that workflow-created release. Run the preview workflow manually, or use a GitHub App or personal access token for the release event if automatic chaining is required. Maestro end-to-end workflows remain opt-in. None of these EAS or Maestro workflows are part of the GitHub Release gate. The template does not ship an Expo account, EAS project, signing credentials, or an `EXPO_TOKEN`, so an unconfigured repository can publish a GitHub Release while any separately triggered EAS workflow requires its own setup.
+The preview EAS workflow declares a published GitHub Release trigger as well as manual dispatch; the production EAS workflow is manual. The template's GitHub Release workflow creates releases with the default [`GITHUB_TOKEN`](https://docs.github.com/en/actions/concepts/security/github_token), so GitHub does not start the preview workflow from that workflow-created release. Run the preview workflow manually, or use a GitHub App or personal access token for the release event if automatic chaining is required. Maestro end-to-end workflows remain opt-in. None of these EAS or Maestro workflows are part of the GitHub Release gate. The template does not ship an Expo account, EAS project, signing credentials, or an `EXPO_TOKEN`, so an unconfigured repository can publish a GitHub Release while any separately triggered EAS workflow requires its own setup. All production configuration paths fail closed and reject template identity, non-HTTPS API values, and demo endpoints.
 
 ## Versioning
 

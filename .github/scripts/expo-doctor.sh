@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run expo-doctor and capture output and exit code
-output=$(npx expo-doctor@latest 2>&1)
+output=$(pnpm dlx expo-doctor@1.20.1 2>&1)
 exit_code=$?
 
 # Output file location

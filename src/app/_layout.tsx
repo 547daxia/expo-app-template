@@ -1,6 +1,6 @@
+import type { ErrorBoundaryProps } from 'expo-router';
 import type { ViewProps } from 'react-native';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
 import { Stack } from 'expo-router';
 import { ThemeProvider } from 'expo-router/react-navigation';
 import * as SplashScreen from 'expo-splash-screen';
@@ -9,23 +9,48 @@ import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { Button, ButtonText } from '@/components/ui/button';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { useThemeConfig } from '@/components/ui/gluestack-ui-provider/theme';
-import { hydrateAuth } from '@/features/auth/use-auth-store';
+import { Heading } from '@/components/ui/heading';
+import { ScrollView } from '@/components/ui/scroll-view';
+import { Text } from '@/components/ui/text';
+import { VStack } from '@/components/ui/vstack';
+import { hydrateAuth, useAuthStore } from '@/features/auth/use-auth-store';
 
 import { APIProvider } from '@/lib/api';
 import { loadSelectedTheme } from '@/lib/hooks/use-selected-theme';
 // Import  global CSS file
 import '../global.css';
 
-export { ErrorBoundary } from 'expo-router';
+export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
+  React.useEffect(() => {
+    console.error('Unhandled application error', error);
+  }, [error]);
+
+  return (
+    <ScrollView
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }}
+    >
+      <VStack className="mx-auto w-full max-w-lg items-center gap-4">
+        <Heading selectable size="2xl">Something went wrong</Heading>
+        <Text selectable className="text-center text-muted-foreground">
+          The application encountered an unexpected error. Please try again.
+        </Text>
+        <Button onPress={retry}>
+          <ButtonText>Try Again</ButtonText>
+        </Button>
+      </VStack>
+    </ScrollView>
+  );
+}
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const unstable_settings = {
   initialRouteName: '(app)',
 };
 
-hydrateAuth();
 loadSelectedTheme();
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -37,6 +62,11 @@ SplashScreen.setOptions({
 
 export default function RootLayout() {
   const hasHiddenSplashRef = React.useRef(false);
+  const authStatus = useAuthStore.use.status();
+
+  React.useEffect(() => {
+    void hydrateAuth();
+  }, []);
 
   const onLayoutRootView = React.useCallback(() => {
     if (hasHiddenSplashRef.current) {
@@ -46,6 +76,10 @@ export default function RootLayout() {
     hasHiddenSplashRef.current = true;
     SplashScreen.hide();
   }, []);
+
+  if (authStatus === 'idle') {
+    return null;
+  }
 
   return (
     <Providers onLayout={onLayoutRootView}>

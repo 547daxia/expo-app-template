@@ -15,7 +15,7 @@ export function LoginScreen() {
   const signIn = useAuthStore.use.signIn();
 
   const handleSubmit = React.useCallback<NonNullable<LoginFormProps['onSubmit']>>(
-    () => {
+    async () => {
       if (Env.EXPO_PUBLIC_APP_ENV === 'production') {
         showMessage({
           message: 'Demo authentication is disabled in production.',
@@ -25,8 +25,17 @@ export function LoginScreen() {
         return;
       }
 
-      signIn({ access: 'access-token', refresh: 'refresh-token' });
-      navigate.replace('/');
+      try {
+        await signIn({ access: 'access-token', refresh: 'refresh-token' });
+        navigate.replace('/');
+      }
+      catch {
+        showMessage({
+          message: 'Unable to save the session.',
+          description: 'Secure storage is unavailable. Please try again.',
+          type: 'danger',
+        });
+      }
     },
     [signIn],
   );

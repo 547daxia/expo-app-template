@@ -1,14 +1,10 @@
 appId: ${APP_ID}
 env:
-  Name: User
   EMAIL: user@test.com
   PASSWORD: password
 tags:
   - util
 ---
-- tapOn:
-    id: name
-- inputText: ${Name}
 - tapOn:
     id: email-input
 - inputText: ${EMAIL}

@@ -8,27 +8,20 @@
       "autoIncrement": true,
       "distribution": "store",
       "environment": "production",
-      "ios": {
-        "image": "latest"
-      },
       "android": {
-        "buildType": "app-bundle",
-        "image": "latest"
+        "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_APP_ENV": "production"
+        "EXPO_PUBLIC_APP_ENV": "production",
+        "STRICT_ENV_VALIDATION": "1"
       }
     },
     "preview": {
       "channel": "preview",
       "autoIncrement": true,
       "distribution": "store",
-      "ios": {
-        "image": "latest"
-      },
       "android": {
-        "buildType": "apk",
-        "image": "latest"
+        "buildType": "apk"
       },
       "environment": "preview",
       "env": {
@@ -39,12 +32,6 @@
       "developmentClient": true,
       "distribution": "internal",
       "environment": "development",
-      "ios": {
-        "image": "latest"
-      },
-      "android": {
-        "image": "latest"
-      },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "development"
       }
@@ -52,11 +39,7 @@
     "simulator": {
       "environment": "development",
       "ios": {
-        "simulator": true,
-        "image": "latest"
-      },
-      "android": {
-        "image": "latest"
+        "simulator": true
       },
       "env": {
         "EXPO_PUBLIC_APP_ENV": "development"

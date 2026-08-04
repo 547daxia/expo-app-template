@@ -2,7 +2,9 @@
 
 Forms use TanStack Form and Zod. Define schemas outside the component, validate
 on change, and compose controls from the Gluestack components in
-`src/components/ui`.
+`src/components/ui`. When a form control needs reusable project defaults or
+behavior, wrap those primitives in a component under `src/components/` instead
+of editing the generated files.
 
 ## Basic pattern
 

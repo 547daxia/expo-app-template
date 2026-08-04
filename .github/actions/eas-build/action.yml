@@ -9,8 +9,8 @@
 #        `APP_ENV`, which selects the EAS Build profile (development, preview, production). We use preview by default.
 #        `EXPO_TOKEN`, required, access token for your Expo account. https://expo.dev/settings/access-tokens
 #        `VERSION`, required, version of the app to build. used as the build message.
-#        `ANDROID`, true by default, set to true if you don't want to trigger build for Android.
-#        `IOS`, false by default, set to true if you  want to trigger build for IOS.
+#        `ANDROID`, true by default; set to false to skip the Android build.
+#        `IOS`, false by default; set to true to trigger the iOS build.
 
 # 👀 Example usage:
 #      - name: ⏱️ EAS Build
@@ -58,7 +58,7 @@ runs:
     - name: 📦 Setup Expo and EAS
       uses: expo/expo-github-action@v8
       with:
-        eas-version: latest
+        eas-version: 21.4.0
         token: ${{ inputs.EXPO_TOKEN }}
 
     - name: 📱 Run Android Build

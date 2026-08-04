@@ -2,6 +2,11 @@ import z from 'zod';
 
 import packageJSON from './package.json';
 
+const DEVELOPMENT_API_URL = 'https://dummyjson.com';
+const DEMO_API_HOSTS = new Set(['api.example.com', 'dummyjson.com']);
+const TEMPLATE_APP_NAME = 'MobileApp';
+const TEMPLATE_IDENTIFIER_PREFIX = 'com.example.';
+
 // Single unified environment schema
 const envSchema = z.object({
   EXPO_PUBLIC_APP_ENV: z.enum(['development', 'preview', 'production']),
@@ -11,12 +16,53 @@ const envSchema = z.object({
   EXPO_PUBLIC_PACKAGE: z.string(),
   EXPO_PUBLIC_VERSION: z.string(),
   EXPO_PUBLIC_API_URL: z.string().url(),
+  EXPO_PUBLIC_APP_URL: z.string().url().optional(),
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: z.string().url().optional(),
   EXPO_PUBLIC_VAR_NUMBER: z.number(),
   EXPO_PUBLIC_VAR_BOOL: z.boolean(),
 
   // only available for app.config.ts usage
   APP_BUILD_ONLY_VAR: z.string().optional(),
+}).superRefine((env, context) => {
+  if (env.EXPO_PUBLIC_APP_ENV !== 'production') {
+    return;
+  }
+
+  const apiUrl = new URL(env.EXPO_PUBLIC_API_URL);
+  if (apiUrl.protocol !== 'https:') {
+    context.addIssue({
+      code: 'custom',
+      path: ['EXPO_PUBLIC_API_URL'],
+      message: 'Production builds require an HTTPS API endpoint.',
+    });
+  }
+
+  const apiHost = apiUrl.hostname.toLowerCase();
+  if (DEMO_API_HOSTS.has(apiHost)) {
+    context.addIssue({
+      code: 'custom',
+      path: ['EXPO_PUBLIC_API_URL'],
+      message: 'Production builds require a project-owned API endpoint.',
+    });
+  }
+
+  if (env.EXPO_PUBLIC_NAME === TEMPLATE_APP_NAME) {
+    context.addIssue({
+      code: 'custom',
+      path: ['EXPO_PUBLIC_NAME'],
+      message: 'Replace the template application name before a production build.',
+    });
+  }
+
+  for (const field of ['EXPO_PUBLIC_BUNDLE_ID', 'EXPO_PUBLIC_PACKAGE'] as const) {
+    if (env[field].startsWith(TEMPLATE_IDENTIFIER_PREFIX)) {
+      context.addIssue({
+        code: 'custom',
+        path: [field],
+        message: 'Replace the template application identifier before a production build.',
+      });
+    }
+  }
 });
 
 // Config records per environment
@@ -43,8 +89,10 @@ const SCHEMES = {
 
 const NAME = 'MobileApp';
 
-// Check if strict validation is required (before prebuild)
-const STRICT_ENV_VALIDATION = process.env.STRICT_ENV_VALIDATION === '1';
+// Production configuration must always fail closed. Other environments can opt
+// into the same behavior for prebuild and CI validation.
+const STRICT_ENV_VALIDATION = EXPO_PUBLIC_APP_ENV === 'production'
+  || process.env.STRICT_ENV_VALIDATION === '1';
 
 // Build env object
 const _env: z.infer<typeof envSchema> = {
@@ -54,10 +102,11 @@ const _env: z.infer<typeof envSchema> = {
   EXPO_PUBLIC_BUNDLE_ID: BUNDLE_IDS[EXPO_PUBLIC_APP_ENV],
   EXPO_PUBLIC_PACKAGE: PACKAGES[EXPO_PUBLIC_APP_ENV],
   EXPO_PUBLIC_VERSION: packageJSON.version,
-  // Development can use a harmless placeholder before `.env` is created.
-  // Prebuilds must provide an explicit endpoint so they cannot ship this value.
+  // Development defaults to the public demo API used by the example feed.
+  // Production validation rejects this endpoint so it cannot ship by mistake.
   EXPO_PUBLIC_API_URL: process.env.EXPO_PUBLIC_API_URL
-    ?? (STRICT_ENV_VALIDATION ? '' : 'https://api.example.com'),
+    ?? (STRICT_ENV_VALIDATION ? '' : DEVELOPMENT_API_URL),
+  EXPO_PUBLIC_APP_URL: process.env.EXPO_PUBLIC_APP_URL,
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN,
   EXPO_PUBLIC_VAR_NUMBER: Number(process.env.EXPO_PUBLIC_VAR_NUMBER ?? 0),
   EXPO_PUBLIC_VAR_BOOL: process.env.EXPO_PUBLIC_VAR_BOOL === 'true',

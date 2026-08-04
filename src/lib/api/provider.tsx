@@ -3,7 +3,15 @@ import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    mutations: { retry: false },
+    queries: {
+      retry: 2,
+      staleTime: 30_000,
+    },
+  },
+});
 
 export function APIProvider({ children }: { children: React.ReactNode }) {
   useReactQueryDevTools(queryClient);

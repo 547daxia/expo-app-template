@@ -1,19 +1,33 @@
 # Gluestack UI migration
 
-- Decision: `src/components/ui/` is the only shared UI layer. All installed
-  component groups are maintained; `src/components/legacy-ui/` is removed and
-  must not return.
+- Decision: `src/components/ui/` is the replaceable Gluestack-generated layer.
+  Reusable project wrappers and compound components belong in
+  `src/components/`; feature-only components belong to their feature.
+- Generated boundary: do not manually edit generated files or add project
+  helpers and tests to that directory. Use a pinned CLI version and record it
+  whenever components are regenerated.
+- Import direction: features and shared project components may import generated
+  primitives; generated UI must not import project-owned code. Direct feature
+  imports are allowed when a primitive is used without customization.
+- Legacy removal: `src/components/legacy-ui/` is removed and must not return.
 - Catalog: the Style tab renders interactive examples for every top-level UI
-  directory. `component-groups.test.ts` prevents the inventory from drifting.
-- Generated code: Gluestack CLI-generated primitives remain locally owned but
-  are excluded from Jest coverage. Custom behavior layered around them must be
-  covered by focused tests without lowering the global thresholds.
-- Custom components: the maintained custom layer currently includes Chat AI,
-  DatePicker, DateTimePicker, ImageViewer, and Tabs.
+  directory and reusable project components as appropriate.
+  `component-groups.test.ts` prevents the generated inventory from drifting.
+- Coverage: generated primitives are excluded from Jest coverage. Project-owned
+  behavior must be covered by focused tests without lowering global thresholds.
+- Transition: existing customizations in BottomSheet, Chat AI, DatePicker,
+  DateTimePicker, ImageViewer, Tabs, and compatibility files are historical
+  exceptions. Do not extend them; extract them before refreshing the affected
+  generated group.
 - Date and time behavior: native and web pickers use a draft value. Confirm or
-  Done commits it; Cancel discards it.
+  Done commits it; Cancel discards it. Preserve this in a project-owned wrapper
+  or compound component during extraction.
 - Chat behavior: keep the compound `Conversation`, `Message`, and `PromptInput`
-  API. The unfinished `Chat`, `ChatMessages`, and `useChat` API is retired.
-- Compatibility: feature screens use the Gluestack components directly. Do not
-  add a barrel or legacy adapter to emulate the removed template UI API.
+  API as a project-owned contract. The unfinished `Chat`, `ChatMessages`, and
+  `useChat` API is retired.
+- Compatibility: do not add a barrel or legacy adapter to emulate the removed
+  template UI API.
+- Procedure: follow
+  [Gluestack UI Maintenance](../gluestack-ui-maintenance.md) for additions,
+  upgrades, verification, and the current transition status.
 - Owner: repository maintainers.

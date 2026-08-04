@@ -31,7 +31,6 @@ describe('login form', () => {
     await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
     expect(onSubmit).toHaveBeenCalledWith({
       email: 'user@example.com',
-      name: '',
       password: 'password',
     });
   });

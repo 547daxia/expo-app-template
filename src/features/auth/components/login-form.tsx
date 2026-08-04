@@ -18,7 +18,6 @@ import { VStack } from '@/components/ui/vstack';
 import { getFieldError } from '@/lib/form-utils';
 
 const loginSchema = z.object({
-  name: z.string(),
   email: z
     .string()
     .min(1, 'Email is required')
@@ -60,7 +59,7 @@ function LoginField({ error, label, ...props }: FieldProps) {
 
 export function LoginForm({ onSubmit }: LoginFormProps) {
   const form = useForm({
-    defaultValues: { name: '', email: '', password: '' },
+    defaultValues: { email: '', password: '' },
     validators: { onChange: loginSchema },
     onSubmit: async ({ value }) => onSubmit?.(value),
   });
@@ -79,20 +78,6 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
           Sign in with any valid email and a password of at least six characters.
         </Text>
       </VStack>
-
-      <form.Field name="name">
-        {field => (
-          <LoginField
-            label="Name"
-            testID="name"
-            value={field.state.value}
-            onBlur={field.handleBlur}
-            onChangeText={field.handleChange}
-            error={getFieldError(field)}
-            autoComplete="name"
-          />
-        )}
-      </form.Field>
 
       <form.Field name="email">
         {field => (
