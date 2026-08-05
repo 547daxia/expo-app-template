@@ -1,92 +1,57 @@
 ---
 title: Expo App Template | React Native starter
-description: "A reusable Expo and React Native template with practical project documentation."
+description: A reusable Expo and React Native template with canonical operational documentation.
 template: splash
 lastUpdated: false
 hero:
-  title: Start your Expo app with confidence 🚀
-  tagline: "A reusable foundation for building, testing, and shipping React Native apps."
+  title: Start your Expo app with confidence
+  tagline: A reusable foundation for building, testing, and shipping React Native apps.
   image:
     file: ../../assets/logo.webp
   actions:
-    - text: Get Started
-      link: /project-documentation/
+    - text: Read the documentation
+      link: /documentation/
       icon: right-arrow
       variant: primary
-    - text: View repository
-      link: https://github.com/547daxia/expo-app-template
-      icon: external
+    - text: Create a project
+      link: /getting-started/project-creation/
+      icon: add-document
       variant: secondary
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
-import GithubStar from '../../components/GithubStar.astro';
 
-<GithubStar />
-
-## Features
+## What is included
 
 <CardGrid stagger>
-  <Card title="Maintained project generator" icon="add-document">
-    The Node 22 CLI creates a fresh Git project from a reviewed template
-    release, applies a safe identity, installs dependencies, and is covered by
-    unit and end-to-end generator tests.
+  <Card title="Canonical documentation" icon="open-book">
+    The repository Markdown is the single source of truth. This site renders it
+    for navigation, search, and AI-friendly llms.txt output.
   </Card>
-	<Card title="Expo SDK 56 + Dev Client" icon="star">
-		This template uses Expo SDK 56, React Native 0.85, and a custom development client so native dependencies can be tested outside Expo Go.
-	</Card>
+  <Card title="Expo SDK 56 + CNG" icon="star">
+    Expo Router, a development client, and Continuous Native Generation keep
+    native configuration reproducible without committing generated projects.
+  </Card>
+  <Card title="Feature-oriented app" icon="add-document">
+    Onboarding, guarded authentication, Feed, Settings, and an interactive
+    Style Demo demonstrate the repository boundaries.
+  </Card>
+  <Card title="Typed foundations" icon="setting">
+    TypeScript, TanStack Query, TanStack Form, Zod, Zustand, SecureStore, MMKV,
+    FlashList, Jest, and Maestro are configured as project defaults.
+  </Card>
   <Card title="Local native module" icon="setting">
-    A minimal Expo Module includes Kotlin, Swift, a typed TypeScript facade,
-    and a Web fallback, with autolinking and CNG maintenance guidance.
+    A minimal Expo Module demonstrates Kotlin, Swift, a typed TypeScript facade,
+    Web fallback, autolinking, and CNG verification.
   </Card>
-  <Card title="Expo Router" icon="add-document">
-		File-based routes include onboarding, guarded tabs, feed detail, and create-post examples.
-	</Card>
-  <Card title="GitHub workflows" icon="open-book">
-    Type checks, tests, linting, release automation, documentation builds, and
-    EAS build workflow templates are included. Configure the repository and Expo
-    secrets before using versioning or EAS workflows.
+  <Card title="Quality and releases" icon="document">
+    GitHub Actions, EAS profiles, dependency checks, documentation validation,
+    and release gates provide a maintainable starting point.
   </Card>
-  <Card title="Gluestack UI catalog" icon="open-book">
-		Gluestack-generated primitives and reusable project components are styled with Uniwind and Tailwind CSS v4 and represented in the interactive Style Demo.
-  </Card>
-	<Card title="Icons and custom artwork" icon="open-book">
-		Use the shared Gluestack SVG icons inside controls and the navigator-provided @expo/vector-icons integration for tabs. React Native SVG remains available for custom artwork.
-	</Card>
-	<Card title="VSCode Setup" icon="laptop">
-		A complete list of recommended extensions, settings, and snippets for Visual Studio Code (VSCode) that enhance the developer experience and boost productivity.
-	</Card>
-	<Card title="TypeScript + ESLint + Husky" icon="setting">
-		We use TypeScript, ESLint, and Husky to keep code consistent and catch issues before commits.
-	</Card>
-  <Card title="Project Documentation" icon="open-book">
-		The canonical project documentation is plain Markdown in the repository, covering architecture, configuration, testing, releases, and dated decisions.
-  </Card>
-	<Card title="Multiple environment builds support" icon="setting">
-		Multiple app environments with Zod validation. Production configuration
-    always fails closed and requires project-owned identity plus an HTTPS API.
-	</Card>
-
-<Card title="Form and Keyboard Handling" icon="open-book">
-  We use TanStack Form for form management and Zod for validation, along with
-  a set of inputs for your app. We also include keyboard handling to provide a
-  seamless user experience.
-</Card>
-  <Card title="Auth Flow" icon="open-book">
-  Native credentials use Expo SecureStore, authentication hydration fails
-  closed, and Web does not persist bearer tokens in browser storage. Demo
-  sign-in remains disabled in production until a real backend is connected.
-  </Card>
-
-  <Card title="React Query + Axios" icon="open-book">
-		We manage data fetching using React Query and Axios. These powerful libraries make it easy to fetch, cache, and update data in your React applications. We also include a set of VSCode snippets to make your life easier when creating queries and mutations.
-	</Card>
-  <Card title="Unit + E2E tests" icon="document">
-  Jest, React Native Testing Library, coverage thresholds, a UI inventory test,
-  and Maestro flows help verify the app as it evolves.
-	</Card>
 </CardGrid>
 
-## Contributing
+## Next steps
 
-Use the repository's issue tracker and pull requests to share improvements, bug fixes, and documentation updates.
+Start with [Project Creation](/getting-started/project-creation/), then complete
+[Configuration and Environments](/getting-started/configuration/) before EAS or
+production work.

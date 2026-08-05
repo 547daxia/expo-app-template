@@ -1,6 +1,6 @@
 # 🔗 Links:
 # Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/new-github-release.yml
-# Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
+# Related documentation: documentation/operations/release.md
 
 # ✍️ Description:
 # This workflow runs the required quality checks for a version tag before creating
@@ -62,6 +62,7 @@ jobs:
       - name: 📚 Build documentation
         run: |
           pnpm --dir docs install --frozen-lockfile
+          pnpm docs:check
           pnpm --dir docs build
 
       - name: 🚀 Create GitHub Release

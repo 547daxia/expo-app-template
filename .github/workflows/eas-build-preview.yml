@@ -1,6 +1,6 @@
 # 🔗 Links:
 # Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/eas-build-preview.yml
-# Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
+# Related documentation: documentation/operations/release.md
 
 # ✍️ Description:
 # This workflow triggers an Android build on EAS for the preview environment.

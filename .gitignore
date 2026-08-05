@@ -17,6 +17,18 @@ yarn-error.log
 /ios
 /android
 
+# Generated from documentation/ by docs/scripts/sync-canonical-docs.mjs
+/docs/src/content/docs/documentation/
+/docs/src/content/docs/getting-started/
+/docs/src/content/docs/core/
+/docs/src/content/docs/ui/
+/docs/src/content/docs/platform/
+/docs/src/content/docs/quality/
+/docs/src/content/docs/operations/
+/docs/src/content/docs/recipes/
+/docs/src/content/docs/decisions/
+/docs/src/content/docs/contributing.md
+
 # Local Expo Module build outputs
 modules/**/android/build/
 modules/**/ios/build/

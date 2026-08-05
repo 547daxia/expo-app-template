@@ -1,6 +1,6 @@
 # 🔗 Links:
 # Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/new-app-version.yml
-# Starter releasing process: https://starter.obytes.com/ci-cd/app-releasing-process/
+# Related documentation: documentation/operations/release.md
 
 # ✍️ Description:
 # This workflow is used to create a new version of the app and push a new tag to the repo.

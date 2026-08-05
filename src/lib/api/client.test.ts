@@ -5,7 +5,7 @@ import Env from 'env';
 import { signOut } from '@/features/auth/use-auth-store';
 import { getToken, removeToken, setToken } from '@/lib/auth/utils';
 
-import { clearTokenCache, client } from './client';
+import { clearTokenCache, client, setTokenCache } from './client';
 
 jest.mock('@/lib/auth/utils');
 jest.mock('@/features/auth/use-auth-store', () => ({
@@ -34,6 +34,7 @@ describe('aPI client interceptors', () => {
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     mock.restore();
     axiosMock.restore();
   });
@@ -66,6 +67,16 @@ describe('aPI client interceptors', () => {
       await client.get('/test');
 
       expect(mockGetToken).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not retain a timeout when the token is cached', async () => {
+      jest.useFakeTimers();
+      setTokenCache({ access: 'cached-access-token', refresh: 'cached-refresh-token' });
+      mock.onGet('/test').reply(200, { data: 'success' });
+
+      await client.get('/test');
+
+      expect(jest.getTimerCount()).toBe(0);
     });
   });
 
@@ -189,6 +200,30 @@ describe('aPI client interceptors', () => {
       expect(axiosMock.history.post.filter(req => req.url?.includes('/auth/refresh'))).toHaveLength(1);
     });
 
+    it('does not start another refresh when queued retries also return 401', async () => {
+      mockGetToken.mockResolvedValue({
+        access: 'expired-access-token',
+        refresh: 'valid-refresh-token',
+      });
+
+      mock.onGet('/protected-1').reply(401);
+      mock.onGet('/protected-2').reply(401);
+      mock.onGet('/protected-3').reply(401);
+      axiosMock.onPost(`${Env.EXPO_PUBLIC_API_URL}/auth/refresh`).replyOnce(200, {
+        access: 'still-invalid-access-token',
+        refresh: 'new-refresh-token',
+      });
+
+      const results = await Promise.allSettled([
+        client.get('/protected-1'),
+        client.get('/protected-2'),
+        client.get('/protected-3'),
+      ]);
+
+      expect(results.every(result => result.status === 'rejected')).toBe(true);
+      expect(axiosMock.history.post.filter(req => req.url?.includes('/auth/refresh'))).toHaveLength(1);
+    });
+
     it('passes through non-401 errors without refresh', async () => {
       mockGetToken.mockResolvedValue({
         access: 'valid-access-token',
@@ -211,11 +246,10 @@ describe('aPI client interceptors', () => {
 
       mock.onGet('/protected').replyOnce(401);
       axiosMock.onPost(`${Env.EXPO_PUBLIC_API_URL}/auth/refresh`).replyOnce(401);
+      mockSignOut.mockRejectedValueOnce(new Error('Unable to update auth state'));
 
       await expect(client.get('/protected')).rejects.toThrow();
-
-      // Even if signOut fails, the request should still be rejected
-      // The implementation has a fallback to removeToken
+      expect(mockRemoveToken).toHaveBeenCalledTimes(1);
     });
   });
 });

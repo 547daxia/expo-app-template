@@ -12,6 +12,12 @@ const TEMPLATE_ONLY_PATHS = [
   'cli',
 ];
 
+const E2E_WORKFLOW_PATHS = [
+  '.github/workflows/e2e-android.yml',
+  '.github/workflows/e2e-android-eas-build.yml',
+  '.github/workflows/e2e-android-maestro.yml',
+];
+
 function readRequiredFile(file) {
   if (!fs.existsSync(file)) {
     throw new Error(`The template is missing ${file}.`);
@@ -57,6 +63,25 @@ function updateProjectConfig(targetDirectory, identity) {
     'EXPO_SLUG=mobile-app',
     `EXPO_SLUG=${identity.slug}`,
   );
+
+  for (const relativePath of E2E_WORKFLOW_PATHS) {
+    const workflowPath = path.join(targetDirectory, relativePath);
+    if (!fs.existsSync(workflowPath)) {
+      continue;
+    }
+
+    const source = readRequiredFile(workflowPath);
+    if (!source.includes('com.example.mobileapp.preview')) {
+      throw new Error(`The template E2E workflow is missing its APP_ID placeholder: ${relativePath}`);
+    }
+    fs.writeFileSync(
+      workflowPath,
+      source.replaceAll(
+        'com.example.mobileapp.preview',
+        `${identity.applicationIdBase}.preview`,
+      ),
+    );
+  }
 }
 
 function replaceRequiredText(file, search, replacement) {

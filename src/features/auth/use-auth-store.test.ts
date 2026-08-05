@@ -24,6 +24,7 @@ describe('authentication store', () => {
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     jest.restoreAllMocks();
   });
 
@@ -49,14 +50,16 @@ describe('authentication store', () => {
 
   it('times out after 10 seconds if token retrieval is slow', async () => {
     const consoleWarn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    // Simulate slow getToken that never resolves
+    jest.useFakeTimers();
     mockGetToken.mockImplementation(() => new Promise(() => {}));
 
-    await hydrateAuth();
+    const hydration = hydrateAuth();
+    await jest.advanceTimersByTimeAsync(10_000);
+    await hydration;
 
     expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
     expect(consoleWarn).toHaveBeenCalledWith('Token hydration timed out after', 10_000, 'ms');
-  }, 15000);
+  });
 
   it('updates signed-in state only after the token is stored', async () => {
     const token = { access: 'access-token', refresh: 'refresh-token' };

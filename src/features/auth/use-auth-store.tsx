@@ -27,8 +27,8 @@ const _useAuthStore = create<AuthState>(set => ({
     set({ status: 'signOut', token: null });
   },
   hydrate: async () => {
-    const HYDRATE_TIMEOUT = 10_000; // Increased to 10s for slow devices
-    let timeoutId: NodeJS.Timeout | null = null;
+    const HYDRATE_TIMEOUT = 10_000;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
     try {
       const tokenPromise = getToken();

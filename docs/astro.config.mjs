@@ -1,14 +1,49 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightLlmsTxt from 'starlight-llms-txt';
 
 const site = process.env.PUBLIC_DOCUMENTATION_SITE ?? 'http://localhost:4321/';
+const rootManifest = JSON.parse(readFileSync(
+  fileURLToPath(new URL('../package.json', import.meta.url)),
+  'utf8',
+));
+const repositoryValue = rootManifest.repository?.url ?? rootManifest.repository;
 const repository = process.env.PUBLIC_DOCUMENTATION_REPOSITORY
-  ?? 'https://github.com/547daxia/expo-app-template';
+  ?? (typeof repositoryValue === 'string'
+    ? repositoryValue.replace(/^git\+/, '').replace(/\.git$/, '')
+    : undefined);
 
-// https://astro.build/config
 export default defineConfig({
   site,
+  redirects: {
+    '/project-documentation/': '/documentation/',
+    '/getting-started/create-new-app/': '/getting-started/project-creation/',
+    '/getting-started/customize-app/': '/getting-started/configuration/',
+    '/getting-started/environment-vars-config/': '/getting-started/configuration/',
+    '/getting-started/first-project-setup/': '/getting-started/configuration/',
+    '/getting-started/project-structure/': '/core/architecture/',
+    '/getting-started/rules-and-conventions/': '/getting-started/development/',
+    '/guides/authentication/': '/core/authentication/',
+    '/guides/data-fetching/': '/core/data-fetching/',
+    '/guides/native-modules/': '/platform/native-modules/',
+    '/guides/navigation/': '/core/navigation/',
+    '/guides/storage/': '/core/storage/',
+    '/guides/upgrading-deps/': '/quality/dependency-upgrades/',
+    '/testing/end-to-end-testing/': '/quality/testing/',
+    '/testing/overview/': '/quality/testing/',
+    '/testing/unit-testing/': '/quality/testing/',
+    '/ui-and-theme/components/': '/ui/components/',
+    '/ui-and-theme/forms/': '/ui/forms/',
+    '/ui-and-theme/fonts/': '/ui/fonts/',
+    '/ui-and-theme/ui-theming/': '/ui/',
+    '/ci-cd/app-releasing-process/': '/operations/release/',
+    '/ci-cd/overview/': '/operations/release/',
+    '/ci-cd/workflows-references/': '/operations/release/',
+    '/how-to-contribute/': '/contributing/',
+    '/reviews/': '/contributing/',
+  },
   integrations: [
     starlight({
       title: 'Expo App Template Documentation',
@@ -22,86 +57,60 @@ export default defineConfig({
         dark: '/src/assets/logo-titled.svg',
         replacesTitle: true,
       },
-      components: {
-        LastUpdated: './src/components/LastUpdated.astro',
-      },
-      social: [
-        { icon: 'github', label: 'GitHub', href: repository },
-      ],
-      head: [
-        {
-          tag: 'meta',
-          attrs: { property: 'og:image', content: site + 'og.jpg?v=1' },
-        },
-        {
-          tag: 'meta',
-          attrs: { property: 'twitter:image', content: site + 'og.jpg?v=1' },
-        },
-        {
-          tag: 'link',
-          attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        },
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'preconnect',
-            href: 'https://fonts.gstatic.com',
-            crossorigin: true,
-          },
-        },
-        {
-          tag: 'link',
-          attrs: {
-            rel: 'stylesheet',
-            href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap',
-          },
-        },
-      ],
+      social: repository
+        ? [{ icon: 'github', label: 'GitHub', href: repository }]
+        : [],
       sidebar: [
+        { label: 'Documentation Map', link: '/documentation/' },
         {
-          label: 'Project Documentation',
-          link: '/project-documentation/',
-        },
-        {
-          label: 'Overview',
-          link: '/overview',
-        },
-        {
-          label: 'Recipes',
+          label: 'Getting Started',
           items: [
-            // Each item here is one entry in the navigation menu.
-            {
-              label: 'Sentry Setup',
-              link: '/recipes/sentry-setup/',
-              badge: 'new',
-            },
+            { label: 'Project Creation', link: '/getting-started/project-creation/' },
+            { label: 'Configuration and Environments', link: '/getting-started/configuration/' },
+            { label: 'Development Workflow', link: '/getting-started/development/' },
           ],
         },
         {
-          label: 'Libraries Recommendation',
-          link: '/libraries-recommendation',
+          label: 'Core Application',
+          items: [
+            { label: 'Architecture', link: '/core/architecture/' },
+            { label: 'Authentication', link: '/core/authentication/' },
+            { label: 'Navigation', link: '/core/navigation/' },
+            { label: 'Data Fetching', link: '/core/data-fetching/' },
+            { label: 'Storage', link: '/core/storage/' },
+          ],
         },
         {
-          label: 'FAQ',
-          link: '/faq',
-          badge: 'new',
+          label: 'UI and Platform',
+          items: [
+            { label: 'UI and Theming', link: '/ui/' },
+            { label: 'UI Components', link: '/ui/components/' },
+            { label: 'Gluestack UI Maintenance', link: '/ui/gluestack-ui-maintenance/' },
+            { label: 'Forms', link: '/ui/forms/' },
+            { label: 'Fonts', link: '/ui/fonts/' },
+            { label: 'Local Native Modules', link: '/platform/native-modules/' },
+          ],
         },
         {
-          label: 'CHANGELOG',
-          link: '/changelog',
+          label: 'Quality and Operations',
+          items: [
+            { label: 'Testing', link: '/quality/testing/' },
+            { label: 'Dependency Upgrades', link: '/quality/dependency-upgrades/' },
+            { label: 'Release and CI/CD', link: '/operations/release/' },
+            { label: 'Production Readiness', link: '/operations/production-readiness/' },
+          ],
         },
         {
-          label: 'How to contribute ?',
-          link: '/how-to-contribute',
-        },
-        {
-          label: 'Reviews',
-          link: '/reviews',
-          badge: 'new',
-        },
-        {
-          label: 'Stay Updated',
-          link: '/stay-updated',
+          label: 'More',
+          items: [
+            { label: 'Sentry Setup', link: '/recipes/sentry/' },
+            { label: 'Contributing', link: '/contributing/' },
+            { label: 'Overview', link: '/overview/' },
+            { label: 'FAQ', link: '/faq/' },
+            { label: 'Optional Libraries', link: '/libraries-recommendation/' },
+            { label: 'Changelog', link: '/changelog/' },
+            { label: 'Update Sources', link: '/stay-updated/' },
+          ],
         },
       ],
       customCss: ['./src/styles/custom.css'],
@@ -111,7 +120,6 @@ export default defineConfig({
   image: {
     service: passthroughImageService(),
   },
-  // Prevent Vite from externalizing zod, which conflicts with the root project's zod@4
   vite: {
     ssr: {
       noExternal: ['zod'],

@@ -32,5 +32,8 @@ jobs:
       - name: Install documentation dependencies
         run: pnpm --dir docs install --frozen-lockfile
 
+      - name: Validate canonical documentation links
+        run: pnpm docs:check
+
       - name: Build documentation site
         run: pnpm --dir docs build

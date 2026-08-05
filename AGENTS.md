@@ -1,119 +1,57 @@
-> Originally based on the [Obytes React Native Template](https://github.com/obytes/react-native-template-obytes), this repository is independently maintained as Expo App Template.
+# Repository Instructions
 
-## What: Technology Stack
+This repository is an Expo SDK 56, React Native 0.85, React 19, TypeScript, and
+Expo Router template. The canonical human and AI-readable operational guidance
+is [documentation/README.md](./documentation/README.md). Read the linked topic
+before changing configuration, generated UI, native modules, testing, or release
+automation.
 
-- **Expo SDK 56** with React Native 0.85.3 and React 19.2 - Managed React Native development
-- **TypeScript** - Strict type safety throughout
-- **Expo Router 56** - File-based routing (like Next.js)
-- **TailwindCSS** via Uniwind - Utility-first styling for React Native
-- **Gluestack UI** - Replaceable generated primitives under `src/components/ui/`
-- **Zustand** - Lightweight global state management
-- **React Query** - Server state and data fetching
-- **FlashList** - Required for project-owned scrollable data lists
-- **TanStack Form + Zod** - Type-safe form handling and validation
-- **MMKV** - High-performance local key-value storage for non-sensitive app data
-- **Expo SecureStore** - Native encrypted-at-rest credential storage
-- **Jest + React Testing Library** - Unit testing
+## Non-negotiable boundaries
 
-## What: Project Structure
+- Keep routes in `src/app/` thin; feature logic belongs in `src/features/`.
+- Use `@/` imports across boundaries. Relative imports are allowed inside a
+  feature or sibling component folder.
+- Use TanStack Form with Zod for forms, React Query for server state, Zustand
+  for global client state, FlashList for project-owned scrollable data, and MMKV
+  only for non-sensitive data.
+- Store native authentication tokens through
+  `src/lib/auth/token-storage.ts` and Expo SecureStore. Never persist
+  credentials in MMKV, localStorage, or IndexedDB.
+- `src/components/ui/` is replaceable Gluestack-generated source. Do not edit
+  it, add helpers/tests there, create a barrel, or recreate `legacy-ui`.
+  Reusable behavior belongs in `src/components/`; feature-only UI belongs in the
+  owning feature. Follow
+  [Gluestack UI Maintenance](./documentation/ui/gluestack-ui-maintenance.md).
+- Keep the Style Demo inventory synchronized with every top-level generated UI
+  group. Generated UI and the Style Demo are the only FlatList exceptions.
+- Prefer an existing Expo package before creating a local module under
+  `modules/`. Do not commit generated root `ios/` or `android/` projects.
+- Use `pnpm exec expo install` for Expo-managed, React Native, and native
+  runtime dependencies. Keep `react-native-worklets` with Reanimated and retain
+  the reviewed `pnpm.overrides` entries.
+- Treat `EXPO_PUBLIC_*` values as client-visible. Production configuration
+  validates name, bundle/package identifiers, HTTPS API, and demo hosts; EAS
+  owner, slug, and project ID remain required setup steps in
+  [Configuration](./documentation/getting-started/configuration.md).
 
-```
-src/
-├── app/              # Expo Router file-based routes (add new routes here)
-├── features/         # Feature modules - auth, feed, settings are EXAMPLES
-├── components/       # Shared project-owned wrappers and compound components
-│   └── ui/           # Replaceable Gluestack-generated primitives
-├── lib/              # Pre-configured utilities (api, auth, storage)
-└── global.css        # TailwindCSS configuration
+## Required checks
 
-modules/              # Project-local Expo native modules and TypeScript facades
-
-Root Files:
-├── env.ts           # Environment config (CUSTOMIZE bundle IDs, API URLs)
-├── app.config.ts    # Expo configuration
-├── documentation/  # Canonical operational documentation
-└── README.md        # Repository overview and quick start
-```
-
-## How: Development Workflow
-
-**Essential Commands:**
 ```bash
-pnpm start              # Start dev server
-pnpm ios                # Run an iOS development build
-pnpm android            # Run an Android development build
-pnpm lint               # ESLint check
-pnpm type-check         # TypeScript validation
-pnpm test               # Run Jest tests
-pnpm check-all          # All quality checks
+pnpm lint
+pnpm type-check
+pnpm test
+pnpm check-all
 ```
 
-**Environment-Specific:**
-```bash
-pnpm start:preview              # Preview environment
-pnpm ios:production             # Production iOS
-pnpm build:production:ios       # EAS production build
-```
+After dependency changes, also run `pnpm exec expo install --check`, `pnpm doctor`,
+and relevant native verification. For documentation changes, run `pnpm docs:check`;
+run `pnpm --dir docs install && pnpm docs:build` when changing the Starlight
+presentation or canonical-document rendering.
 
-**Expo dependency changes:**
-```bash
-pnpm exec expo install <package> # Install or align Expo-managed packages
-pnpm exec expo install --check   # Verify Expo package compatibility
-pnpm doctor                      # Run Expo diagnostics
-```
+## Project-specific guides
 
-Use `pnpm exec expo install` rather than `pnpm add` for Expo, React Native, and native runtime dependencies. After dependency changes, run `pnpm check-all`; also run the Expo checks above when an Expo-managed package changes.
-
-## How: Key Patterns
-
-- **Create features**: New folder in `src/features/[your-feature]/` with screens, components, API hooks
-- **Add routes**: Create files in `src/app/` (file-based routing)
-- **Forms**: Use TanStack Form + Zod (see `documentation/forms.md`)
-- **Data fetching**: Use React Query (see `src/features/feed/api.ts`)
-- **Data lists**: Use `FlashList` from `@shopify/flash-list` in project-owned code; do not import `FlatList` from React Native or `src/components/ui/flat-list`. Generated UI and the Style Demo are maintenance exceptions.
-- **Global state**: Use Zustand (see `src/features/auth/use-auth-store.tsx`)
-- **Styling**: Uniwind/Tailwind classes (see `src/components/ui/button/index.tsx`)
-- **UI catalog**: Keep `src/features/style-demo/` synchronized with every top-level `src/components/ui/` directory and demonstrate reusable project components as appropriate
-- **Generated UI**: Do not manually edit or add project files under `src/components/ui/`; put reusable customization in `src/components/` and feature-only UI in its feature
-- **Custom UI tests**: Test project-owned behavior outside the generated directory; Gluestack CLI-generated source is excluded from coverage
-- **Storage**: Use MMKV via `src/lib/storage.tsx` for non-sensitive app data. Native authentication tokens use `src/lib/auth/token-storage.ts` and Expo SecureStore; Web does not persist bearer tokens.
-- **Imports**: Use `@/` for cross-feature or shared-module imports; relative imports are allowed within a feature or sibling component folder
-- **Native modules**: Use the official Expo local-module scaffold under `modules/`; keep native projects generated by CNG out of Git
-
-## How: Ownership and Configuration
-
-- Before the first EAS build, configure `EXPO_ACCOUNT_OWNER`, `EXPO_SLUG`, and `EAS_PROJECT_ID` in `.env` or the matching EAS environment; also replace bundle identifiers, Android package names, schemes, and `package.json` repository URL.
-- Start local configuration with `cp .env.example .env`. Never commit `.env`.
-- Production configuration always fails closed and requires project-owned identifiers plus an HTTPS API endpoint; do not bypass this validation in custom build or export commands.
-- `EXPO_PUBLIC_*` variables are bundled into the application. Never store credentials, tokens, or other secrets in them; use non-public build-time variables only from `app.config.ts`.
-- Follow [First Project Setup](docs/src/content/docs/getting-started/first-project-setup.mdx) before publishing or enabling EAS services.
-
-## How: Dependency and Runtime Safety
-
-- Keep `react-native-worklets` installed with Reanimated on Expo SDK 56.
-- Keep `@isaacs/brace-expansion` until Expo's Metro dependency tree no longer needs the explicit pnpm resolution.
-- Do not remove `pnpm.overrides` without confirming the parent dependency has a safe patched release.
-- Expo Router is the navigation integration. Prefer its APIs over direct `@react-navigation/*` imports unless a compatibility requirement is documented.
-
-## How: Essential Rules
-
-- ✅ **DO** use absolute imports: `@/components/ui/button`
-- ✅ **DO** import UI components from their own directories; there is no shared UI barrel
-- ✅ **DO** treat `src/components/ui/` as replaceable generated source and keep installed groups represented in the Style Demo
-- ✅ **DO** put reusable wrappers, compositions, and forks under `src/components/`
-- ❌ **DO NOT** manually modify generated UI or place project tests/helpers in `src/components/ui/`
-- ✅ **DO** follow feature-based structure: `src/features/[name]/`
-- ✅ **DO** use TanStack Form for forms (not react-hook-form)
-- ✅ **DO** use MMKV for non-sensitive app data
-- ❌ **DO NOT** persist credentials or tokens in MMKV, localStorage, or IndexedDB
-- ✅ **DO** use EAS Build for production: `pnpm build:production:ios`
-- ✅ **DO** use the current environment profile (`development`, `preview`, or `production`) in scripts and EAS builds
-- ✅ **DO** use `EXPO_PUBLIC_*` only for non-sensitive values required by app code
-- ❌ **DO NOT** commit generated `android/` or `ios/` projects; this template uses CNG and config plugins
-- ✅ **DO** rebuild the development client after changing native module registration, Kotlin, Swift, Gradle, or podspec files
-- ❌ **DO NOT** change the Expo account or EAS project identifiers without completing the ownership checklist
-- ❌ **DO NOT** recreate `src/components/legacy-ui/` or reintroduce the retired `Chat`, `ChatMessages`, and `useChat` APIs
-
-Follow `documentation/gluestack-ui-maintenance.md` before adding, regenerating,
-or upgrading Gluestack components. Existing customizations inside
-`src/components/ui/` are transitional exceptions and must not be extended.
+- [Architecture](./documentation/core/architecture.md)
+- [Development workflow](./documentation/getting-started/development.md)
+- [Testing](./documentation/quality/testing.md)
+- [Release and CI/CD](./documentation/operations/release.md)
+- [Production readiness](./documentation/operations/production-readiness.md)

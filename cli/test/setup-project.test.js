@@ -13,7 +13,7 @@ test('prepares a generated project while preserving its license and operations d
 
   const projectDirectory = path.join(temporaryRoot, 'customer-portal');
   fs.mkdirSync(projectDirectory);
-  for (const directory of ['.git', 'android', 'cli', 'docs', 'documentation', 'ios', 'modules']) {
+  for (const directory of ['.git', 'android', 'cli', 'docs', 'documentation', 'ios', 'modules', '.github', '.github/workflows']) {
     fs.mkdirSync(path.join(projectDirectory, directory));
   }
   fs.writeFileSync(
@@ -27,6 +27,10 @@ test('prepares a generated project while preserving its license and operations d
   fs.writeFileSync(path.join(projectDirectory, 'LICENSE'), 'MIT');
   fs.writeFileSync(path.join(projectDirectory, 'README.md'), 'Template readme');
   fs.writeFileSync(path.join(projectDirectory, 'README-project.md'), 'Project readme');
+  fs.writeFileSync(
+    path.join(projectDirectory, '.github/workflows/e2e-android.yml'),
+    'APP_ID=com.example.mobileapp.preview\n',
+  );
   fs.writeFileSync(
     path.join(projectDirectory, 'env.ts'),
     fs.readFileSync(path.resolve(__dirname, '../../env.ts')),
@@ -78,5 +82,9 @@ test('prepares a generated project while preserving its license and operations d
   assert.match(
     fs.readFileSync(path.join(projectDirectory, 'app.config.ts'), 'utf8'),
     /EXPO_SLUG \?\? 'customer-portal'/,
+  );
+  assert.equal(
+    fs.readFileSync(path.join(projectDirectory, '.github/workflows/e2e-android.yml'), 'utf8'),
+    'APP_ID=com.customerportal.preview\n',
   );
 });

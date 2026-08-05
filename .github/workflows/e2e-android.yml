@@ -1,6 +1,6 @@
 # 🔗 Links:
 # Source file: https://github.com/547daxia/expo-app-template/blob/master/.github/workflows/e2e-android.yml
-# End-to-end testing: https://starter.obytes.com/testing/end-to-end-testing/
+# Related documentation: documentation/quality/testing.md
 
 # ✍️ Description:
 # This workflow is used to run end-to-end tests on Android using Maestro.

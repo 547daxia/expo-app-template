@@ -44,8 +44,8 @@ function showMoreDetails(project) {
   console.log('  cp .env.example .env');
   console.log('  pnpm start');
   console.log('\nBefore EAS or production builds, follow:');
-  console.log('  documentation/configuration.md');
-  console.log('  documentation/production-readiness.md');
+  console.log('  documentation/getting-started/configuration.md');
+  console.log('  documentation/operations/production-readiness.md');
 }
 
 module.exports = {

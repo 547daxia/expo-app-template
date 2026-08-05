@@ -25,19 +25,30 @@ export function setTokenCache(token: TokenType | null) {
 }
 
 async function getTokenWithTimeout(timeoutMs = 5_000): Promise<TokenType | null> {
-  const tokenPromise = tokenCache !== null ? Promise.resolve(tokenCache) : getToken();
-  const timeoutPromise = new Promise<null>((resolve) => {
-    setTimeout(resolve, timeoutMs, null);
-  });
-
-  const result = await Promise.race([tokenPromise, timeoutPromise]);
-
-  // Cache the result for future requests
-  if (result !== null && tokenCache === null) {
-    tokenCache = result;
+  if (tokenCache !== null) {
+    return tokenCache;
   }
 
-  return result;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<null>((resolve) => {
+    timeoutId = setTimeout(resolve, timeoutMs, null);
+  });
+
+  try {
+    const result = await Promise.race([getToken(), timeoutPromise]);
+
+    // Cache the result for future requests.
+    if (result !== null) {
+      tokenCache = result;
+    }
+
+    return result;
+  }
+  finally {
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
+  }
 }
 
 // --- Request interceptor: inject access token ---
@@ -58,6 +69,8 @@ type FailedRequest = {
   config: InternalAxiosRequestConfig;
 };
 
+type RetriableRequest = InternalAxiosRequestConfig & { __isRetry?: boolean };
+
 let isRefreshing = false;
 let failedQueue: FailedRequest[] = [];
 
@@ -77,23 +90,26 @@ function processQueue(error: unknown, newAccessToken: string | null) {
 client.interceptors.response.use(
   response => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as RetriableRequest | undefined;
     if (!originalRequest || error.response?.status !== 401) {
       return Promise.reject(error);
     }
 
     // Prevent infinite loops on refresh endpoint itself
-    if ((originalRequest as any).__isRetry) {
+    if (originalRequest.__isRetry) {
       return Promise.reject(error);
     }
 
     if (isRefreshing) {
+      // A queued request has already received a 401. Mark it now so a retry
+      // that also receives a 401 cannot start a second refresh cycle.
+      originalRequest.__isRetry = true;
       return new Promise<InternalAxiosRequestConfig>((resolve, reject) => {
         failedQueue.push({ resolve, reject, config: originalRequest });
       }).then(config => client(config));
     }
 
-    (originalRequest as any).__isRetry = true;
+    originalRequest.__isRetry = true;
     isRefreshing = true;
 
     try {
@@ -130,7 +146,12 @@ client.interceptors.response.use(
         await signOut();
       }
       catch {
-        await removeToken();
+        try {
+          await removeToken();
+        }
+        catch {
+          // Preserve the refresh error when secure storage is unavailable.
+        }
       }
       return Promise.reject(refreshError);
     }
