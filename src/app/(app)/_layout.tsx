@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { Pressable } from '@/components/ui/pressable';
 import { Text } from '@/components/ui/text';
-import { useAuthStore as useAuth } from '@/features/auth/use-auth-store';
+import { useAuthStore as useAuth } from '@/lib/auth/session-store';
 import { useIsFirstTime } from '@/lib/hooks/use-is-first-time';
 
 export default function TabLayout() {

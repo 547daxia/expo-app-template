@@ -1,20 +1,13 @@
-import { clearTokenCache } from '@/lib/api/client';
-import { getToken, removeToken, setToken } from '@/lib/auth/utils';
-import { hydrateAuth, signIn, signOut, useAuthStore } from './use-auth-store';
+import { hydrateAuth, signIn, signOut, useAuthStore } from './session-store';
+import { getToken, removeToken, setToken } from './utils';
 
-jest.mock('@/lib/auth/utils');
-jest.mock('@/lib/api/client', () => ({
-  ...jest.requireActual('@/lib/api/client'),
-  clearTokenCache: jest.fn(),
-  setTokenCache: jest.fn(),
-}));
+jest.mock('./utils');
 
 const mockGetToken = jest.mocked(getToken);
 const mockRemoveToken = jest.mocked(removeToken);
 const mockSetToken = jest.mocked(setToken);
-const mockClearTokenCache = jest.mocked(clearTokenCache);
 
-describe('authentication store', () => {
+describe('session store', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     useAuthStore.setState({ status: 'idle', token: null });
@@ -70,7 +63,20 @@ describe('authentication store', () => {
     expect(useAuthStore.getState()).toMatchObject({ status: 'signIn', token });
   });
 
-  it('clears token cache when signing out', async () => {
+  it('persists a refreshed token and keeps the session signed in', async () => {
+    const rotated = { access: 'new-access-token', refresh: 'new-refresh-token' };
+    useAuthStore.setState({
+      status: 'signIn',
+      token: { access: 'old-access-token', refresh: 'old-refresh-token' },
+    });
+
+    await useAuthStore.getState().refreshToken(rotated);
+
+    expect(mockSetToken).toHaveBeenCalledWith(rotated);
+    expect(useAuthStore.getState()).toMatchObject({ status: 'signIn', token: rotated });
+  });
+
+  it('clears the session when signing out', async () => {
     useAuthStore.setState({
       status: 'signIn',
       token: { access: 'access-token', refresh: 'refresh-token' },
@@ -79,7 +85,6 @@ describe('authentication store', () => {
     await signOut();
 
     expect(mockRemoveToken).toHaveBeenCalledTimes(1);
-    expect(mockClearTokenCache).toHaveBeenCalledTimes(1);
     expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
   });
 

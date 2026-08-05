@@ -1,30 +1,33 @@
-import type { TokenType } from '@/lib/auth/utils';
+import type { TokenType } from './utils';
 
 import { create } from 'zustand';
-import { clearTokenCache, setTokenCache } from '@/lib/api/client';
-import { getToken, removeToken, setToken } from '@/lib/auth/utils';
+
 import { createSelectors } from '@/lib/utils';
+import { getToken, removeToken, setToken } from './utils';
 
 type AuthState = {
   token: TokenType | null;
   status: 'idle' | 'signOut' | 'signIn';
   signIn: (data: TokenType) => Promise<void>;
   signOut: () => Promise<void>;
+  refreshToken: (data: TokenType) => Promise<void>;
   hydrate: () => Promise<void>;
 };
 
 const _useAuthStore = create<AuthState>(set => ({
-  status: 'idle',
   token: null,
+  status: 'idle',
   signIn: async (token) => {
     await setToken(token);
-    setTokenCache(token);
     set({ status: 'signIn', token });
   },
   signOut: async () => {
     await removeToken();
-    clearTokenCache();
     set({ status: 'signOut', token: null });
+  },
+  refreshToken: async (token) => {
+    await setToken(token);
+    set({ token });
   },
   hydrate: async () => {
     const HYDRATE_TIMEOUT = 10_000;
@@ -50,21 +53,17 @@ const _useAuthStore = create<AuthState>(set => ({
       }
       else {
         // Successfully retrieved token (or null if no token exists)
-        const userToken = result;
-        if (userToken !== null) {
-          setTokenCache(userToken);
-        }
-        set(userToken === null
+        set(result === null
           ? { status: 'signOut', token: null }
-          : { status: 'signIn', token: userToken });
+          : { status: 'signIn', token: result });
       }
     }
-    catch (e) {
+    catch (error) {
       // Clear timeout on error
       if (timeoutId !== null) {
         clearTimeout(timeoutId);
       }
-      console.error('Token hydration failed:', e);
+      console.error('Token hydration failed:', error);
       set({ status: 'signOut', token: null });
     }
   },
@@ -72,6 +71,6 @@ const _useAuthStore = create<AuthState>(set => ({
 
 export const useAuthStore = createSelectors(_useAuthStore);
 
-export const signOut = () => _useAuthStore.getState().signOut();
 export const signIn = (token: TokenType) => _useAuthStore.getState().signIn(token);
+export const signOut = () => _useAuthStore.getState().signOut();
 export const hydrateAuth = () => _useAuthStore.getState().hydrate();

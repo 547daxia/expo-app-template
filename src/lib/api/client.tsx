@@ -1,60 +1,34 @@
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-import type { TokenType } from '@/lib/auth/utils';
 import axios from 'axios';
 
 import Env from 'env';
-import { getToken, removeToken, setToken } from '@/lib/auth/utils';
+import { useAuthStore } from '@/lib/auth/session-store';
+import { removeToken } from '@/lib/auth/utils';
+
+// Axios defaults ---------------------------------------------------------------
+
+const DEFAULT_TIMEOUT_MS = 15_000;
+
+// Token-refresh endpoint. The template contract defaults to
+// `<API_URL>/auth/refresh`; a project can override it with
+// `EXPO_PUBLIC_AUTH_REFRESH_URL` without touching this code.
+const AUTH_REFRESH_URL = Env.EXPO_PUBLIC_AUTH_REFRESH_URL
+  ?? `${Env.EXPO_PUBLIC_API_URL}/auth/refresh`;
 
 export const client = axios.create({
   baseURL: Env.EXPO_PUBLIC_API_URL,
   headers: { Accept: 'application/json' },
-  timeout: 15_000,
+  timeout: DEFAULT_TIMEOUT_MS,
 });
 
-// --- Token cache to avoid repeated SecureStore reads ---
+// --- Request interceptor: inject the access token ---
+// The session store is the single source of truth for credentials. The root
+// layout hydrates it before any authenticated screen mounts, so a synchronous
+// read is sufficient here.
 
-let tokenCache: TokenType | null = null;
-
-export function clearTokenCache() {
-  tokenCache = null;
-}
-
-export function setTokenCache(token: TokenType | null) {
-  tokenCache = token;
-}
-
-async function getTokenWithTimeout(timeoutMs = 5_000): Promise<TokenType | null> {
-  if (tokenCache !== null) {
-    return tokenCache;
-  }
-
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-  const timeoutPromise = new Promise<null>((resolve) => {
-    timeoutId = setTimeout(resolve, timeoutMs, null);
-  });
-
-  try {
-    const result = await Promise.race([getToken(), timeoutPromise]);
-
-    // Cache the result for future requests.
-    if (result !== null) {
-      tokenCache = result;
-    }
-
-    return result;
-  }
-  finally {
-    if (timeoutId !== undefined) {
-      clearTimeout(timeoutId);
-    }
-  }
-}
-
-// --- Request interceptor: inject access token ---
-
-client.interceptors.request.use(async (config) => {
-  const token = await getTokenWithTimeout();
+client.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token.access}`;
   }
@@ -113,19 +87,21 @@ client.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const token = await getTokenWithTimeout();
+      const token = useAuthStore.getState().token;
       if (!token?.refresh) {
         throw new Error('No refresh token available');
       }
 
       const { data } = await axios.post<{ access: string; refresh: string }>(
-        `${Env.EXPO_PUBLIC_API_URL}/auth/refresh`,
+        AUTH_REFRESH_URL,
         { refresh: token.refresh },
       );
 
-      await setToken({ access: data.access, refresh: data.refresh });
-      // Update cache with new token
-      setTokenCache({ access: data.access, refresh: data.refresh });
+      // Persist the rotated pair and update the session in one step.
+      await useAuthStore.getState().refreshToken({
+        access: data.access,
+        refresh: data.refresh,
+      });
 
       if (originalRequest.headers) {
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
@@ -136,14 +112,12 @@ client.interceptors.response.use(
     }
     catch (refreshError) {
       processQueue(refreshError, null);
-      // Clear cache on refresh failure
-      clearTokenCache();
 
-      // signOut clears both secure storage and auth state. Guard it so a
-      // storage failure never masks the original refresh error we must reject.
+      // signOut removes persisted credentials and clears auth state. Guard it
+      // so a storage failure never masks the original refresh error we must
+      // reject.
       try {
-        const { signOut } = await import('@/features/auth/use-auth-store');
-        await signOut();
+        await useAuthStore.getState().signOut();
       }
       catch {
         try {

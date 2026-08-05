@@ -16,9 +16,9 @@ import { Heading } from '@/components/ui/heading';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { hydrateAuth, useAuthStore } from '@/features/auth/use-auth-store';
-
 import { APIProvider } from '@/lib/api';
+
+import { hydrateAuth, useAuthStore } from '@/lib/auth/session-store';
 import { loadSelectedTheme } from '@/lib/hooks/use-selected-theme';
 // Import  global CSS file
 import '../global.css';

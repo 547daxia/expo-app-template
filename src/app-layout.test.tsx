@@ -19,7 +19,7 @@ jest.mock('./global.css', () => ({}));
 jest.mock('@/components/ui/gluestack-ui-provider/theme', () => ({
   useThemeConfig: () => ({ dark: false }),
 }));
-jest.mock('@/features/auth/use-auth-store', () => ({
+jest.mock('@/lib/auth/session-store', () => ({
   hydrateAuth: jest.fn(),
   useAuthStore: { use: { status: () => 'signOut' } },
 }));

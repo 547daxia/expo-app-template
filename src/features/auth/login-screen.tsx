@@ -7,9 +7,9 @@ import { showMessage } from 'react-native-flash-message';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { StatusBar } from '@/components/ui/status-bar';
 import { View } from '@/components/ui/view';
+import { useAuthStore } from '@/lib/auth/session-store';
 import { navigate } from '@/lib/navigation';
 import { LoginForm } from './components/login-form';
-import { useAuthStore } from './use-auth-store';
 
 export function LoginScreen() {
   const signIn = useAuthStore.use.signIn();

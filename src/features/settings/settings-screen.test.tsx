@@ -17,7 +17,7 @@ jest.mock('react-native-flash-message', () => ({ showMessage: jest.fn() }));
 jest.mock('modules/expo-template-native', () => ({
   getNativeRuntimeInfo: () => ({ platform: 'ios', systemVersion: '16.4' }),
 }));
-jest.mock('@/features/auth/use-auth-store', () => ({
+jest.mock('@/lib/auth/session-store', () => ({
   useAuthStore: { use: { signOut: () => mockSignOut } },
 }));
 jest.mock('./components/theme-item', () => ({ ThemeItem: () => null }));

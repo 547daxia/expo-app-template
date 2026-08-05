@@ -15,7 +15,7 @@ jest.mock('react-native-flash-message', () => ({ showMessage: jest.fn() }));
 jest.mock('@/lib/navigation', () => ({
   navigate: { replace: jest.fn() },
 }));
-jest.mock('./use-auth-store', () => ({
+jest.mock('@/lib/auth/session-store', () => ({
   useAuthStore: { use: { signIn: () => mockSignIn } },
 }));
 

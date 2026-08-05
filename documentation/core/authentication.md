@@ -6,9 +6,13 @@ must supply its own authentication adapter and refresh contract.
 ## Current flow
 
 Authentication state is owned by
-[`src/features/auth/use-auth-store.tsx`](../../src/features/auth/use-auth-store.tsx).
-It exposes `idle`, `signOut`, and `signIn` states plus `signIn`, `signOut`, and
-`hydrate` actions.
+[`src/lib/auth/session-store.ts`](../../src/lib/auth/session-store.ts). The
+store is the single source of truth for the session: it exposes `idle`,
+`signOut`, and `signIn` statuses plus `signIn`, `signOut`, `refreshToken`, and
+`hydrate` actions. The HTTP client reads credentials from this same store, so
+there is no second token copy to keep in sync. Screens and layouts consume the
+store through `useAuthStore` selectors; feature code never imports the API
+client's internals.
 
 The root layout calls asynchronous hydration while retaining the native splash
 screen. Missing, malformed, unreadable, or slow tokens fail closed to signed-out
@@ -31,15 +35,18 @@ server-managed Secure and HttpOnly cookies for persistent browser sessions.
 ## Request interception
 
 [`src/lib/api/client.tsx`](../../src/lib/api/client.tsx) provides a reference
-interceptor that caches successfully read tokens, adds Bearer credentials, and
-performs one queued refresh cycle for concurrent 401 responses. It assumes the
-default `/auth/refresh` endpoint and `{ access, refresh }` response shape until
+interceptor that reads the access token from the session store, adds Bearer
+credentials, and performs one queued refresh cycle for concurrent 401
+responses. A successful refresh rotates the pair through the store's
+`refreshToken` action, which persists it and updates state in one step. It
+assumes the default `<API_URL>/auth/refresh` endpoint (overridable with
+`EXPO_PUBLIC_AUTH_REFRESH_URL`) and `{ access, refresh }` response shape until
 a project adapts it to its backend.
 
 On refresh failure, cleanup attempts to remove persisted credentials and enter
-signed-out state. If secure-storage deletion fails, the store deliberately
-preserves the visible session rather than reporting a logout that would reappear
-after restart.
+signed-out state. If secure-storage deletion fails, the client falls back to
+removing the token directly and the store deliberately preserves the visible
+session rather than reporting a logout that would reappear after restart.
 
 ## Replacing the demo
 

@@ -18,6 +18,9 @@ const envSchema = z.object({
   EXPO_PUBLIC_API_URL: z.string().url(),
   EXPO_PUBLIC_APP_URL: z.string().url().optional(),
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: z.string().url().optional(),
+  // Optional override for the token-refresh endpoint used by the API client.
+  // Defaults to `<EXPO_PUBLIC_API_URL>/auth/refresh` when omitted.
+  EXPO_PUBLIC_AUTH_REFRESH_URL: z.string().optional(),
   EXPO_PUBLIC_VAR_NUMBER: z.number(),
   EXPO_PUBLIC_VAR_BOOL: z.boolean(),
 
@@ -108,6 +111,7 @@ const _env: z.infer<typeof envSchema> = {
     ?? (STRICT_ENV_VALIDATION ? '' : DEVELOPMENT_API_URL),
   EXPO_PUBLIC_APP_URL: process.env.EXPO_PUBLIC_APP_URL,
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: process.env.EXPO_PUBLIC_ASSOCIATED_DOMAIN,
+  EXPO_PUBLIC_AUTH_REFRESH_URL: process.env.EXPO_PUBLIC_AUTH_REFRESH_URL,
   EXPO_PUBLIC_VAR_NUMBER: Number(process.env.EXPO_PUBLIC_VAR_NUMBER ?? 0),
   EXPO_PUBLIC_VAR_BOOL: process.env.EXPO_PUBLIC_VAR_BOOL === 'true',
   APP_BUILD_ONLY_VAR: process.env.APP_BUILD_ONLY_VAR,

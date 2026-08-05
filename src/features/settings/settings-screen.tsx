@@ -8,7 +8,7 @@ import { Heading } from '@/components/ui/heading';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
-import { useAuthStore } from '@/features/auth/use-auth-store';
+import { useAuthStore } from '@/lib/auth/session-store';
 import { SettingsContainer } from './components/settings-container';
 import { SettingsItem } from './components/settings-item';
 import { ThemeItem } from './components/theme-item';

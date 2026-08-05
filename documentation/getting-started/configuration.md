@@ -45,7 +45,9 @@ explicitly. Expo account ownership and project ID are intentionally commented
 until the repository is linked to its own EAS project. `EXPO_PUBLIC_APP_URL`
 optionally adds a Website and Share destination in Settings. The optional
 `EXPO_PUBLIC_ASSOCIATED_DOMAIN` value is validated but is not consumed by
-`app.config.ts` until a project adds associated-domain handling.
+`app.config.ts` until a project adds associated-domain handling. The optional
+`EXPO_PUBLIC_AUTH_REFRESH_URL` overrides the token-refresh endpoint; the API
+client defaults to `<EXPO_PUBLIC_API_URL>/auth/refresh` when it is omitted.
 
 If omitted, `env.ts` defaults the environment to `development`, the number to
 `0`, the boolean to `false`, and the feed endpoint to the public DummyJSON demo.
