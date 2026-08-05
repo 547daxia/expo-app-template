@@ -43,7 +43,8 @@ pnpm doctor
 ```
 
 `check-all` runs linting, TypeScript, Jest coverage, audits, Expo dependency
-alignment, and Expo Doctor. Documentation validation is separate:
+alignment, Expo Doctor, and documentation link validation. The
+documentation-site dependency install and build remain separate:
 
 ```bash
 pnpm docs:check

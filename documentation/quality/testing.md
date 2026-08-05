@@ -47,9 +47,9 @@ pnpm e2e-test:preview
 ```
 
 A matching development or preview build must be installed on the target
-device/emulator. The CLI rewrites both local Maestro scripts and the template's
-Android Maestro workflow `APP_ID` values. When changing identifiers manually,
-update both the package scripts and
+device/emulator. The CLI rewrites both the `e2e-test:*` package scripts and the
+template's Android Maestro workflow `APP_ID` values. When changing identifiers
+manually, update both the package scripts and
 [`.github/workflows/e2e-android*.yml`](../../.github/workflows/).
 
 The included hosted flows verify Android only. Maestro Cloud additionally needs
