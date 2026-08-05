@@ -8,6 +8,31 @@ import testingLibrary from 'eslint-plugin-testing-library';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Project-owned application code uses FlashList for scrollable data sets.
+// Generated Gluestack primitives and the Style Demo retain FlatList only as
+// upstream/catalog coverage, not as a business-code pattern.
+const flatListRestrictions = {
+  name: 'react-native',
+  importNames: ['FlatList'],
+  message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
+};
+
+const flatListUiRestriction = {
+  name: '@/components/ui/flat-list',
+  importNames: ['FlatList'],
+  message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
+};
+
+// Architectural boundaries: src/lib and src/components must never import
+// feature code, and features must never import other features. Cross-boundary
+// imports use the `@/` alias (relative imports stay inside one feature), so
+// banning `@/features/**` enforces both rules. Route files in src/app are the
+// only allowed composition point for feature code.
+const featuresRestriction = {
+  group: ['@/features/**'],
+  message: 'Feature code is not importable here. Move shared logic to src/lib or src/components.',
+};
+
 export default antfu(
   {
     // Enable React and TypeScript support
@@ -93,12 +118,21 @@ export default antfu(
     },
   },
 
-  // Project-owned application code uses FlashList for scrollable data sets.
-  // Generated Gluestack primitives and the Style Demo retain FlatList only as
-  // upstream/catalog coverage, not as a business-code pattern.
+  {
+    files: ['src/app/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [flatListRestrictions, flatListUiRestriction],
+        },
+      ],
+    },
+  },
+
+  // src/components, src/features, and src/lib may not import feature code.
   {
     files: [
-      'src/app/**/*.{ts,tsx}',
       'src/components/**/*.{ts,tsx}',
       'src/features/**/*.{ts,tsx}',
       'src/lib/**/*.{ts,tsx}',
@@ -111,18 +145,8 @@ export default antfu(
       'no-restricted-imports': [
         'error',
         {
-          paths: [
-            {
-              name: 'react-native',
-              importNames: ['FlatList'],
-              message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
-            },
-            {
-              name: '@/components/ui/flat-list',
-              importNames: ['FlatList'],
-              message: 'Use FlashList from @shopify/flash-list for project-owned data lists.',
-            },
-          ],
+          paths: [flatListRestrictions, flatListUiRestriction],
+          patterns: [featuresRestriction],
         },
       ],
     },

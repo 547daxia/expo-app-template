@@ -17,10 +17,10 @@ feature work, start with [Development Workflow](../getting-started/development.m
 | Path | Responsibility |
 | --- | --- |
 | `src/app/` | Expo Router layouts and thin route re-exports |
-| `src/features/` | Feature-owned screens, components, API hooks, and state |
+| `src/features/` | Feature-owned screens, components, and API hooks |
 | `src/components/ui/` | Replaceable Gluestack-generated primitives and provider code |
 | `src/components/` | Shared project-owned wrappers and compound components |
-| `src/lib/` | API infrastructure, storage, navigation, auth utilities, and global hooks |
+| `src/lib/` | API infrastructure, storage, navigation, auth utilities and session store, and global hooks |
 | `modules/` | Project-local Expo native modules and TypeScript facades |
 | `assets/` | App icon, splash, adaptive icon, and Web favicon |
 | `documentation/` | Canonical operational documentation |
@@ -40,6 +40,10 @@ Use relative imports inside one feature and `@/` imports across boundaries.
 Features may import an unmodified generated primitive directly. Reusable UI
 behavior belongs in `src/components/`; generated UI must not import project
 code. See [UI Components](../ui/components.md).
+
+ESLint enforces these boundaries: `src/lib` and `src/components` may not import
+`@/features/**`, and features may not import other features. Route files in
+`src/app/` are the only composition point allowed to import feature code.
 
 ## Root composition
 

@@ -2,7 +2,6 @@ import type { ComponentProps } from 'react';
 
 import { useForm } from '@tanstack/react-form';
 import { Stack } from 'expo-router';
-import { showMessage } from 'react-native-flash-message';
 import * as z from 'zod';
 
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
@@ -20,6 +19,7 @@ import { VStack } from '@/components/ui/vstack';
 import { queryClient } from '@/lib/api';
 import { getFieldError } from '@/lib/form-utils';
 import { navigate } from '@/lib/navigation';
+import { showErrorToast, showToast } from '@/lib/toast';
 import { useAddPost, usePosts } from './api';
 
 const postSchema = z.object({
@@ -60,16 +60,12 @@ export function AddPostScreen() {
         queryClient.setQueryData(usePosts.getKey(), (posts: Array<typeof createdPost> | undefined) => (
           [createdPost, ...(posts ?? [])]
         ));
-        showMessage({ message: 'Post added successfully', type: 'success' });
+        showToast('Post added successfully', 'success');
         form.reset();
         navigate.back();
       }
-      catch {
-        showMessage({
-          message: 'Unable to add post',
-          description: 'Check your connection and try again.',
-          type: 'danger',
-        });
+      catch (error) {
+        showErrorToast(error, 'Unable to add post. Check your connection and try again.');
       }
     },
   });
