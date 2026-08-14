@@ -3,8 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@env": ["env.ts"]
+      "@/*": ["./src/*"]
     },
     "types": ["jest", "node"],
     "checkJs": true,

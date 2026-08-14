@@ -9,7 +9,9 @@ contract are owned by [Authentication](./authentication.md).
 client, provider, and pagination helpers. The API base URL comes from
 `Env.EXPO_PUBLIC_API_URL`; requests time out after 15 seconds, queries remain
 fresh for 30 seconds and retry twice, and mutations do not retry automatically.
-`APIProvider` is mounted by the root layout.
+`APIProvider` is mounted by the root layout. Native connectivity is bridged from
+NetInfo into TanStack Query's `onlineManager`; Web retains TanStack's browser
+online/offline listeners.
 
 Development defaults to DummyJSON so the Feed example works after initial
 setup. Production configuration rejects that endpoint and requires a
@@ -67,8 +69,8 @@ defaults and may override them per hook:
 | `staleTime` | 30 s | Keep lists fresh without refetching on every mount. |
 | `gcTime` | 5 min | Back-navigation reuses cached data instead of refetching. |
 | `refetchOnWindowFocus` | false | RN AppState changes are noisy; do not refetch on focus. |
-| `refetchOnReconnect` | true | Recover automatically when connectivity returns. |
-| `timeout` (axios) | 15 s | The API client aborts stalled requests. |
+| `refetchOnReconnect` | true | Recover automatically when NetInfo or the browser reports connectivity. |
+| `timeout` (axios) | 15 s | Normal and token-refresh requests abort when stalled. |
 
 Per-hook overrides belong next to the hook that needs them, e.g.
 `{ staleTime: 60_000 }` passed to `createQuery`.

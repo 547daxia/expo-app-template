@@ -95,6 +95,7 @@ client.interceptors.response.use(
       const { data } = await axios.post<{ access: string; refresh: string }>(
         AUTH_REFRESH_URL,
         { refresh: token.refresh },
+        { timeout: DEFAULT_TIMEOUT_MS },
       );
 
       // Persist the rotated pair and update the session in one step.

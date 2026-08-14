@@ -14,16 +14,20 @@ src/app/
 ├── +not-found.tsx           # unmatched-route fallback
 ├── onboarding.tsx           # first-use flow
 ├── login.tsx                # authentication flow
-├── (app)/_layout.tsx        # guarded tabs
-├── (app)/index.tsx          # feed
-├── (app)/style.tsx          # style demo
-├── (app)/settings.tsx       # settings
-├── feed/[id].tsx            # post detail
-└── feed/add-post.tsx        # create post
+└── (app)/                   # guarded application group
+    ├── _layout.tsx          # auth/first-use guard and Stack
+    ├── (tabs)/_layout.tsx   # tab navigator
+    ├── (tabs)/index.tsx     # feed
+    ├── (tabs)/style.tsx     # style demo
+    ├── (tabs)/settings.tsx  # settings
+    ├── feed/[id].tsx        # guarded post detail
+    └── feed/add-post.tsx    # guarded post creation
 ```
 
 Routes should re-export screens from `src/features/` so navigation
 configuration stays separate from feature logic.
+Route groups do not affect public URLs, so Feed remains `/`, and detail/create
+remain `/feed/[id]` and `/feed/add-post`.
 
 ## Navigation APIs
 

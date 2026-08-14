@@ -1,13 +1,13 @@
-import { Ionicons } from '@expo/vector-icons';
-import { Link, Redirect, Tabs } from 'expo-router';
-import * as React from 'react';
-
-import { Pressable } from '@/components/ui/pressable';
-import { Text } from '@/components/ui/text';
+import { Redirect, Stack } from 'expo-router';
 import { useAuthStore as useAuth } from '@/lib/auth/session-store';
 import { useIsFirstTime } from '@/lib/hooks/use-is-first-time';
 
-export default function TabLayout() {
+// eslint-disable-next-line react-refresh/only-export-components
+export const unstable_settings = {
+  initialRouteName: '(tabs)',
+};
+
+export default function AppLayout() {
   const status = useAuth.use.status();
   const [isFirstTime] = useIsFirstTime();
 
@@ -20,52 +20,10 @@ export default function TabLayout() {
   if (status === 'signOut') {
     return <Redirect href="/login" />;
   }
-  return (
-    <Tabs>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Feed',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="newspaper-outline" color={color} size={size} />
-          ),
-          headerRight: () => <CreateNewPostLink />,
-          tabBarButtonTestID: 'feed-tab',
-        }}
-      />
 
-      <Tabs.Screen
-        name="style"
-        options={{
-          title: 'Style',
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="color-palette-outline" color={color} size={size} />
-          ),
-          tabBarButtonTestID: 'style-tab',
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: 'Settings',
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-outline" color={color} size={size} />
-          ),
-          tabBarButtonTestID: 'settings-tab',
-        }}
-      />
-    </Tabs>
-  );
-}
-
-function CreateNewPostLink() {
   return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
-      </Pressable>
-    </Link>
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }

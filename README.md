@@ -16,6 +16,10 @@ cp .env.example .env
 pnpm start
 ```
 
+Use `pnpm web` for a browser-only start. Native development requires a
+development build created with `pnpm ios` or `pnpm android`; Expo Go cannot load
+the included local native module.
+
 You can also use GitHub's template action or clone this repository directly.
 Those routes retain template identity until you complete
 [Configuration and Environments](./documentation/getting-started/configuration.md).

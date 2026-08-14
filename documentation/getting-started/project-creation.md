@@ -37,7 +37,8 @@ identity constants in `env.ts`, the slug defaults, the `e2e-test:*` package
 scripts, and the Android Maestro workflow `APP_ID` values. It initializes a
 fresh `main` repository and installs dependencies. The generated project
 retains this canonical documentation, the documentation-site presentation
-layer, workflows, and local module example.
+layer, identity-independent Maestro selectors, workflows, and local module
+example.
 
 The generated identity is not proof of organizational ownership. The CLI does
 not invent an Expo owner, EAS project ID, production API, authentication backend,

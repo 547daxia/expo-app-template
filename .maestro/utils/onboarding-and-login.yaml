@@ -4,7 +4,8 @@ tags:
 ---
 - runFlow:
     when:
-      visible: Expo App Template
+      visible:
+        id: onboarding-title
     file: onboarding.yaml
 - runFlow:
     when:

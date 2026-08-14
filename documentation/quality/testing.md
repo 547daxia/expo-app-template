@@ -38,7 +38,10 @@ release check, not part of `pnpm check-all`.
 ## End-to-end tests
 
 Maestro flows under [`.maestro/`](../../.maestro/) cover onboarding, login
-validation, tabs, and post creation.
+validation, tabs, and post creation. Identity-dependent screens use stable
+`testID` selectors, so CLI-generated application names and Style Demo inventory
+changes do not invalidate the flows. A Jest contract test rejects reintroduced
+template-name or hard-coded component-count selectors.
 
 ```bash
 pnpm install-maestro

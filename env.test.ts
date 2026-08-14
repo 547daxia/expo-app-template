@@ -35,4 +35,34 @@ describe('environment validation', () => {
       'Production builds require an HTTPS API endpoint.',
     ));
   });
+
+  it('rejects a malformed token-refresh endpoint', () => {
+    process.env.EXPO_PUBLIC_APP_ENV = 'production';
+    process.env.EXPO_PUBLIC_API_URL = 'https://api.project.test';
+    process.env.EXPO_PUBLIC_AUTH_REFRESH_URL = 'not-a-url';
+
+    expect(loadEnvironment).toThrow('Invalid environment variables');
+  });
+
+  it('rejects a production token-refresh endpoint that does not use HTTPS', () => {
+    process.env.EXPO_PUBLIC_APP_ENV = 'production';
+    process.env.EXPO_PUBLIC_API_URL = 'https://api.project.test';
+    process.env.EXPO_PUBLIC_AUTH_REFRESH_URL = 'http://api.project.test/auth/refresh';
+
+    expect(loadEnvironment).toThrow('Invalid environment variables');
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining(
+      'Production builds require an HTTPS token-refresh endpoint.',
+    ));
+  });
+
+  it('rejects a demo token-refresh host in production', () => {
+    process.env.EXPO_PUBLIC_APP_ENV = 'production';
+    process.env.EXPO_PUBLIC_API_URL = 'https://api.project.test';
+    process.env.EXPO_PUBLIC_AUTH_REFRESH_URL = 'https://dummyjson.com/auth/refresh';
+
+    expect(loadEnvironment).toThrow('Invalid environment variables');
+    expect(console.error).toHaveBeenCalledWith(expect.stringContaining(
+      'Production builds require a project-owned token-refresh endpoint.',
+    ));
+  });
 });

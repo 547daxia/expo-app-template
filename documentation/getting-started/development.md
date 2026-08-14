@@ -20,6 +20,10 @@ pnpm android
 pnpm web
 ```
 
+`pnpm start` connects to an existing development build. Use `pnpm ios` or
+`pnpm android` to create and run that build when needed. The included local Expo
+Module is not available in Expo Go; Web uses its deterministic fallback.
+
 Environment-specific commands include `pnpm start:preview`,
 `pnpm start:production`, `pnpm export:production -- --platform web`, and
 `pnpm prebuild:development`. Production commands fail until project-owned

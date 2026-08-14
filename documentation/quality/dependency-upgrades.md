@@ -17,6 +17,11 @@ packages together, then run `pnpm check-all`. Keep `react-native-worklets`
 with Reanimated on SDK 56 and keep the explicit `@isaacs/brace-expansion`
 resolution until Metro no longer needs it.
 
+SDK 56 recommends `react-native-keyboard-controller@1.21.6`, but this template
+intentionally uses the compatible `1.21.14` patch release. Keep it in
+`expo.install.exclude` so `expo install --check` does not replace the reviewed
+override; re-evaluate the exclusion during the next Expo SDK upgrade.
+
 After native dependency changes, run a development prebuild or native build and
 verify iOS and Android. Never commit generated root `ios/` or `android/`
 directories.

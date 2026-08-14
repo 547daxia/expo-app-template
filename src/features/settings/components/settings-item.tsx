@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { ChevronRightIcon, Icon } from '@/components/ui/icon';
 import { Pressable } from '@/components/ui/pressable';
 import { Text } from '@/components/ui/text';
@@ -27,10 +28,10 @@ export function SettingsItem({
     >
       <View className="flex-1 flex-row items-center gap-3">
         {icon}
-        <Text selectable={!onPress}>{text}</Text>
+        <Text {...(!onPress ? selectableTextProps : {})}>{text}</Text>
       </View>
       <View className="flex-row items-center gap-2">
-        {value && <Text selectable className="text-muted-foreground">{value}</Text>}
+        {value && <Text {...selectableTextProps} className="text-muted-foreground">{value}</Text>}
         {onPress && <Icon as={ChevronRightIcon} className="text-muted-foreground" size="sm" />}
       </View>
     </Pressable>

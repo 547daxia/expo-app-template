@@ -13,7 +13,7 @@ test('prepares a generated project while preserving its license and operations d
 
   const projectDirectory = path.join(temporaryRoot, 'customer-portal');
   fs.mkdirSync(projectDirectory);
-  for (const directory of ['.git', 'android', 'cli', 'docs', 'documentation', 'ios', 'modules', '.github', '.github/workflows']) {
+  for (const directory of ['.git', 'android', 'cli', 'docs', 'documentation', 'ios', 'modules', '.github', '.github/workflows', '.maestro', '.maestro/utils']) {
     fs.mkdirSync(path.join(projectDirectory, directory));
   }
   fs.writeFileSync(
@@ -30,6 +30,10 @@ test('prepares a generated project while preserving its license and operations d
   fs.writeFileSync(
     path.join(projectDirectory, '.github/workflows/e2e-android.yml'),
     'APP_ID=com.example.mobileapp.preview\n',
+  );
+  fs.writeFileSync(
+    path.join(projectDirectory, '.maestro/utils/onboarding.yaml'),
+    'appId: $' + '{APP_ID}\n---\n- assertVisible:\n    id: onboarding-title\n',
   );
   fs.writeFileSync(
     path.join(projectDirectory, 'env.ts'),
@@ -87,4 +91,10 @@ test('prepares a generated project while preserving its license and operations d
     fs.readFileSync(path.join(projectDirectory, '.github/workflows/e2e-android.yml'), 'utf8'),
     'APP_ID=com.customerportal.preview\n',
   );
+  const onboardingFlow = fs.readFileSync(
+    path.join(projectDirectory, '.maestro/utils/onboarding.yaml'),
+    'utf8',
+  );
+  assert.match(onboardingFlow, /id: onboarding-title/);
+  assert.doesNotMatch(onboardingFlow, /Expo App Template|Customer Portal/);
 });

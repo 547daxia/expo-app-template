@@ -1,5 +1,6 @@
 import { Link, Stack } from 'expo-router';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Heading } from '@/components/ui/heading';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { Text } from '@/components/ui/text';
@@ -13,8 +14,8 @@ export default function NotFoundScreen() {
     >
       <Stack.Screen options={{ title: 'Oops!' }} />
       <VStack className="items-center gap-4">
-        <Heading selectable size="2xl">Page not found</Heading>
-        <Text selectable className="text-center text-muted-foreground">
+        <Heading {...selectableTextProps} size="2xl">Page not found</Heading>
+        <Text {...selectableTextProps} className="text-center text-muted-foreground">
           The address does not match a route in this application.
         </Text>
         <Link href="/" className="text-primary underline">

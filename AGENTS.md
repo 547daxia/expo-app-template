@@ -34,6 +34,17 @@ automation.
   owner, slug, and project ID remain required setup steps in
   [Configuration](./documentation/getting-started/configuration.md).
 
+## Subagent coordination
+
+- Use subagents only for substantial, independent tasks that can run in parallel
+  without overlapping write scopes.
+- Assign each subagent exactly one clear, bounded task with an explicit expected
+  result.
+- Give each file a single writing owner; multiple agents must never modify the
+  same file concurrently.
+- The primary agent must wait for all subagents, review and integrate their work,
+  resolve conflicts, and deliver the final result.
+
 ## Required checks
 
 ```bash

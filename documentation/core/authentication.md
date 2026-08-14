@@ -41,7 +41,13 @@ responses. A successful refresh rotates the pair through the store's
 `refreshToken` action, which persists it and updates state in one step. It
 assumes the default `<API_URL>/auth/refresh` endpoint (overridable with
 `EXPO_PUBLIC_AUTH_REFRESH_URL`) and `{ access, refresh }` response shape until
-a project adapts it to its backend.
+a project adapts it to its backend. Refresh requests use the same 15-second
+timeout as normal API traffic; a timeout rejects every queued request and enters
+the existing refresh-failure cleanup path.
+
+The refresh override is URL-validated. Production configuration requires HTTPS
+and rejects known demo hosts so a refresh token cannot be sent to an insecure or
+template endpoint.
 
 On refresh failure, cleanup attempts to remove persisted credentials and enter
 signed-out state. If secure-storage deletion fails, the client falls back to

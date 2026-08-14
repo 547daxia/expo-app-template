@@ -11,6 +11,10 @@ cp .env.example .env
 pnpm start
 ```
 
+Use `pnpm web` for a browser-only start. Native development requires a
+development build created with `pnpm ios` or `pnpm android`; Expo Go cannot load
+the included local native module.
+
 Use [Configuration and Environments](./documentation/getting-started/configuration.md)
 before EAS Build or EAS Update, and
 [Development Workflow](./documentation/getting-started/development.md) for daily

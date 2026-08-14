@@ -10,7 +10,8 @@ env:
     id: style-tab
 - tapOn:
     id: style-tab
-- assertVisible: 60 component groups
+- assertVisible:
+    id: style-catalog-count
 - tapOn:
     id: settings-tab
 - assertVisible: Settings

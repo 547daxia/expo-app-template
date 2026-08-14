@@ -3,6 +3,7 @@ import type { Post } from '../api';
 import { Link } from 'expo-router';
 import React from 'react';
 
+import { selectableTextProps, textLineLimitProps } from '@/components/platform-props';
 import { Card } from '@/components/ui/card';
 import { Image } from '@/components/ui/image';
 import { Pressable } from '@/components/ui/pressable';
@@ -31,13 +32,13 @@ export function PostCard({ title, body, id }: Post) {
             source={{ uri: imageUrl }}
           />
           <VStack className="gap-2 p-4">
-            <Text selectable className="text-xl font-semibold">
+            <Text {...selectableTextProps} className="text-xl font-semibold">
               {title}
             </Text>
             <Text
-              selectable
+              {...selectableTextProps}
+              {...textLineLimitProps(3)}
               className="leading-5 text-muted-foreground"
-              numberOfLines={3}
             >
               {body}
             </Text>

@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Card } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
@@ -11,7 +12,7 @@ export function SettingsContainer({
   return (
     <VStack className="gap-2">
       {title && (
-        <Text selectable className="px-1 text-sm font-semibold text-muted-foreground uppercase">
+        <Text {...selectableTextProps} className="px-1 text-sm font-semibold text-muted-foreground uppercase">
           {title}
         </Text>
       )}

@@ -8,6 +8,12 @@ import testingLibrary from 'eslint-plugin-testing-library';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+// Uniwind resolves these semantic colors from the light/dark @layer theme at
+// runtime. The Tailwind linter reads only the base @theme block, so it would
+// otherwise report every intentional semantic token as unknown.
+const semanticThemeClassPattern
+  = '^(?:[a-z-]+:)*(?:bg|border|fill|ring|stroke|text)-(?:accent|accent-foreground|background|border|card|card-foreground|destructive|destructive-foreground|foreground|indicator-(?:error|info|primary)|input|muted|muted-foreground|popover|popover-foreground|primary|primary-foreground|ring|secondary|secondary-foreground)(?:/\\d+)?$';
+
 // Project-owned application code uses FlashList for scrollable data sets.
 // Generated Gluestack primitives and the Style Demo retain FlatList only as
 // upstream/catalog coverage, not as a business-code pattern.
@@ -152,6 +158,20 @@ export default antfu(
     },
   },
 
+  // The Style Demo may exercise generated list wrappers, but it still follows
+  // the same feature-isolation rule as every other feature.
+  {
+    files: ['src/features/style-demo/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [featuresRestriction],
+        },
+      ],
+    },
+  },
+
   // Better TailwindCSS plugin
   {
     files: ['**/*.{js,jsx,ts,tsx}'],
@@ -164,7 +184,10 @@ export default antfu(
     rules: {
       ...betterTailwindcss.configs.recommended.rules,
       'better-tailwindcss/no-unnecessary-whitespace': 'warn',
-      'better-tailwindcss/no-unknown-classes': 'warn',
+      'better-tailwindcss/no-unknown-classes': [
+        'warn',
+        { ignore: [semanticThemeClassPattern] },
+      ],
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off', // Can be too strict for some cases
     },
   },
@@ -218,6 +241,8 @@ export default antfu(
     ],
     rules: {
       'max-lines-per-function': 'off',
+      // These copied compound components retain upstream class ordering.
+      'better-tailwindcss/enforce-consistent-class-order': 'off',
       'react-compiler/react-compiler': 'off',
       'react/no-children-to-array': 'off',
       'react/no-clone-element': 'off',

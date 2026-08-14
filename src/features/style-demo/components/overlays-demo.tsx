@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import {
   Actionsheet,
   ActionsheetBackdrop,
@@ -91,14 +92,14 @@ function SheetControls() {
         <Button onPress={() => setActionsOpen(true)}><ButtonText>Actionsheet</ButtonText></Button>
         <BottomSheet>
           <BottomSheetTrigger className="rounded-md border border-border px-4 py-2">
-            <Text selectable className="font-medium">Bottom sheet</Text>
+            <Text {...selectableTextProps} className="font-medium">Bottom sheet</Text>
           </BottomSheetTrigger>
           <BottomSheetPortal
             snapPoints={['38%']}
             backdropComponent={props => <BottomSheetBackdrop {...props} />}
           >
             <BottomSheetContent>
-              <Text selectable className="text-lg font-semibold">Quick actions</Text>
+              <Text {...selectableTextProps} className="text-lg font-semibold">Quick actions</Text>
               <BottomSheetTextInput placeholder="Filter actions…" />
               <BottomSheetItem><BottomSheetItemText>Duplicate component</BottomSheetItemText></BottomSheetItem>
               <BottomSheetItem><BottomSheetItemText>View documentation</BottomSheetItemText></BottomSheetItem>
@@ -143,8 +144,8 @@ function DeleteAlert({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
     <AlertDialog isOpen={isOpen} onClose={onClose}>
       <AlertDialogBackdrop />
       <AlertDialogContent>
-        <AlertDialogHeader><Text selectable className="text-lg font-semibold">Reset examples?</Text></AlertDialogHeader>
-        <AlertDialogBody><Text selectable className="text-muted-foreground">This is a visual demonstration; no data will be removed.</Text></AlertDialogBody>
+        <AlertDialogHeader><Text {...selectableTextProps} className="text-lg font-semibold">Reset examples?</Text></AlertDialogHeader>
+        <AlertDialogBody><Text {...selectableTextProps} className="text-muted-foreground">This is a visual demonstration; no data will be removed.</Text></AlertDialogBody>
         <AlertDialogFooter>
           <Button variant="outline" onPress={onClose}><ButtonText>Cancel</ButtonText></Button>
           <Button variant="destructive" onPress={onClose}><ButtonText>Reset</ButtonText></Button>
@@ -160,10 +161,10 @@ function SettingsDrawer({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
       <DrawerBackdrop />
       <DrawerContent>
         <DrawerHeader>
-          <Text selectable className="text-lg font-semibold">Component settings</Text>
+          <Text {...selectableTextProps} className="text-lg font-semibold">Component settings</Text>
           <DrawerCloseButton onPress={onClose}><ButtonIcon as={CloseIcon} /></DrawerCloseButton>
         </DrawerHeader>
-        <DrawerBody><Text selectable className="text-muted-foreground">Drawer body with independently scrollable content.</Text></DrawerBody>
+        <DrawerBody><Text {...selectableTextProps} className="text-muted-foreground">Drawer body with independently scrollable content.</Text></DrawerBody>
         <DrawerFooter><Button onPress={onClose}><ButtonText>Save</ButtonText></Button></DrawerFooter>
       </DrawerContent>
     </Drawer>
@@ -176,10 +177,10 @@ function ExampleModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader>
-          <Text selectable className="text-lg font-semibold">Modal example</Text>
+          <Text {...selectableTextProps} className="text-lg font-semibold">Modal example</Text>
           <ModalCloseButton onPress={onClose}><ButtonIcon as={CloseIcon} /></ModalCloseButton>
         </ModalHeader>
-        <ModalBody><Text selectable className="text-muted-foreground">Reusable dialog content rendered through the Gluestack overlay provider.</Text></ModalBody>
+        <ModalBody><Text {...selectableTextProps} className="text-muted-foreground">Reusable dialog content rendered through the Gluestack overlay provider.</Text></ModalBody>
         <ModalFooter><Button onPress={onClose}><ButtonText>Done</ButtonText></Button></ModalFooter>
       </ModalContent>
     </Modal>
@@ -216,11 +217,11 @@ function AnchoredControls() {
           <PopoverContent>
             <PopoverArrow />
             <PopoverHeader>
-              <Text selectable className="font-semibold">Popover title</Text>
+              <Text {...selectableTextProps} className="font-semibold">Popover title</Text>
               <PopoverCloseButton><ButtonIcon as={CloseIcon} /></PopoverCloseButton>
             </PopoverHeader>
-            <PopoverBody><Text selectable className="text-sm text-muted-foreground">Anchored contextual content.</Text></PopoverBody>
-            <PopoverFooter><Text selectable className="text-xs text-primary">Gluestack UI</Text></PopoverFooter>
+            <PopoverBody><Text {...selectableTextProps} className="text-sm text-muted-foreground">Anchored contextual content.</Text></PopoverBody>
+            <PopoverFooter><Text {...selectableTextProps} className="text-xs text-primary">Gluestack UI</Text></PopoverFooter>
           </PopoverContent>
         </Popover>
       </DemoRow>
@@ -235,7 +236,7 @@ function PortalAndFabDemo() {
     <VStack className="gap-3">
       <DemoLabel>Portal and FAB</DemoLabel>
       <View className="relative h-28 overflow-hidden rounded-xl bg-muted p-3">
-        <Text selectable className="text-sm text-muted-foreground">FAB placement preview</Text>
+        <Text {...selectableTextProps} className="text-sm text-muted-foreground">FAB placement preview</Text>
         <Fab placement="bottom right" onPress={() => setPortalOpen(true)}>
           <FabIcon as={SettingsIcon} />
           <FabLabel>Portal</FabLabel>
@@ -244,7 +245,7 @@ function PortalAndFabDemo() {
       {portalOpen && (
         <Portal>
           <View className="absolute inset-x-4 top-16 z-50 flex-row items-center justify-between rounded-xl bg-foreground p-3">
-            <Text selectable className="text-sm text-background">Rendered through Portal</Text>
+            <Text {...selectableTextProps} className="text-sm text-background">Rendered through Portal</Text>
             <Button size="sm" variant="secondary" onPress={() => setPortalOpen(false)}><ButtonText>Close</ButtonText></Button>
           </View>
         </Portal>

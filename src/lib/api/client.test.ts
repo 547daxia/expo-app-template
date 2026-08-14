@@ -147,7 +147,30 @@ describe('aPI client interceptors', () => {
 
       // Refresh called only once on base axios instance
       expect(axiosMock.history.post.filter(req => req.url?.includes('/auth/refresh'))).toHaveLength(1);
+      expect(axiosMock.history.post[0]?.timeout).toBe(15_000);
       expect(mockSetToken).toHaveBeenCalledTimes(1);
+    });
+
+    it('rejects every queued request and signs out when refresh times out', async () => {
+      useAuthStore.setState({
+        status: 'signIn',
+        token: { access: 'expired-access-token', refresh: 'valid-refresh-token' },
+      });
+
+      mock.onGet('/protected-1').replyOnce(401);
+      mock.onGet('/protected-2').replyOnce(401);
+      axiosMock.onPost(`${Env.EXPO_PUBLIC_API_URL}/auth/refresh`).timeoutOnce();
+
+      const results = await Promise.allSettled([
+        client.get('/protected-1'),
+        client.get('/protected-2'),
+      ]);
+
+      expect(results.every(result => result.status === 'rejected')).toBe(true);
+      expect(axiosMock.history.post).toHaveLength(1);
+      expect(axiosMock.history.post[0]?.timeout).toBe(15_000);
+      expect(mockRemoveToken).toHaveBeenCalledTimes(1);
+      expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
     });
 
     it('does not retry when refresh endpoint itself returns 401', async () => {

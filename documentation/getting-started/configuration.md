@@ -47,7 +47,9 @@ optionally adds a Website and Share destination in Settings. The optional
 `EXPO_PUBLIC_ASSOCIATED_DOMAIN` value is validated but is not consumed by
 `app.config.ts` until a project adds associated-domain handling. The optional
 `EXPO_PUBLIC_AUTH_REFRESH_URL` overrides the token-refresh endpoint; the API
-client defaults to `<EXPO_PUBLIC_API_URL>/auth/refresh` when it is omitted.
+client defaults to `<EXPO_PUBLIC_API_URL>/auth/refresh` when it is omitted. The
+override must be a valid URL. Production validation also requires it to use
+HTTPS and rejects the same known demo hosts as the primary API URL.
 
 If omitted, `env.ts` defaults the environment to `development`, the number to
 `0`, the boolean to `false`, and the feed endpoint to the public DummyJSON demo.
@@ -55,16 +57,16 @@ The repository currently has no committed `.env` file. Production validation
 always fails closed and rejects non-HTTPS endpoints, DummyJSON,
 `api.example.com`, the `MobileApp` name, and
 `com.example.*` identifiers; a store build therefore cannot silently ship the
-template identity or demo backend.
+template identity, demo backend, or insecure refresh endpoint.
 
 `EXPO_PUBLIC_*` values are bundled into the client and must not contain secrets. Non-prefixed values such as `APP_BUILD_ONLY_VAR` are available only while evaluating `app.config.ts`.
 
 Production configuration throws on validation errors in the environment schema
 regardless of how Expo is invoked, including Web export and custom build
 commands. The code-enforced production checks are the app name, iOS/Android
-identifiers, API URL format, HTTPS, and known demo hosts. Expo owner, slug, and
-EAS project ID are required operational ownership prerequisites, but are not
-currently validated by `env.ts` itself. Development commands
+identifiers, API and optional refresh URL format, HTTPS, and known demo hosts.
+Expo owner, slug, and EAS project ID are required operational ownership
+prerequisites, but are not currently validated by `env.ts` itself. Development commands
 warn by default; prebuild commands opt into the same fail-closed behavior with
 `STRICT_ENV_VALIDATION=1`:
 
@@ -87,7 +89,7 @@ Before EAS Build or EAS Update:
    or Sensitive visibility so EAS CLI can read them while resolving dynamic app
    config; Secret visibility is unavailable during local config resolution.
 5. Run `pnpm exec expo config --type public` and verify owner, slug, scheme, iOS bundle ID, Android package, and `extra.eas.projectId`.
-6. Create/link the EAS project with `pnpm dlx eas-cli@21.4.0 init --force`.
+6. Create/link the EAS project with `pnpm dlx eas-cli@21.6.0 init --force`.
 
 ## Assets and template surfaces
 

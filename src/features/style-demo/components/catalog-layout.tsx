@@ -1,5 +1,6 @@
 import type { PropsWithChildren, ReactNode } from 'react';
 
+import { selectableTextProps, textTestIdProps } from '@/components/platform-props';
 import { Box } from '@/components/ui/box';
 import { Card } from '@/components/ui/card';
 import { Center } from '@/components/ui/center';
@@ -29,13 +30,13 @@ export function DemoSection({
   return (
     <VStack className="gap-4">
       <VStack className="gap-1 px-1">
-        <Text selectable className="text-xs font-semibold text-primary uppercase">
+        <Text {...selectableTextProps} className="text-xs font-semibold text-primary uppercase">
           {eyebrow}
         </Text>
-        <Heading selectable size="xl">
+        <Heading {...selectableTextProps} size="xl">
           {title}
         </Heading>
-        <Text selectable className="text-sm/5 text-muted-foreground">
+        <Text {...selectableTextProps} className="text-sm/5 text-muted-foreground">
           {description}
         </Text>
       </VStack>
@@ -52,7 +53,7 @@ export function DemoRow({ children }: PropsWithChildren) {
 
 export function DemoLabel({ children }: { children: ReactNode }) {
   return (
-    <Text selectable className="text-xs font-medium text-muted-foreground uppercase">
+    <Text {...selectableTextProps} className="text-xs font-medium text-muted-foreground uppercase">
       {children}
     </Text>
   );
@@ -63,13 +64,18 @@ export function CatalogIntro() {
     <Box className="overflow-hidden rounded-3xl bg-primary p-5">
       <VStack className="gap-4">
         <VStack className="gap-1">
-          <Text selectable className="text-xs font-semibold text-primary-foreground/80 uppercase">
+          <Text {...selectableTextProps} className="text-xs font-semibold text-primary-foreground/80 uppercase">
             Gluestack UI catalog
           </Text>
-          <Heading selectable className="text-primary-foreground" size="2xl">
+          <Heading
+            {...selectableTextProps}
+            {...textTestIdProps('style-catalog-count')}
+            className="text-primary-foreground"
+            size="2xl"
+          >
             {`${COMPONENT_GROUPS.length} component groups`}
           </Heading>
-          <Text selectable className="leading-5 text-primary-foreground/80">
+          <Text {...selectableTextProps} className="leading-5 text-primary-foreground/80">
             Interactive, cross-platform examples for every shared UI directory.
           </Text>
         </VStack>
@@ -81,20 +87,20 @@ export function CatalogIntro() {
         >
           <GridItem _extra={{ className: 'col-span-1' }}>
             <Center className="rounded-2xl bg-white/15 p-3">
-              <Text selectable className="text-2xl font-bold text-primary-foreground">
+              <Text {...selectableTextProps} className="text-2xl font-bold text-primary-foreground">
                 {COMPONENT_GROUPS.length}
               </Text>
-              <Text selectable className="text-xs text-primary-foreground/75">
+              <Text {...selectableTextProps} className="text-xs text-primary-foreground/75">
                 directories
               </Text>
             </Center>
           </GridItem>
           <GridItem _extra={{ className: 'col-span-1' }}>
             <Center className="rounded-2xl bg-white/15 p-3">
-              <Text selectable className="text-2xl font-bold text-primary-foreground">
+              <Text {...selectableTextProps} className="text-2xl font-bold text-primary-foreground">
                 7
               </Text>
-              <Text selectable className="text-xs text-primary-foreground/75">
+              <Text {...selectableTextProps} className="text-xs text-primary-foreground/75">
                 demo sections
               </Text>
             </Center>
@@ -112,7 +118,7 @@ export function CatalogIntro() {
             accessibilityLabel="Component catalog is ready"
             className="rounded-full bg-white/15 px-3 py-1.5"
           >
-            <Text selectable className="text-xs font-semibold text-primary-foreground">
+            <Text {...selectableTextProps} className="text-xs font-semibold text-primary-foreground">
               Provider active
             </Text>
           </Pressable>
@@ -132,7 +138,7 @@ export function ComponentCoverageList() {
       <View className="flex-row flex-wrap gap-2">
         {COMPONENT_GROUPS.map(name => (
           <View key={name} className="rounded-full bg-muted px-2.5 py-1">
-            <Text selectable className="text-xs text-foreground">
+            <Text {...selectableTextProps} className="text-xs text-foreground">
               {name}
             </Text>
           </View>

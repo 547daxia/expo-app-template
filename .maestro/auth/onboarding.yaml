@@ -2,7 +2,8 @@ appId: ${APP_ID}
 ---
 - clearState
 - launchApp
-- assertVisible: Expo App Template
+- assertVisible:
+    id: onboarding-title
 - assertVisible: Get Started
 - tapOn: Get Started
 - assertVisible: Sign In

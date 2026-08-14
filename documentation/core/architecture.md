@@ -9,7 +9,7 @@ feature work, start with [Development Workflow](../getting-started/development.m
 - Continuous Native Generation (CNG)
 - Gluestack UI, Uniwind, and Tailwind CSS for shared UI and styling
 - FlashList for project-owned data lists
-- TanStack Query, Axios, React Query Kit, TanStack Form, Zod, and Zustand
+- TanStack Query, Axios, React Query Kit, NetInfo, TanStack Form, Zod, and Zustand
 - Expo SecureStore for native credentials and MMKV for non-sensitive state
 
 ## Repository boundaries
@@ -54,9 +54,11 @@ authentication while retaining the splash screen, and exposes a recoverable
 error boundary. The route tree is not mounted until auth hydration resolves;
 storage failures fail closed to signed-out state.
 
-[`src/app/(app)/_layout.tsx`](../../src/app/%28app%29/_layout.tsx) redirects
-first-time users to onboarding, signed-out users to login, and otherwise
-renders Feed, Style, and Settings tabs.
+[`src/app/(app)/_layout.tsx`](../../src/app/%28app%29/_layout.tsx) is the guarded
+application Stack. It redirects first-time users to onboarding and signed-out
+users to login, then mounts the nested Feed, Style, and Settings tabs plus Feed
+detail/create routes. Keeping every application route in this group also applies
+the guard to direct deep links.
 
 ## Native generation
 

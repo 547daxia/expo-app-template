@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { selectableTextProps } from '@/components/platform-props';
 import { Button, ButtonText } from '@/components/ui/button';
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { useThemeConfig } from '@/components/ui/gluestack-ui-provider/theme';
@@ -34,8 +35,8 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
       contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }}
     >
       <VStack className="mx-auto w-full max-w-lg items-center gap-4">
-        <Heading selectable size="2xl">Something went wrong</Heading>
-        <Text selectable className="text-center text-muted-foreground">
+        <Heading {...selectableTextProps} size="2xl">Something went wrong</Heading>
+        <Text {...selectableTextProps} className="text-center text-muted-foreground">
           The application encountered an unexpected error. Please try again.
         </Text>
         <Button onPress={retry}>

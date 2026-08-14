@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Alert, AlertIcon, AlertText } from '@/components/ui/alert';
 import {
   Avatar,
@@ -78,7 +79,7 @@ function LoadingDemo() {
       <DemoLabel>Progress, spinner and skeleton</DemoLabel>
       <DemoRow>
         <Spinner />
-        <Text selectable className="text-sm">Synchronizing components…</Text>
+        <Text {...selectableTextProps} className="text-sm">Synchronizing components…</Text>
       </DemoRow>
       <Progress value={72} className="w-full">
         <ProgressFilledTrack />

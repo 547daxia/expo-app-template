@@ -11,8 +11,8 @@ store-console setup.
 - Authentication hydration blocks the route tree and fails closed to signed-out
   state.
 - Production environment validation rejects the template app name,
-  `com.example.*` iOS/Android identifiers, non-HTTPS API URLs, and demo hosts.
-  Expo ownership values remain a procedural prerequisite; see
+  `com.example.*` iOS/Android identifiers, malformed or non-HTTPS API/refresh
+  URLs, and demo hosts. Expo ownership values remain a procedural prerequisite; see
   [Configuration](../getting-started/configuration.md).
 - Generated native projects, local environment files, credentials, and another
   application's EAS identifiers are not committed.

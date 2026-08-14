@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import {
   Accordion,
   AccordionContent,
@@ -97,7 +98,7 @@ function CalendarDemo() {
     <VStack className="gap-3">
       <DemoLabel>Calendar</DemoLabel>
       <Calendar mode="single" value={date} onValueChange={setDate} />
-      <Text selectable className="text-xs text-muted-foreground">
+      <Text {...selectableTextProps} className="text-xs text-muted-foreground">
         Selected:
         {' '}
         {date.toLocaleDateString()}
@@ -118,9 +119,9 @@ function TabsDemo() {
           <TabsTrigger value="tokens"><TabsTriggerText>Tokens</TabsTriggerText></TabsTrigger>
         </TabsList>
         <TabsContentWrapper>
-          <TabsContent value="preview"><Text selectable>Interactive component preview</Text></TabsContent>
-          <TabsContent value="code"><Text selectable>Import from @/components/ui/…</Text></TabsContent>
-          <TabsContent value="tokens"><Text selectable>Semantic colors and spacing</Text></TabsContent>
+          <TabsContent value="preview"><Text {...selectableTextProps}>Interactive component preview</Text></TabsContent>
+          <TabsContent value="code"><Text {...selectableTextProps}>Import from @/components/ui/…</Text></TabsContent>
+          <TabsContent value="tokens"><Text {...selectableTextProps}>Semantic colors and spacing</Text></TabsContent>
         </TabsContentWrapper>
       </Tabs>
     </VStack>
@@ -172,7 +173,7 @@ function ListWrappersDemo() {
             sections={sectionItems}
             nestedScrollEnabled
             keyExtractor={item => item}
-            renderSectionHeader={({ section }) => <Text selectable className="bg-muted px-2 py-1 text-xs font-semibold">{section.title}</Text>}
+            renderSectionHeader={({ section }) => <Text {...selectableTextProps} className="bg-muted px-2 py-1 text-xs font-semibold">{section.title}</Text>}
             renderItem={({ item }) => <ListItem label={item} />}
           />
         </ListFrame>
@@ -194,12 +195,12 @@ function ListWrappersDemo() {
 function ListFrame({ children, title }: React.PropsWithChildren<{ title: string }>) {
   return (
     <View className="h-40 min-w-40 flex-1 overflow-hidden rounded-lg border border-border">
-      <Text selectable className="bg-muted px-2 py-1.5 text-xs font-semibold">{title}</Text>
+      <Text {...selectableTextProps} className="bg-muted px-2 py-1.5 text-xs font-semibold">{title}</Text>
       {children}
     </View>
   );
 }
 
 function ListItem({ label }: { label: string }) {
-  return <Text selectable className="border-b border-border px-2 py-1.5 text-xs">{label}</Text>;
+  return <Text {...selectableTextProps} className="border-b border-border px-2 py-1.5 text-xs">{label}</Text>;
 }

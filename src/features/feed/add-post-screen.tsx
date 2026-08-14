@@ -4,6 +4,7 @@ import { useForm } from '@tanstack/react-form';
 import { Stack } from 'expo-router';
 import * as z from 'zod';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import {
   FormControl,
@@ -42,7 +43,7 @@ function PostField({ error, label, children, ...props }: PostFieldProps) {
       {children}
       {error && (
         <FormControlError>
-          <FormControlErrorText selectable>{error}</FormControlErrorText>
+          <FormControlErrorText {...selectableTextProps}>{error}</FormControlErrorText>
         </FormControlError>
       )}
     </FormControl>

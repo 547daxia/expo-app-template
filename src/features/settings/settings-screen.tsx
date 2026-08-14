@@ -3,6 +3,7 @@ import { getNativeRuntimeInfo } from 'modules/expo-template-native';
 import { Linking, Share } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
 import { ScrollView } from '@/components/ui/scroll-view';
@@ -38,8 +39,8 @@ export function SettingsScreen() {
     >
       <VStack className="gap-6">
         <VStack className="gap-1">
-          <Heading selectable size="2xl">Settings</Heading>
-          <Text selectable className="text-muted-foreground">
+          <Heading {...selectableTextProps} size="2xl">Settings</Heading>
+          <Text {...selectableTextProps} className="text-muted-foreground">
             Manage appearance, app information and your session.
           </Text>
         </VStack>

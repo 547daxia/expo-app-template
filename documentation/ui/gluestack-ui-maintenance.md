@@ -18,6 +18,12 @@ features and routes -> shared project components -> Gluestack generated UI
 features and routes ------------------------------> Gluestack generated UI
 ```
 
+Generated Web text primitives render DOM elements directly. Project-owned code
+must use [`src/components/platform-props.ts`](../../src/components/platform-props.ts)
+for selectable text, text test IDs, and line limits so native behavior is kept
+without leaking React Native-only props into the DOM. Other reusable platform
+adaptations, such as loading indicators, also belong in `src/components/`.
+
 ## Adding a primitive
 
 Use a reviewed, explicit CLI version:

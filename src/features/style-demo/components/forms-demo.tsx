@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { Button, ButtonText } from '@/components/ui/button';
 import {
   Checkbox,
@@ -169,7 +170,7 @@ function SelectionDemo() {
       </Select>
       <DemoRow>
         <Switch value={enabled} onValueChange={setEnabled} />
-        <Text selectable>
+        <Text {...selectableTextProps}>
           Notifications
           {enabled ? 'on' : 'off'}
         </Text>
@@ -194,7 +195,7 @@ function DateAndRangeDemo() {
         </DateTimePickerTrigger>
       </DateTimePicker>
       <DemoRow>
-        <Text selectable className="w-12 text-sm" style={{ fontVariant: ['tabular-nums'] }}>
+        <Text {...selectableTextProps} className="w-12 text-sm" style={{ fontVariant: ['tabular-nums'] }}>
           {slider}
           %
         </Text>

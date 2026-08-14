@@ -2,8 +2,9 @@ import type { Post } from './api';
 
 import { FlashList } from '@shopify/flash-list';
 import React from 'react';
+import { LoadingIndicator } from '@/components/loading-indicator';
+import { selectableTextProps } from '@/components/platform-props';
 import { RefreshControl } from '@/components/ui/refresh-control';
-import { Spinner } from '@/components/ui/spinner';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
 import { usePosts } from './api';
@@ -42,18 +43,18 @@ function FeedState({ isError, isPending }: { isError: boolean; isPending: boolea
   if (isPending) {
     return (
       <VStack className="flex-1 items-center justify-center gap-3 py-16">
-        <Spinner />
-        <Text selectable className="text-muted-foreground">Loading posts…</Text>
+        <LoadingIndicator />
+        <Text {...selectableTextProps} className="text-muted-foreground">Loading posts…</Text>
       </VStack>
     );
   }
 
   return (
     <VStack className="flex-1 items-center justify-center gap-2 py-16">
-      <Text selectable className="text-lg font-semibold">
+      <Text {...selectableTextProps} className="text-lg font-semibold">
         {isError ? 'Unable to load posts' : 'No posts yet'}
       </Text>
-      <Text selectable className="text-center text-muted-foreground">
+      <Text {...selectableTextProps} className="text-center text-muted-foreground">
         {isError ? 'Pull down to try again.' : 'Create the first post to get started.'}
       </Text>
     </VStack>

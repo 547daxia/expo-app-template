@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { selectableTextProps } from '@/components/platform-props';
 import { GlobeIcon, Icon, MoonIcon, SunIcon } from '@/components/ui/icon';
 import { Image } from '@/components/ui/image';
 import { ImageBackground } from '@/components/ui/image-background';
@@ -61,7 +62,7 @@ function IconTile({ children, label }: React.PropsWithChildren<{ label: string }
   return (
     <View className="min-w-20 items-center gap-2 rounded-xl border border-border p-3">
       {children}
-      <Text selectable className="text-xs">{label}</Text>
+      <Text {...selectableTextProps} className="text-xs">{label}</Text>
     </View>
   );
 }
@@ -85,14 +86,14 @@ function ImageDemo() {
           source={{ uri: images[1].url }}
         >
           <View className="flex-1 justify-end bg-black/25 p-3">
-            <Text selectable className="font-semibold text-white">Image background</Text>
+            <Text {...selectableTextProps} className="font-semibold text-white">Image background</Text>
           </View>
         </ImageBackground>
       </DemoRow>
       <ImageViewer images={images}>
         <ImageViewerTrigger>
           <View className="flex-row items-center justify-between rounded-xl bg-muted p-3">
-            <Text selectable className="font-medium">Open full-screen image viewer</Text>
+            <Text {...selectableTextProps} className="font-medium">Open full-screen image viewer</Text>
             <Icon as={GlobeIcon} className="text-primary" />
           </View>
         </ImageViewerTrigger>
@@ -115,8 +116,8 @@ function GlassDemo() {
       <View className="relative h-32 overflow-hidden rounded-2xl bg-primary/25 p-4">
         <GlassContainer className="flex-1 rounded-2xl">
           <GlassView className="flex-1 items-center justify-center rounded-2xl p-4">
-            <Text selectable className="text-center font-semibold">Glass effect preview</Text>
-            <Text selectable className="text-center text-xs text-muted-foreground">
+            <Text {...selectableTextProps} className="text-center font-semibold">Glass effect preview</Text>
+            <Text {...selectableTextProps} className="text-center text-xs text-muted-foreground">
               {available ? 'Native liquid glass is available.' : 'Cross-platform translucent fallback.'}
             </Text>
           </GlassView>

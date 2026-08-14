@@ -20,7 +20,7 @@ const envSchema = z.object({
   EXPO_PUBLIC_ASSOCIATED_DOMAIN: z.string().url().optional(),
   // Optional override for the token-refresh endpoint used by the API client.
   // Defaults to `<EXPO_PUBLIC_API_URL>/auth/refresh` when omitted.
-  EXPO_PUBLIC_AUTH_REFRESH_URL: z.string().optional(),
+  EXPO_PUBLIC_AUTH_REFRESH_URL: z.string().url().optional(),
   EXPO_PUBLIC_VAR_NUMBER: z.number(),
   EXPO_PUBLIC_VAR_BOOL: z.boolean(),
 
@@ -31,22 +31,49 @@ const envSchema = z.object({
     return;
   }
 
-  const apiUrl = new URL(env.EXPO_PUBLIC_API_URL);
-  if (apiUrl.protocol !== 'https:') {
-    context.addIssue({
-      code: 'custom',
-      path: ['EXPO_PUBLIC_API_URL'],
-      message: 'Production builds require an HTTPS API endpoint.',
-    });
-  }
+  const endpoints = [
+    {
+      field: 'EXPO_PUBLIC_API_URL',
+      value: env.EXPO_PUBLIC_API_URL,
+      httpsMessage: 'Production builds require an HTTPS API endpoint.',
+      ownershipMessage: 'Production builds require a project-owned API endpoint.',
+    },
+    {
+      field: 'EXPO_PUBLIC_AUTH_REFRESH_URL',
+      value: env.EXPO_PUBLIC_AUTH_REFRESH_URL,
+      httpsMessage: 'Production builds require an HTTPS token-refresh endpoint.',
+      ownershipMessage: 'Production builds require a project-owned token-refresh endpoint.',
+    },
+  ] as const;
 
-  const apiHost = apiUrl.hostname.toLowerCase();
-  if (DEMO_API_HOSTS.has(apiHost)) {
-    context.addIssue({
-      code: 'custom',
-      path: ['EXPO_PUBLIC_API_URL'],
-      message: 'Production builds require a project-owned API endpoint.',
-    });
+  for (const endpoint of endpoints) {
+    if (!endpoint.value) {
+      continue;
+    }
+
+    let url: URL;
+    try {
+      url = new URL(endpoint.value);
+    }
+    catch {
+      // The base URL schema reports malformed values.
+      continue;
+    }
+    if (url.protocol !== 'https:') {
+      context.addIssue({
+        code: 'custom',
+        path: [endpoint.field],
+        message: endpoint.httpsMessage,
+      });
+    }
+
+    if (DEMO_API_HOSTS.has(url.hostname.toLowerCase())) {
+      context.addIssue({
+        code: 'custom',
+        path: [endpoint.field],
+        message: endpoint.ownershipMessage,
+      });
+    }
   }
 
   if (env.EXPO_PUBLIC_NAME === TEMPLATE_APP_NAME) {

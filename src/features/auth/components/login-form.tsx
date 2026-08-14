@@ -4,6 +4,7 @@ import { useForm } from '@tanstack/react-form';
 import React from 'react';
 import * as z from 'zod';
 
+import { selectableTextProps, textTestIdProps } from '@/components/platform-props';
 import { Button, ButtonSpinner, ButtonText } from '@/components/ui/button';
 import {
   FormControl,
@@ -50,7 +51,7 @@ function LoginField({ error, label, ...props }: FieldProps) {
       </Input>
       {error && (
         <FormControlError>
-          <FormControlErrorText selectable>{error}</FormControlErrorText>
+          <FormControlErrorText {...selectableTextProps}>{error}</FormControlErrorText>
         </FormControlError>
       )}
     </FormControl>
@@ -68,13 +69,13 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
     <VStack className="w-full gap-5">
       <VStack className="items-center gap-2 pb-2">
         <Text
-          selectable
-          testID="form-title"
+          {...selectableTextProps}
+          {...textTestIdProps('form-title')}
           className="text-center text-4xl font-bold"
         >
           Sign In
         </Text>
-        <Text selectable className="max-w-sm text-center text-muted-foreground">
+        <Text {...selectableTextProps} className="max-w-sm text-center text-muted-foreground">
           Sign in with any valid email and a password of at least six characters.
         </Text>
       </VStack>
