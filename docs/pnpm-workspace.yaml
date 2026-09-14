@@ -1,0 +1,7 @@
+# The documentation site owns its manifest and lockfile independently of the app.
+packages:
+  - .
+
+allowBuilds:
+  esbuild: true
+  sharp: true

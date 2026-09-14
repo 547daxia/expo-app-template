@@ -5,6 +5,10 @@ project is a presentation layer: its prebuild script copies canonical Markdown
 into the site content tree for navigation, search, and `llms.txt` generation.
 Do not hand-copy operational guidance into `docs/src/content/docs/`.
 
+`docs/pnpm-workspace.yaml` makes this directory an independent pnpm workspace.
+Its installs use `docs/package.json` and `docs/pnpm-lock.yaml`, including when
+invoked as `pnpm --dir docs install` from the application root.
+
 ## Commands
 
 Run from this directory:

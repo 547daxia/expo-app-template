@@ -27,8 +27,11 @@ configured.
 ## Continuous integration
 
 Executable definitions live under [`.github/workflows/`](../../.github/workflows/).
-Ordinary pull requests run linting, type checks, Jest coverage, and dependency
-auditing. Expo Doctor runs for manifest changes; the documentation workflow runs
+Ordinary pull requests run linting, type checks, and Jest coverage as blocking
+checks. Dependency auditing produces a non-blocking report in the test workflow;
+its findings remain visible in the audit step and job summary. The standalone
+`pnpm audit:ci` command and release gates remain strict. Expo Doctor runs for
+manifest changes; the documentation workflow runs
 for canonical-doc, site, or manifest changes. EAS workflows require
 `EXPO_TOKEN`; Maestro Cloud additionally requires
 `MAESTRO_CLOUD_API_KEY` and `MAESTRO_CLOUD_PROJECT_ID`.

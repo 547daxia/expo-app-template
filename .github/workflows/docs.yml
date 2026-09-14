@@ -8,12 +8,16 @@ on:
       - 'docs/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - '.github/workflows/docs.yml'
+      - '.github/actions/setup-node-pnpm-install/**'
   pull_request:
     paths:
       - 'documentation/**'
       - 'docs/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
+      - '.github/workflows/docs.yml'
+      - '.github/actions/setup-node-pnpm-install/**'
 
 permissions:
   contents: read

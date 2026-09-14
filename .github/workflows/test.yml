@@ -39,8 +39,16 @@ jobs:
       - name: 🏃‍♂️ Run Tests
         run: pnpm run test:ci
 
-      - name: 🔐 Audit production dependencies
+      - name: 🔐 Report dependency audit
+        id: dependency-audit
+        continue-on-error: true
         run: pnpm run audit:ci
+
+      - name: Summarize dependency audit findings
+        if: always() && steps.dependency-audit.outcome == 'failure'
+        run: |
+          echo "::warning::Dependency audit did not pass. See the audit step for findings or execution errors."
+          echo "Dependency audit did not pass; this report does not change the test result. See the audit step for findings or execution errors." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Jest Coverage Comment
         uses: MishaKav/jest-coverage-comment@v1.0.36

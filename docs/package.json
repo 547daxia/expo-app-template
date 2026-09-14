@@ -1,6 +1,7 @@
 {
   "name": "expo-app-template-docs",
   "private": true,
+  "packageManager": "pnpm@11.27.0",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
