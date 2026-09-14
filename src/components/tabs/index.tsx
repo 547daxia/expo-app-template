@@ -8,8 +8,9 @@ import {
 
   withStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils';
+import { FlashList } from '@shopify/flash-list';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { FlatList, Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Pressable, Text, View } from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedScrollHandler,
@@ -22,7 +23,9 @@ import { TabsAnimatedIndicator } from './tabs-animated-indicator';
 
 const SCOPE = 'TABS';
 const AnimatedView = Animated.createAnimatedComponent(View);
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+const AnimatedFlashList = Platform.OS === 'web'
+  ? FlashList
+  : Animated.createAnimatedComponent(FlashList);
 /** Styles */
 
 const tabsStyle = tva({
@@ -152,7 +155,6 @@ const TabsList = React.forwardRef<
   const selectedKey = context?.selectedKey;
   const listRef = context?.listRef;
   const userOnScroll = props.onScroll;
-  const userOnScrollToIndexFailed = props.onScrollToIndexFailed;
 
   // Shared value for indicator sync
   const animatedScrollOffset = useSharedValue(0);
@@ -187,11 +189,11 @@ const TabsList = React.forwardRef<
     if (selectedIndex >= 0 && flatListRef.current) {
       const timer = setTimeout(() => {
         try {
-          flatListRef.current.scrollToIndex({
+          void flatListRef.current.scrollToIndex({
             index: selectedIndex,
             animated: true,
             viewPosition: 0.5,
-          });
+          }).catch(() => {});
         }
         catch {}
       }, 100);
@@ -238,11 +240,11 @@ const TabsList = React.forwardRef<
   }, [ref]);
 
   /**
-   * Horizontal tabs → FlatList
+   * Horizontal tabs → FlashList
    */
-  // Memoize the split so FlatList's `data` prop stays referentially stable
+  // Memoize the split so FlashList's `data` prop stays referentially stable
   // across scroll-driven re-renders (scrollOffset in context ticks on every
-  // scroll event; without this, FlatList re-renders every cell every frame,
+  // scroll event; without this, FlashList re-renders every cell every frame,
   // firing onLayout → measureTrigger on every scroll tick).
   const { triggers, indicator } = useMemo(() => {
     const childArray = React.Children.toArray(children);
@@ -267,13 +269,14 @@ const TabsList = React.forwardRef<
       >
         {indicator}
 
-        <AnimatedFlatList
+        <AnimatedFlashList
           {...props}
           ref={setHorizontalListRef}
           horizontal
+          maintainVisibleContentPosition={{ disabled: true }}
           data={triggers}
-          renderItem={({ item }) => item as any}
-          keyExtractor={(item: any, index) =>
+          renderItem={({ item }: { item: unknown }) => item as React.ReactElement}
+          keyExtractor={(item: any, index: number) =>
             item?.props?.value ?? `tab-${index}`}
           showsHorizontalScrollIndicator={false}
           scrollEventThrottle={16}
@@ -281,19 +284,7 @@ const TabsList = React.forwardRef<
           onScroll={
             Platform.OS === 'web' ? handleWebScroll : nativeScrollHandler
           }
-          onScrollToIndexFailed={(info) => {
-            userOnScrollToIndexFailed?.(info);
-            setTimeout(() => {
-              try {
-                flatListRef.current?.scrollToIndex({
-                  index: info.index,
-                  animated: false,
-                  viewPosition: 0.5,
-                });
-              }
-              catch {}
-            }, 500);
-          }}
+
         />
       </View>
     );

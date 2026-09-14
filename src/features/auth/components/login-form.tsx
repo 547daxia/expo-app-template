@@ -47,7 +47,7 @@ function LoginField({ error, label, ...props }: FieldProps) {
         <FormControlLabelText>{label}</FormControlLabelText>
       </FormControlLabel>
       <Input>
-        <InputField {...props} />
+        <InputField {...props} aria-label={props['aria-label'] ?? label} />
       </Input>
       {error && (
         <FormControlError>
@@ -75,7 +75,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         >
           Sign In
         </Text>
-        <Text {...selectableTextProps} className="max-w-sm text-center text-muted-foreground">
+        <Text {...selectableTextProps} className="text-muted-foreground max-w-sm text-center">
           Sign in with any valid email and a password of at least six characters.
         </Text>
       </VStack>

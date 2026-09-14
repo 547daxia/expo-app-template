@@ -49,7 +49,7 @@ describe('settings screen', () => {
     await user.press(screen.getByText('Logout'));
 
     await waitFor(() => expect(mockShowMessage).toHaveBeenCalledWith(expect.objectContaining({
-      message: 'Unable to sign out.',
+      message: 'Signed out. Saved credentials could not be removed.',
       type: 'danger',
     })));
   });

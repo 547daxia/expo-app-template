@@ -1,9 +1,5 @@
 import React from 'react';
 
-import { selectableTextProps } from '@/components/platform-props';
-import { GlobeIcon, Icon, MoonIcon, SunIcon } from '@/components/ui/icon';
-import { Image } from '@/components/ui/image';
-import { ImageBackground } from '@/components/ui/image-background';
 import {
   ImageViewer,
   ImageViewerCloseButton,
@@ -11,7 +7,11 @@ import {
   ImageViewerCounter,
   ImageViewerNavigation,
   ImageViewerTrigger,
-} from '@/components/ui/image-viewer';
+} from '@/components/image-viewer';
+import { selectableTextProps } from '@/components/platform-props';
+import { GlobeIcon, Icon, MoonIcon, SunIcon } from '@/components/ui/icon';
+import { Image } from '@/components/ui/image';
+import { ImageBackground } from '@/components/ui/image-background';
 import { GlassContainer, GlassView, isLiquidGlassAvailable } from '@/components/ui/liquid-glass';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
@@ -60,7 +60,7 @@ function IconDemo() {
 
 function IconTile({ children, label }: React.PropsWithChildren<{ label: string }>) {
   return (
-    <View className="min-w-20 items-center gap-2 rounded-xl border border-border p-3">
+    <View className="border-border min-w-20 items-center gap-2 rounded-xl border p-3">
       {children}
       <Text {...selectableTextProps} className="text-xs">{label}</Text>
     </View>
@@ -92,7 +92,7 @@ function ImageDemo() {
       </DemoRow>
       <ImageViewer images={images}>
         <ImageViewerTrigger>
-          <View className="flex-row items-center justify-between rounded-xl bg-muted p-3">
+          <View className="bg-muted flex-row items-center justify-between rounded-xl p-3">
             <Text {...selectableTextProps} className="font-medium">Open full-screen image viewer</Text>
             <Icon as={GlobeIcon} className="text-primary" />
           </View>
@@ -113,11 +113,11 @@ function GlassDemo() {
   return (
     <VStack className="gap-3">
       <DemoLabel>Liquid glass</DemoLabel>
-      <View className="relative h-32 overflow-hidden rounded-2xl bg-primary/25 p-4">
+      <View className="bg-primary/25 relative h-32 overflow-hidden rounded-2xl p-4">
         <GlassContainer className="flex-1 rounded-2xl">
           <GlassView className="flex-1 items-center justify-center rounded-2xl p-4">
             <Text {...selectableTextProps} className="text-center font-semibold">Glass effect preview</Text>
-            <Text {...selectableTextProps} className="text-center text-xs text-muted-foreground">
+            <Text {...selectableTextProps} className="text-muted-foreground text-center text-xs">
               {available ? 'Native liquid glass is available.' : 'Cross-platform translucent fallback.'}
             </Text>
           </GlassView>

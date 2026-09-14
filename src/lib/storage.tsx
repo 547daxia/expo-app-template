@@ -2,8 +2,6 @@ import { createMMKV } from 'react-native-mmkv';
 
 export const storage = createMMKV();
 
-const JSON_PREFIX = '__expo_app_template_json__:';
-
 export function getItem<T>(key: string): T | null {
   const value = storage.getString(key);
   if (value === undefined || value.length === 0) {
@@ -11,12 +9,7 @@ export function getItem<T>(key: string): T | null {
   }
 
   try {
-    // Values written before the prefix was introduced were plain JSON, so keep
-    // parsing them to avoid invalidating existing persisted state.
-    const serialized = value.startsWith(JSON_PREFIX)
-      ? value.slice(JSON_PREFIX.length)
-      : value;
-    return JSON.parse(serialized) as T;
+    return JSON.parse(value) as T;
   }
   catch {
     return null;
@@ -34,7 +27,7 @@ export function setItem<T>(key: string, value: T) {
     throw new TypeError('Storage values must be JSON serializable.');
   }
 
-  storage.set(key, `${JSON_PREFIX}${serialized}`);
+  storage.set(key, serialized);
 }
 
 export function removeItem(key: string) {

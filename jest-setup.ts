@@ -43,3 +43,12 @@ require('react-native-reanimated').setUpTests();
 // Use the package-provided zero-inset defaults when a test does not mount the
 // application's SafeAreaProvider.
 jest.mock('react-native-safe-area-context', () => require('react-native-safe-area-context/jest/mock').default);
+
+// Keep FlashList's actual component: the bundled 2.0.2 jestSetup replaces it
+// with a removed RecyclerView export. Only native measurements need stubbing.
+jest.mock('@shopify/flash-list/dist/recyclerview/utils/measureLayout', () => ({
+  ...jest.requireActual('@shopify/flash-list/dist/recyclerview/utils/measureLayout'),
+  measureParentSize: () => ({ x: 0, y: 0, width: 400, height: 900 }),
+  measureFirstChildLayout: () => ({ x: 0, y: 0, width: 400, height: 900 }),
+  measureItemLayout: () => ({ x: 0, y: 0, width: 100, height: 100 }),
+}));

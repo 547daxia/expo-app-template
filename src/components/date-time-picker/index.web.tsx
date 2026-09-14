@@ -8,6 +8,8 @@ import {
   useDateTimePicker,
 } from '@gluestack-ui/core/date-time-picker/creator';
 import { UIIcon } from '@gluestack-ui/core/icon/creator';
+import { Overlay } from '@gluestack-ui/core/overlay/creator';
+import { FocusScope } from '@gluestack-ui/utils/aria';
 import {
   useStyleContext,
   withStyleContext,
@@ -16,6 +18,7 @@ import React from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { withUniwind } from 'uniwind';
 
+import { CalendarContent } from '@/components/calendar-content';
 import { Calendar } from '@/components/ui/calendar';
 import {
   dateTimePickerIconStyle,
@@ -159,47 +162,72 @@ function WebDateTimePickerPopover() {
   }
 
   return (
-    <View
-      role="dialog"
-      className="absolute inset-x-0 top-full z-50 mt-2 gap-4 rounded-lg border border-border bg-background p-4 shadow-lg"
-    >
-      {(mode === 'date' || mode === 'datetime') && (
-        <Calendar
-          mode="single"
-          value={draftDate}
-          onValueChange={setDraftDate}
-          minDate={minimumDate}
-          maxDate={maximumDate}
+    <Overlay isOpen isKeyboardDismissable onRequestClose={() => setIsOpen(false)}>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 10000, display: 'grid', placeItems: 'center', padding: 16 }}>
+        <button
+          type="button"
+          aria-label="Close date picker"
+          onClick={() => setIsOpen(false)}
+          style={{ position: 'absolute', inset: 0, border: 0, background: 'rgba(0, 0, 0, 0.45)' }}
         />
-      )}
+        <FocusScope contain autoFocus restoreFocus>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Choose date and time"
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') {
+                event.stopPropagation();
+                setIsOpen(false);
+              }
+            }}
+            style={{ position: 'relative', width: 'min(100%, 24rem)', maxHeight: '90vh', overflowY: 'auto' }}
+          >
+            <View className="gap-4 rounded-lg border border-border bg-background p-4 shadow-lg">
+              {(mode === 'date' || mode === 'datetime') && (
+                <Calendar
+                  mode="single"
+                  value={draftDate}
+                  onValueChange={setDraftDate}
+                  minDate={minimumDate}
+                  maxDate={maximumDate}
+                  initialMonth={draftDate}
+                >
+                  <CalendarContent />
+                </Calendar>
+              )}
 
-      {(mode === 'time' || mode === 'datetime') && (
-        <input
-          aria-label="Time"
-          className="w-full rounded-sm border border-border bg-background p-2 text-sm text-foreground"
-          type="time"
-          value={draftTime}
-          onChange={event => setDraftTime(event.target.value)}
-        />
-      )}
+              {(mode === 'time' || mode === 'datetime') && (
+                <input
+                  aria-label="Time"
+                  className="w-full rounded-sm border border-border bg-background p-2 text-sm text-foreground"
+                  type="time"
+                  value={draftTime}
+                  onChange={event => setDraftTime(event.target.value)}
+                />
+              )}
 
-      <View className="flex-row justify-end gap-2">
-        <Pressable
-          accessibilityRole="button"
-          className="rounded-sm bg-muted px-4 py-2"
-          onPress={() => setIsOpen(false)}
-        >
-          <span className="text-sm text-muted-foreground">Cancel</span>
-        </Pressable>
-        <Pressable
-          accessibilityRole="button"
-          className="rounded-sm bg-primary px-4 py-2"
-          onPress={handleConfirm}
-        >
-          <span className="text-sm text-primary-foreground">Confirm</span>
-        </Pressable>
-      </View>
-    </View>
+              <View className="flex-row justify-end gap-2">
+                <button
+                  type="button"
+                  className="rounded-sm bg-muted px-4 py-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="text-sm text-muted-foreground">Cancel</span>
+                </button>
+                <button
+                  type="button"
+                  className="rounded-sm bg-primary px-4 py-2"
+                  onClick={handleConfirm}
+                >
+                  <span className="text-sm text-primary-foreground">Confirm</span>
+                </button>
+              </View>
+            </View>
+          </div>
+        </FocusScope>
+      </div>
+    </Overlay>
   );
 }
 
@@ -229,6 +257,7 @@ const DateTimePickerTrigger = React.forwardRef<
       className={dateTimePickerTriggerStyle({ class: className, size, variant })}
       context={{ size, variant }}
       disabled={disabled}
+      accessibilityRole="button"
       {...props}
       onPress={(event) => {
         if (!disabled) {

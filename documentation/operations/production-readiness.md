@@ -34,8 +34,7 @@ store-console setup.
    `pnpm export:production`. Run the Android Maestro flow and project-owned
    iOS/Web release checks.
 6. Verify the Style Demo in production; it is an intentional shipped surface.
-7. Review [`src/app/+html.tsx`](../../src/app/+html.tsx): its current viewport
-   policy limits browser zoom, which may not meet a product's accessibility
-   requirements.
+7. Verify keyboard navigation, browser zoom, and screen-reader behavior on Web.
+   [`src/app/+html.tsx`](../../src/app/+html.tsx) allows browser scaling by default.
 
 See [Release and CI/CD](./release.md) for workflow behavior and build commands.

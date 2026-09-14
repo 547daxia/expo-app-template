@@ -5,7 +5,7 @@
 # ✍️ Description:
 # This is a composite action, which means it can be used in other actions.
 # It is used in almost all workflows to set up the environment and install dependencies.
-# Updating  the package manager or Node version here will be reflected in all workflows.
+# pnpm follows package.json packageManager; the Node version below applies to all workflows.
 
 # 👀 Example usage:
 #       - name : 📦 Setup Node + PNPM + install deps
@@ -16,9 +16,12 @@ description: 'Setup  Node + PNPM + Install Dependencies'
 runs:
   using: composite
   steps:
+    - uses: actions/setup-node@v6
+      with:
+        node-version: 22
+        package-manager-cache: false
     - uses: pnpm/action-setup@v4
       with:
-        version: 10.12.3
         run_install: false
     - uses: actions/setup-node@v6
       with:

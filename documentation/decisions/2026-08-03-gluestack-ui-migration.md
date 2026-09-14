@@ -9,13 +9,13 @@
   primitive.
 - **Catalog:** the Style tab and `component-groups.test.ts` track every
   top-level generated directory.
-- **Transition:** BottomSheet, DatePicker, DateTimePicker, ImageViewer, Tabs,
-  and compatibility files remain historical exceptions. Extract their
-  project-owned behavior before refreshing an affected group.
+- **Project components:** BottomSheet, DatePicker, DateTimePicker, ImageViewer,
+  and Tabs live in `src/components/`, with tests alongside their implementation.
+  Their former generated-directory paths are removed.
 - **Behavior to preserve:** date/time picker changes are drafts until
   Confirm/Done; Cancel discards them.
-- **Compatibility:** do not recreate `legacy-ui`, a UI barrel, or retired
-  `Chat`, `ChatMessages`, and `useChat` APIs.
+- **Imports:** use the current explicit component paths without compatibility
+  barrels or re-exports.
 - **Procedure:** follow
   [Gluestack UI Maintenance](../ui/gluestack-ui-maintenance.md).
 - **Owner:** repository maintainers.

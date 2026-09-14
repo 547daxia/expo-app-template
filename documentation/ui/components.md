@@ -40,12 +40,21 @@ Top-level directories in `src/components/ui/` are the generated inventory.
 catalog, and its inventory test compares `component-groups.ts` with the
 filesystem. Update both whenever a generated directory is added or removed.
 
-## Transitional groups
+## Project-owned compound components
 
-`DatePicker`, `DateTimePicker`, `ImageViewer`, Tabs, and some compatibility
-files remain historical exceptions inside `src/components/ui/`. Do not extend
-them. In particular, DatePicker's controlled draft/Confirm/Cancel behavior must
-move to a project-owned wrapper before its generated group is refreshed.
+BottomSheet, DatePicker, DateTimePicker, ImageViewer, and Tabs live directly
+under `src/components/`. Import their explicit directories; there are no old
+path aliases or compatibility wrappers. Their native/Web behavior and tests are
+owned by this project, independently of generated primitive updates.
+
+DatePicker and DateTimePicker preserve controlled draft/Confirm/Cancel behavior.
+The shared `CalendarContent` composes month navigation and a selectable day
+grid inside the generated Calendar root. On Web the date dialog uses a portal
+with focus containment, Escape dismissal, and explicit Confirm/Cancel actions.
+BottomSheet re-provides its context inside the overlay host so portaled actions
+can close the owning sheet. Web content contains focus and supports Escape.
+ImageViewer and horizontal Tabs use FlashList. The Style Demo exercises all
+five groups alongside the generated inventory.
 
 ## Data lists and icons
 
@@ -61,5 +70,5 @@ controls. Expo Router navigator icons may use the supplied `color` and `size`.
 
 Add focused tests beside project-owned behavior, preserve accessibility labels
 and `testID` forwarding, run the normal quality checks, and inspect the Style
-Demo on every affected platform. Generated source is excluded from coverage;
-the explicitly listed transitional groups are the temporary exception.
+Demo on every affected platform. Generated source is excluded from coverage; project-owned compound components
+and their tests participate in normal verification.

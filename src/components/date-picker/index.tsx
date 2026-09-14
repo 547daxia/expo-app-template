@@ -5,7 +5,7 @@ import {
   DateTimePickerIcon,
   DateTimePickerInput,
   DateTimePickerTrigger,
-} from '@/components/ui/date-time-picker';
+} from '@/components/date-time-picker';
 import { CalendarDaysIcon } from '@/components/ui/icon';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';

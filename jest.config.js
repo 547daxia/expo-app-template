@@ -9,10 +9,11 @@ module.exports = {
     'src/features/onboarding/**/*.{ts,tsx}',
     'src/features/settings/**/*.{ts,tsx}',
     'src/lib/**/*.{ts,tsx}',
-    'src/components/ui/date-picker/**/*.{ts,tsx}',
-    'src/components/ui/date-time-picker/**/*.{ts,tsx}',
-    'src/components/ui/image-viewer/**/*.{ts,tsx}',
-    'src/components/ui/tabs/**/*.{ts,tsx}',
+    'src/components/bottomsheet/**/*.{ts,tsx}',
+    'src/components/date-picker/**/*.{ts,tsx}',
+    'src/components/date-time-picker/**/*.{ts,tsx}',
+    'src/components/image-viewer/**/*.{ts,tsx}',
+    'src/components/tabs/**/*.{ts,tsx}',
     '!**/*.test.{ts,tsx}',
     // Native Jest does not resolve platform Web entrypoints. They are covered
     // by the Web Expo export and browser/E2E checks instead of reporting 0%.

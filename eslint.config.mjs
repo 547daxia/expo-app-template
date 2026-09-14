@@ -206,12 +206,6 @@ export default antfu(
   // Keep correctness linting enabled while relaxing repository-only structure rules.
   {
     files: ['src/components/ui/**/*.{ts,tsx}'],
-    ignores: [
-      'src/components/ui/date-picker/**',
-      'src/components/ui/date-time-picker/**',
-      'src/components/ui/image-viewer/**',
-      'src/components/ui/tabs/**',
-    ],
     rules: {
       'better-tailwindcss/enforce-canonical-classes': 'off',
       'better-tailwindcss/enforce-consistent-class-order': 'off',
@@ -230,14 +224,15 @@ export default antfu(
     },
   },
 
-  // Hand-written compound/gesture components keep repository defaults. Only
+  // Project-owned compound/gesture components keep repository defaults. Only
   // relax rules that conflict with public refs, context, or UI-thread values.
   {
     files: [
-      'src/components/ui/date-picker/**/*.{ts,tsx}',
-      'src/components/ui/date-time-picker/**/*.{ts,tsx}',
-      'src/components/ui/image-viewer/**/*.{ts,tsx}',
-      'src/components/ui/tabs/**/*.{ts,tsx}',
+      'src/components/bottomsheet/**/*.{ts,tsx}',
+      'src/components/date-picker/**/*.{ts,tsx}',
+      'src/components/date-time-picker/**/*.{ts,tsx}',
+      'src/components/image-viewer/**/*.{ts,tsx}',
+      'src/components/tabs/**/*.{ts,tsx}',
     ],
     rules: {
       'max-lines-per-function': 'off',

@@ -25,8 +25,8 @@ export function SettingsScreen() {
     }
     catch {
       showMessage({
-        message: 'Unable to sign out.',
-        description: 'Your saved session is still active. Please try again.',
+        message: 'Signed out. Saved credentials could not be removed.',
+        description: 'Secure storage is unavailable. Restarting may restore the saved session.',
         type: 'danger',
       });
     }

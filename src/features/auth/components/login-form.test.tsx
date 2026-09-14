@@ -9,6 +9,8 @@ describe('login form', () => {
 
     expect(screen.getByTestId('form-title')).toHaveTextContent('Sign In');
     expect(screen.getByTestId('login-button')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Email')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Password')).toBeOnTheScreen();
   });
 
   it('shows required validation feedback', async () => {

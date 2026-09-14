@@ -58,19 +58,23 @@ Do not repair upstream-generation failures by modifying generated source.
 Prefer a fixed upstream release, a pin, a narrow documented tooling exception,
 or a project-owned wrapper/fork.
 
-## Current transition status
+## Project components and generated source
 
-The directory is not yet a clean generated baseline. BottomSheet, DatePicker,
-DateTimePicker, ImageViewer, Tabs, compatibility files, and tests contain
-historical project behavior. Do not extend these exceptions. Extract the
-behavior and its tests before refreshing an affected group; never run `add --all`
-on the main branch until that work is complete.
+BottomSheet, DatePicker, DateTimePicker, ImageViewer, and Tabs are project-owned
+components under `src/components/`, with their tests beside them. Import those
+paths directly; their former `src/components/ui/` paths have been removed.
+Their scrollable data uses FlashList. Generated primitives never import these
+project components, and no compatibility re-exports are maintained.
 
-The 2026-08-03 audit recorded Gluestack CLI `5.0.3`,
-`@gluestack-ui/core` `5.0.15`, `@gluestack-ui/utils` `5.0.6`, and Uniwind
-`^1.2.4`. This is an audit point, not a clean generated baseline. Record the
-CLI version, generation command, package versions, migration guide, overwritten
-groups, adaptations, and platform verification in every upgrade PR.
+The Style Demo tracks generated directories through `COMPONENT_GROUPS` and
+these compound components through `PROJECT_COMPONENT_GROUPS`. Keep both sets
+represented in the demo. Generated source has no project-owned tests.
+
+This ownership separation does not certify the remaining copied source as a
+fresh CLI output. Before a regeneration, record the exact CLI version,
+generation command, package versions, overwritten groups, and platform checks.
+The recorded generation audit used CLI `5.0.3`, core `5.0.15`, utils `5.0.6`,
+and Uniwind `^1.2.4`; dependency upgrades require a separate reviewed generation.
 
 ## References
 

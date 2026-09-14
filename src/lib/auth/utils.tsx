@@ -22,10 +22,10 @@ export async function getToken() {
     }
   }
   catch {
-    // Invalid secure storage contents are removed below.
+    // Invalid credentials are ignored. Reads never mutate storage, so a slow
+    // hydration read cannot delete credentials from a newer sign-in.
   }
 
-  await removeTokenValue();
   return null;
 }
 

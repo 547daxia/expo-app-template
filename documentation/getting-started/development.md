@@ -5,8 +5,8 @@
 
 ## Requirements
 
-- Node.js 22 LTS
-- pnpm 10.12.3 or a compatible pnpm 10 release
+- Node.js 22 LTS (22.13 or newer)
+- pnpm >=11.20.0 <12; default version 11.27.0 is pinned by `packageManager` in `package.json` (also used by CI)
 - Git and Watchman on macOS/Linux
 - Configured iOS or Android tooling for native runs
 
@@ -43,8 +43,10 @@ pnpm test:ci
 pnpm audit:prod
 pnpm audit:ci
 pnpm check-all
-pnpm doctor
+pnpm run doctor
 ```
+
+Use `pnpm run doctor` for Expo Doctor; pnpm 11 has its own built-in `doctor` command.
 
 `check-all` runs linting, TypeScript, Jest coverage, audits, Expo dependency
 alignment, Expo Doctor, and documentation link validation. The

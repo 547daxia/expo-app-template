@@ -1,6 +1,16 @@
 import React from 'react';
 
+import { CalendarContent } from '@/components/calendar-content';
 import { selectableTextProps } from '@/components/platform-props';
+import {
+  Tabs,
+  TabsContent,
+  TabsContentWrapper,
+  TabsIndicator,
+  TabsList,
+  TabsTrigger,
+  TabsTriggerText,
+} from '@/components/tabs';
 import {
   Accordion,
   AccordionContent,
@@ -24,15 +34,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsContentWrapper,
-  TabsIndicator,
-  TabsList,
-  TabsTrigger,
-  TabsTriggerText,
-} from '@/components/ui/tabs';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VirtualizedList } from '@/components/ui/virtualized-list';
@@ -97,8 +98,10 @@ function CalendarDemo() {
   return (
     <VStack className="gap-3">
       <DemoLabel>Calendar</DemoLabel>
-      <Calendar mode="single" value={date} onValueChange={setDate} />
-      <Text {...selectableTextProps} className="text-xs text-muted-foreground">
+      <Calendar mode="single" value={date} onValueChange={setDate} initialMonth={date}>
+        <CalendarContent />
+      </Calendar>
+      <Text {...selectableTextProps} className="text-muted-foreground text-xs">
         Selected:
         {' '}
         {date.toLocaleDateString()}
@@ -120,7 +123,7 @@ function TabsDemo() {
         </TabsList>
         <TabsContentWrapper>
           <TabsContent value="preview"><Text {...selectableTextProps}>Interactive component preview</Text></TabsContent>
-          <TabsContent value="code"><Text {...selectableTextProps}>Import from @/components/ui/…</Text></TabsContent>
+          <TabsContent value="code"><Text {...selectableTextProps}>Import Tabs from @/components/tabs</Text></TabsContent>
           <TabsContent value="tokens"><Text {...selectableTextProps}>Semantic colors and spacing</Text></TabsContent>
         </TabsContentWrapper>
       </Tabs>
@@ -146,7 +149,7 @@ function TableDemo() {
           </TableRow>
           <TableRow>
             <TableData>DatePicker</TableData>
-            <TableData>Review</TableData>
+            <TableData>Ready</TableData>
           </TableRow>
         </TableBody>
         <TableCaption>Shared UI inventory</TableCaption>
@@ -194,7 +197,7 @@ function ListWrappersDemo() {
 
 function ListFrame({ children, title }: React.PropsWithChildren<{ title: string }>) {
   return (
-    <View className="h-40 min-w-40 flex-1 overflow-hidden rounded-lg border border-border">
+    <View className="border-border h-40 min-w-40 flex-1 overflow-hidden rounded-lg border">
       <Text {...selectableTextProps} className="bg-muted px-2 py-1.5 text-xs font-semibold">{title}</Text>
       {children}
     </View>
@@ -202,5 +205,5 @@ function ListFrame({ children, title }: React.PropsWithChildren<{ title: string 
 }
 
 function ListItem({ label }: { label: string }) {
-  return <Text {...selectableTextProps} className="border-b border-border px-2 py-1.5 text-xs">{label}</Text>;
+  return <Text {...selectableTextProps} className="border-border border-b px-2 py-1.5 text-xs">{label}</Text>;
 }

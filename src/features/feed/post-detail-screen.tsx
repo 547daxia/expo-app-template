@@ -5,11 +5,13 @@ import { selectableTextProps } from '@/components/platform-props';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { Text } from '@/components/ui/text';
 import { VStack } from '@/components/ui/vstack';
+import { useAuthStore } from '@/lib/auth/session-store';
 import { usePost } from './api';
 
 export function PostDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data, isPending, isError } = usePost({ variables: { id } });
+  const sessionId = useAuthStore.use.sessionId();
+  const { data, isPending, isError } = usePost({ variables: { id, sessionId } });
 
   return (
     <ScrollView
@@ -47,7 +49,7 @@ function PostDetailState({
   return (
     <VStack className="gap-4">
       <Text {...selectableTextProps} className="text-3xl font-bold">{data.title}</Text>
-      <Text {...selectableTextProps} className="text-base/7 text-muted-foreground">{data.body}</Text>
+      <Text {...selectableTextProps} className="text-muted-foreground text-base/7">{data.body}</Text>
     </VStack>
   );
 }

@@ -15,11 +15,11 @@ describe('auth token storage', () => {
     mockSetTokenValue.mockResolvedValue();
   });
 
-  it('rejects and removes malformed persisted token values', async () => {
+  it('ignores malformed persisted token values without mutating storage', async () => {
     mockGetTokenValue.mockResolvedValue('not-json');
 
     await expect(getToken()).resolves.toBeNull();
-    expect(mockRemoveTokenValue).toHaveBeenCalledTimes(1);
+    expect(mockRemoveTokenValue).not.toHaveBeenCalled();
   });
 
   it('accepts a token with the required fields', async () => {

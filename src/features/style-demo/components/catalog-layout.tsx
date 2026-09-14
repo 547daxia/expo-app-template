@@ -13,7 +13,7 @@ import { Pressable } from '@/components/ui/pressable';
 import { Text } from '@/components/ui/text';
 import { View } from '@/components/ui/view';
 import { VStack } from '@/components/ui/vstack';
-import { COMPONENT_GROUPS } from './component-groups';
+import { COMPONENT_GROUPS, PROJECT_COMPONENT_GROUPS } from './component-groups';
 
 type DemoSectionProps = PropsWithChildren<{
   description: string;
@@ -30,17 +30,17 @@ export function DemoSection({
   return (
     <VStack className="gap-4">
       <VStack className="gap-1 px-1">
-        <Text {...selectableTextProps} className="text-xs font-semibold text-primary uppercase">
+        <Text {...selectableTextProps} className="text-primary text-xs font-semibold uppercase">
           {eyebrow}
         </Text>
         <Heading {...selectableTextProps} size="xl">
           {title}
         </Heading>
-        <Text {...selectableTextProps} className="text-sm/5 text-muted-foreground">
+        <Text {...selectableTextProps} className="text-muted-foreground text-sm/5">
           {description}
         </Text>
       </VStack>
-      <Card className="gap-5 rounded-2xl border border-border bg-card p-4">
+      <Card className="border-border bg-card gap-5 rounded-2xl border p-4">
         {children}
       </Card>
     </VStack>
@@ -53,7 +53,7 @@ export function DemoRow({ children }: PropsWithChildren) {
 
 export function DemoLabel({ children }: { children: ReactNode }) {
   return (
-    <Text {...selectableTextProps} className="text-xs font-medium text-muted-foreground uppercase">
+    <Text {...selectableTextProps} className="text-muted-foreground text-xs font-medium uppercase">
       {children}
     </Text>
   );
@@ -61,10 +61,10 @@ export function DemoLabel({ children }: { children: ReactNode }) {
 
 export function CatalogIntro() {
   return (
-    <Box className="overflow-hidden rounded-3xl bg-primary p-5">
+    <Box className="bg-primary overflow-hidden rounded-3xl p-5">
       <VStack className="gap-4">
         <VStack className="gap-1">
-          <Text {...selectableTextProps} className="text-xs font-semibold text-primary-foreground/80 uppercase">
+          <Text {...selectableTextProps} className="text-primary-foreground/80 text-xs font-semibold uppercase">
             Gluestack UI catalog
           </Text>
           <Heading
@@ -73,10 +73,10 @@ export function CatalogIntro() {
             className="text-primary-foreground"
             size="2xl"
           >
-            {`${COMPONENT_GROUPS.length} component groups`}
+            {`${COMPONENT_GROUPS.length + PROJECT_COMPONENT_GROUPS.length} component groups`}
           </Heading>
-          <Text {...selectableTextProps} className="leading-5 text-primary-foreground/80">
-            Interactive, cross-platform examples for every shared UI directory.
+          <Text {...selectableTextProps} className="text-primary-foreground/80 leading-5">
+            Interactive examples of generated primitives and project components.
           </Text>
         </VStack>
 
@@ -87,20 +87,20 @@ export function CatalogIntro() {
         >
           <GridItem _extra={{ className: 'col-span-1' }}>
             <Center className="rounded-2xl bg-white/15 p-3">
-              <Text {...selectableTextProps} className="text-2xl font-bold text-primary-foreground">
-                {COMPONENT_GROUPS.length}
+              <Text {...selectableTextProps} className="text-primary-foreground text-2xl font-bold">
+                {COMPONENT_GROUPS.length + PROJECT_COMPONENT_GROUPS.length}
               </Text>
-              <Text {...selectableTextProps} className="text-xs text-primary-foreground/75">
+              <Text {...selectableTextProps} className="text-primary-foreground/75 text-xs">
                 directories
               </Text>
             </Center>
           </GridItem>
           <GridItem _extra={{ className: 'col-span-1' }}>
             <Center className="rounded-2xl bg-white/15 p-3">
-              <Text {...selectableTextProps} className="text-2xl font-bold text-primary-foreground">
+              <Text {...selectableTextProps} className="text-primary-foreground text-2xl font-bold">
                 7
               </Text>
-              <Text {...selectableTextProps} className="text-xs text-primary-foreground/75">
+              <Text {...selectableTextProps} className="text-primary-foreground/75 text-xs">
                 demo sections
               </Text>
             </Center>
@@ -118,7 +118,7 @@ export function CatalogIntro() {
             accessibilityLabel="Component catalog is ready"
             className="rounded-full bg-white/15 px-3 py-1.5"
           >
-            <Text {...selectableTextProps} className="text-xs font-semibold text-primary-foreground">
+            <Text {...selectableTextProps} className="text-primary-foreground text-xs font-semibold">
               Provider active
             </Text>
           </Pressable>
@@ -133,12 +133,12 @@ export function ComponentCoverageList() {
     <DemoSection
       eyebrow="Coverage"
       title="Component inventory"
-      description="Every directory represented on this page. This list is the maintenance checklist for future UI additions."
+      description="Generated primitives and project components demonstrated on this page."
     >
       <View className="flex-row flex-wrap gap-2">
-        {COMPONENT_GROUPS.map(name => (
-          <View key={name} className="rounded-full bg-muted px-2.5 py-1">
-            <Text {...selectableTextProps} className="text-xs text-foreground">
+        {[...COMPONENT_GROUPS, ...PROJECT_COMPONENT_GROUPS].map(name => (
+          <View key={name} className="bg-muted rounded-full px-2.5 py-1">
+            <Text {...selectableTextProps} className="text-foreground text-xs">
               {name}
             </Text>
           </View>

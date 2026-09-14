@@ -3,13 +3,18 @@
 **Applies to:** JavaScript, Expo, React Native, and native-runtime dependency
 changes.
 
+The current patch baseline is Expo `~56.0.21`, React `19.2.3`, and React Native
+`0.85.3`. Keep Expo upgrades within SDK 56 and use `expo install --fix` to align
+its managed packages. `expo-image` is registered in `app.config.ts` as required
+by the updated installer.
+
 Use Expo's installer for Expo-managed, React Native, and native runtime
 packages:
 
 ```bash
 pnpm exec expo install <package>
 pnpm exec expo install --check
-pnpm doctor
+pnpm run doctor
 ```
 
 For an Expo SDK upgrade, follow Expo's upgrade guide, update the SDK and aligned
@@ -32,6 +37,11 @@ not auto-merge Expo SDK, React Native, native-runtime, or Gluestack changes
 without platform verification. `pnpm audit:prod` checks production
 dependencies, while `pnpm audit:ci` also rejects high-severity toolchain
 findings.
+
+Keep the security resolutions in `pnpm-workspace.yaml` current. The exact
+`semver@6.3.1` trust-policy exception is used by Expo/Babel; its registry SHA-512
+integrity was checked against the existing lockfile. The exception does not
+disable the policy for other packages or semver releases.
 
 Gluestack upgrades combine package changes with copied source regeneration; use
 the exact workflow in [Gluestack UI Maintenance](../ui/gluestack-ui-maintenance.md)

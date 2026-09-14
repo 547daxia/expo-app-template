@@ -4,8 +4,8 @@ Create a new application from a tagged Expo App Template release.
 
 ## Requirements
 
-- Node.js 22 or later
-- pnpm 10 on `PATH`
+- Node.js 22.13 or later
+- pnpm >=11.20.0 <12 (default 11.27.0) on `PATH`
 - Git
 
 ## Usage

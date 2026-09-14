@@ -1,5 +1,12 @@
 import React from 'react';
 
+import { DatePicker } from '@/components/date-picker';
+import {
+  DateTimePicker,
+  DateTimePickerIcon,
+  DateTimePickerInput,
+  DateTimePickerTrigger,
+} from '@/components/date-time-picker';
 import { selectableTextProps } from '@/components/platform-props';
 import { Button, ButtonText } from '@/components/ui/button';
 import {
@@ -8,13 +15,6 @@ import {
   CheckboxIndicator,
   CheckboxLabel,
 } from '@/components/ui/checkbox';
-import { DatePicker } from '@/components/ui/date-picker';
-import {
-  DateTimePicker,
-  DateTimePickerIcon,
-  DateTimePickerInput,
-  DateTimePickerTrigger,
-} from '@/components/ui/date-time-picker';
 import {
   FormControl,
   FormControlError,

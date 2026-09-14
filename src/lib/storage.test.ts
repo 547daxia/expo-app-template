@@ -23,11 +23,11 @@ describe('storage helpers', () => {
 
   it('keeps the raw-string API distinct from JSON deserialization', () => {
     storage.set('raw-string', 'false');
-    storage.set('legacy-json', JSON.stringify({ enabled: true }));
+    storage.set('json-object', JSON.stringify({ enabled: true }));
 
     expect(getString('raw-string')).toBe('false');
     expect(getItem('raw-string')).toBe(false);
-    expect(getItem('legacy-json')).toEqual({ enabled: true });
+    expect(getItem('json-object')).toEqual({ enabled: true });
   });
 
   it('returns null for missing values and removes stored values', () => {

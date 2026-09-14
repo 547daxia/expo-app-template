@@ -2,7 +2,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import Env from 'env';
 
-import { useAuthStore } from '@/lib/auth/session-store';
+import { SessionChangedError, signIn, signOut, useAuthStore } from '@/lib/auth/session-store';
 import { getToken, removeToken, setToken } from '@/lib/auth/utils';
 
 import { client } from './client';
@@ -240,6 +240,61 @@ describe('aPI client interceptors', () => {
 
       // signOut's removal attempt fails, then the client retries removal once.
       expect(mockRemoveToken).toHaveBeenCalledTimes(2);
+      expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
     });
+  });
+  it.each([200, 401])('discards an old account refresh returning %s after account switch', async (status) => {
+    const a = { access: 'account-a', refresh: 'refresh-a' };
+    const b = { access: 'account-b', refresh: 'refresh-b' };
+    await signIn(a);
+    let complete!: () => void;
+    let started!: () => void;
+    const refreshing = new Promise<void>((resolve) => {
+      started = resolve;
+    });
+    mock.onGet('/protected').reply(401);
+    axiosMock.onPost().reply(() => new Promise((resolve) => {
+      complete = () => resolve([status, { access: 'rotated-a', refresh: 'rotated-refresh-a' }]);
+      started();
+    }));
+    const request = client.get('/protected');
+    const outcome = request.catch(error => error);
+    await refreshing;
+    await signOut();
+    await signIn(b);
+    mockSetToken.mockClear();
+    complete();
+    expect(await outcome).toBeInstanceOf(Error);
+    expect(mockSetToken).not.toHaveBeenCalled();
+    expect(useAuthStore.getState()).toMatchObject({ status: 'signIn', token: b });
+    expect(mock.history.get).toHaveLength(1);
+  });
+
+  it('rejects a successful old response instead of delivering it to the next account', async () => {
+    await signIn({ access: 'a', refresh: 'a-refresh' });
+    let complete!: () => void;
+    let started!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      started = resolve;
+    });
+    mock.onGet('/private').reply(() => new Promise((resolve) => {
+      complete = () => resolve([200, { private: 'account-a' }]);
+      started();
+    }));
+    const result = client.get('/private').catch(error => error);
+    await pending;
+    await signIn({ access: 'b', refresh: 'b-refresh' });
+    complete();
+    expect(await result).toBeInstanceOf(SessionChangedError);
+  });
+
+  it('revokes memory when both credential deletion attempts fail', async () => {
+    await signIn({ access: 'expired', refresh: 'invalid' });
+    mockRemoveToken.mockRejectedValue(new Error('Storage unavailable'));
+    mock.onGet('/private').reply(401);
+    axiosMock.onPost().reply(401);
+    await expect(client.get('/private')).rejects.toThrow();
+    expect(mockRemoveToken).toHaveBeenCalledTimes(2);
+    expect(useAuthStore.getState()).toMatchObject({ status: 'signOut', token: null });
   });
 });

@@ -1,9 +1,10 @@
 'use client';
+import type { FlashListRef } from '@shopify/flash-list';
 import { Overlay } from '@gluestack-ui/core/overlay/creator';
 import { tva } from '@gluestack-ui/utils/nativewind-utils';
+import { FlashList } from '@shopify/flash-list';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  FlatList,
   Pressable,
   Image as RNImage,
   Text,
@@ -323,7 +324,7 @@ const ZoomableImage = React.memo(
   }),
 );
 
-// FlatList-based Image Gallery Component
+// FlashList-based Image Gallery Component
 const SlidableImageGallery = React.memo(({
   images,
   currentIndex,
@@ -336,7 +337,7 @@ const SlidableImageGallery = React.memo(({
   onDismiss: () => void;
 }) => {
   const { width: viewportWidth, height: viewportHeight } = useWindowDimensions();
-  const flatListRef = useRef<FlatList>(null);
+  const flatListRef = useRef<FlashListRef<ImageItem>>(null);
   const [localIndex, setLocalIndex] = useState(currentIndex);
   const imageRefsRef = useRef<Map<number, ZoomableImageHandle>>(new Map());
   const [isCurrentImageZoomed, setIsCurrentImageZoomed] = useState(false);
@@ -359,10 +360,10 @@ const SlidableImageGallery = React.memo(({
         currentImageRef.resetZoom();
       }
 
-      flatListRef.current.scrollToIndex({
+      void flatListRef.current.scrollToIndex({
         index: currentIndex,
         animated: true,
-      });
+      }).catch(() => {});
       setLocalIndex(currentIndex);
       prevCurrentIndexRef.current = currentIndex;
     }
@@ -417,16 +418,6 @@ const SlidableImageGallery = React.memo(({
     ],
   );
 
-  // Get item layout for better performance
-  const getItemLayout = useCallback(
-    (_: any, index: number) => ({
-      length: viewportWidth,
-      offset: viewportWidth * index,
-      index,
-    }),
-    [viewportWidth],
-  );
-
   const keyExtractor = useCallback(
     (item: ImageItem, index: number) => `image-${index}-${item.url}`,
     [],
@@ -437,7 +428,7 @@ const SlidableImageGallery = React.memo(({
       style={{ width: viewportWidth, height: viewportHeight * 0.8 }}
       className="web:my-auto"
     >
-      <FlatList
+      <FlashList
         ref={flatListRef}
         data={images}
         renderItem={renderItem}
@@ -447,7 +438,8 @@ const SlidableImageGallery = React.memo(({
         scrollEnabled={!isCurrentImageZoomed}
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={handleMomentumScrollEnd}
-        getItemLayout={getItemLayout}
+        maxItemsInRecyclePool={0}
+        maintainVisibleContentPosition={{ disabled: true }}
         initialScrollIndex={currentIndex}
         bounces={true}
         scrollEventThrottle={16}

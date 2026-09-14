@@ -1,26 +1,10 @@
-/* eslint-disable react-refresh/only-export-components */
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import * as React from 'react';
 
 import { configureOnlineManager } from './online-manager';
 
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    mutations: { retry: false },
-    queries: {
-      retry: 2,
-      staleTime: 30_000,
-      // Keep inactive queries around for five minutes so back-navigation does
-      // not hit the network again immediately.
-      gcTime: 5 * 60_000,
-      // React Native reports AppState changes frequently; avoid refetching
-      // every time the app regains focus. Recovery still happens on reconnect.
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: true,
-    },
-  },
-});
+import { queryClient } from './query-client';
 
 export function APIProvider({ children }: { children: React.ReactNode }) {
   useReactQueryDevTools(queryClient);

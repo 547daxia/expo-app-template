@@ -6,7 +6,6 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { render, userEvent } from '@testing-library/react-native';
 import { NavigationContainer } from 'expo-router/react-navigation';
 import * as React from 'react';
-import '@shopify/flash-list/jestSetup';
 
 function createAppWrapper() {
   return ({ children }: { children: React.ReactNode }) => (

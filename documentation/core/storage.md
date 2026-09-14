@@ -8,8 +8,8 @@
 [`src/lib/storage.tsx`](../../src/lib/storage.tsx) exposes synchronous
 `getItem`, `setItem`, `getString`, and `removeItem` helpers over
 `react-native-mmkv`. `getItem` and `setItem` are the typed JSON API: they
-preserve falsy values, return `null` for missing, malformed, or empty values,
-and retain compatibility with older unprefixed JSON values. Use `getString`
+store plain JSON, preserve falsy values, and return `null` for missing, malformed,
+or empty values. Use `getString`
 only for values deliberately written directly through MMKV.
 
 ## Existing keys

@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { COMPONENT_GROUPS } from './component-groups';
+import { COMPONENT_GROUPS, PROJECT_COMPONENT_GROUPS } from './component-groups';
 
 describe('style demo component inventory', () => {
   it('tracks every top-level shared UI directory', () => {
@@ -40,4 +40,17 @@ describe('style demo component inventory', () => {
 
     expect([...importedGroups].sort()).toEqual(expectedGroups);
   });
+});
+
+it('keeps project-owned compound components outside generated source and in the demo', () => {
+  const directory = path.join(process.cwd(), 'src/features/style-demo/components');
+  const source = readdirSync(directory)
+    .filter(file => file.endsWith('.tsx'))
+    .map(file => readFileSync(path.join(directory, file), 'utf8'))
+    .join('\n');
+  for (const group of PROJECT_COMPONENT_GROUPS) {
+    expect(readdirSync(path.join(process.cwd(), 'src/components'))).toContain(group);
+    expect(source).toContain(`@/components/${group}`);
+    expect(source).not.toContain(`@/components/ui/${group}`);
+  }
 });

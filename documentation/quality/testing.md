@@ -18,11 +18,14 @@ Focus tests on business logic, validation, storage behavior, navigation helpers,
 and meaningful component state. The coverage target and exact included paths are
 defined by `collectCoverageFrom` and `coverageThreshold` in `jest.config.js`;
 do not duplicate those volatile values in prose. Generated primitives are
-excluded, except the explicitly transitional DatePicker, DateTimePicker,
-ImageViewer, and Tabs groups until their project-owned behavior moves out.
+excluded. BottomSheet, DatePicker, DateTimePicker, ImageViewer, and Tabs are
+project-owned components and are included from `src/components/`.
 
 Use `axios-mock-adapter` for API tests. Reference tests live beside the client,
-pagination helpers, Feed hooks, and authentication store.
+pagination helpers, Feed hooks, and authentication store. Regression tests cover
+account switching during token rotation and storage writes, failed credential
+cleanup, query cancellation/cache isolation, and the create/list/detail/refetch
+cycle for demo posts.
 
 ## Web verification
 
@@ -62,6 +65,6 @@ opt-in because native builds are expensive.
 ## Verification expectations
 
 Before a pull request, run `pnpm check-all`. After an Expo or native dependency
-change, also run `pnpm exec expo install --check`, `pnpm doctor`, and a
+change, also run `pnpm exec expo install --check`, `pnpm run doctor`, and a
 relevant development build. Generated-group changes must keep the Style Demo
 inventory test green and be inspected on every affected platform.

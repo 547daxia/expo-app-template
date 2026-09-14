@@ -17,11 +17,11 @@ import { Input, InputField } from '@/components/ui/input';
 import { ScrollView } from '@/components/ui/scroll-view';
 import { Textarea, TextareaInput } from '@/components/ui/textarea';
 import { VStack } from '@/components/ui/vstack';
-import { queryClient } from '@/lib/api';
+import { assertSession, SessionChangedError, useAuthStore } from '@/lib/auth/session-store';
 import { getFieldError } from '@/lib/form-utils';
 import { navigate } from '@/lib/navigation';
 import { showErrorToast, showToast } from '@/lib/toast';
-import { useAddPost, usePosts } from './api';
+import { useAddPost } from './api';
 
 const postSchema = z.object({
   title: z.string().min(10, 'Title must contain at least 10 characters'),
@@ -52,20 +52,22 @@ function PostField({ error, label, children, ...props }: PostFieldProps) {
 
 export function AddPostScreen() {
   const { mutateAsync: addPost, isPending } = useAddPost();
+  const sessionId = useAuthStore.use.sessionId();
   const form = useForm({
     defaultValues: { title: '', body: '' },
     validators: { onChange: postSchema },
     onSubmit: async ({ value }) => {
       try {
-        const createdPost = await addPost({ ...value, userId: 1 });
-        queryClient.setQueryData(usePosts.getKey(), (posts: Array<typeof createdPost> | undefined) => (
-          [createdPost, ...(posts ?? [])]
-        ));
+        await addPost({ input: { ...value, userId: 1 }, sessionId });
+        assertSession(sessionId);
         showToast('Post added successfully', 'success');
         form.reset();
         navigate.back();
       }
       catch (error) {
+        if (error instanceof SessionChangedError) {
+          return;
+        }
         showErrorToast(error, 'Unable to add post. Check your connection and try again.');
       }
     },
@@ -85,6 +87,7 @@ export function AddPostScreen() {
               <Input>
                 <InputField
                   testID="title"
+                  aria-label="Title"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChangeText={field.handleChange}
@@ -101,6 +104,7 @@ export function AddPostScreen() {
               <Textarea className="min-h-48">
                 <TextareaInput
                   testID="body-input"
+                  aria-label="Content"
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChangeText={field.handleChange}

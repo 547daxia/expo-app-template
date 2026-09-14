@@ -5,7 +5,7 @@ this source template and its CLI.
 
 ## Requirements
 
-Creating a project requires Node.js 22 or later, pnpm 10, and Git. The CLI uses
+Creating a project requires Node.js 22.13 or later, pnpm >=11.20.0 <12 (default 11.27.0), and Git. The CLI uses
 Node.js built-ins and installs application dependencies with `pnpm`.
 
 ## Maintained CLI
