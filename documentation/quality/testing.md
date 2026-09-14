@@ -2,6 +2,10 @@
 
 **Applies to:** unit, component, Web-export, and Android Maestro verification.
 
+For device setup, ADB evidence collection, and consistent reproduction state,
+see [AI-Assisted Development and Debugging](./debugging.md). That guide also
+distinguishes the existing test mocks from proposed runtime debug scenarios.
+
 ## Unit and component tests
 
 Jest with `jest-expo` and React Native Testing Library is configured in

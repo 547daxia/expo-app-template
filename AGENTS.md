@@ -64,5 +64,6 @@ presentation or canonical-document rendering.
 - [Architecture](./documentation/core/architecture.md)
 - [Development workflow](./documentation/getting-started/development.md)
 - [Testing](./documentation/quality/testing.md)
+- [AI-assisted development and debugging](./documentation/quality/debugging.md)
 - [Release and CI/CD](./documentation/operations/release.md)
 - [Production readiness](./documentation/operations/production-readiness.md)

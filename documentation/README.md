@@ -10,6 +10,7 @@ second copy of an operational topic there.
 
 - **Adopting the template:** [Project Creation](./getting-started/project-creation.md), then [Configuration and Environments](./getting-started/configuration.md).
 - **Building a feature:** [Development Workflow](./getting-started/development.md), then [Architecture](./core/architecture.md).
+- **Working with an AI agent or investigating a bug:** [AI-Assisted Development and Debugging](./quality/debugging.md), then [Testing](./quality/testing.md).
 - **Preparing a release:** [Production Readiness](./operations/production-readiness.md), [Release and CI/CD](./operations/release.md), and [Testing](./quality/testing.md).
 - **Changing generated UI or native code:** [Gluestack UI Maintenance](./ui/gluestack-ui-maintenance.md) or [Local Native Modules](./platform/native-modules.md).
 
@@ -40,6 +41,7 @@ second copy of an operational topic there.
 
 ### Quality and operations
 
+- [AI-assisted development and debugging](./quality/debugging.md)
 - [Testing](./quality/testing.md)
 - [Dependency upgrades](./quality/dependency-upgrades.md)
 - [Release and CI/CD](./operations/release.md)

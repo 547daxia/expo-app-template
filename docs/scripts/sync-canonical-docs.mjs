@@ -24,6 +24,7 @@ const entries = [
   ['documentation/ui/fonts.md', 'ui/fonts.md'],
   ['documentation/platform/native-modules.md', 'platform/native-modules.md'],
   ['documentation/quality/testing.md', 'quality/testing.md'],
+  ['documentation/quality/debugging.md', 'quality/debugging.md'],
   ['documentation/quality/dependency-upgrades.md', 'quality/dependency-upgrades.md'],
   ['documentation/operations/release.md', 'operations/release.md'],
   ['documentation/operations/production-readiness.md', 'operations/production-readiness.md'],

@@ -24,6 +24,10 @@ pnpm web
 `pnpm android` to create and run that build when needed. The included local Expo
 Module is not available in Expo Go; Web uses its deterministic fallback.
 
+For AI task handoffs, Android device selection, ADB logs and screenshots, Metro
+port reversal, and reproducible debugging, follow
+[AI-Assisted Development and Debugging](../quality/debugging.md).
+
 Environment-specific commands include `pnpm start:preview`,
 `pnpm start:production`, `pnpm export:production -- --platform web`, and
 `pnpm prebuild:development`. Production commands fail until project-owned

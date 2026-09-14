@@ -95,6 +95,7 @@ export default defineConfig({
           label: 'Quality and Operations',
           items: [
             { label: 'Testing', link: '/quality/testing/' },
+            { label: 'AI-Assisted Development and Debugging', link: '/quality/debugging/' },
             { label: 'Dependency Upgrades', link: '/quality/dependency-upgrades/' },
             { label: 'Release and CI/CD', link: '/operations/release/' },
             { label: 'Production Readiness', link: '/operations/production-readiness/' },
