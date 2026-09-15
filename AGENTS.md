@@ -1,6 +1,6 @@
 # Repository Instructions
 
-This repository is an Expo SDK 56, React Native 0.85, React 19, TypeScript, and
+This repository is an Expo SDK 57, React Native 0.86, React 19, TypeScript, and
 Expo Router template. The canonical human and AI-readable operational guidance
 is [documentation/README.md](./documentation/README.md). Read the linked topic
 before changing configuration, generated UI, native modules, testing, or release

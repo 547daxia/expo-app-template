@@ -5,7 +5,7 @@ feature work, start with [Development Workflow](../getting-started/development.m
 
 ## Runtime stack
 
-- Expo SDK 56, React Native 0.85, React 19, TypeScript, and Expo Router
+- Expo SDK 57, React Native 0.86, React 19, TypeScript, and Expo Router
 - Continuous Native Generation (CNG)
 - Gluestack UI, Uniwind, and Tailwind CSS for shared UI and styling
 - FlashList for project-owned data lists

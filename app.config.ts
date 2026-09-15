@@ -99,6 +99,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-router',
     'expo-image',
     'expo-secure-store',
+    'expo-status-bar',
     '@react-native-community/datetimepicker',
     ['react-native-edge-to-edge'],
   ],

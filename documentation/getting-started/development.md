@@ -9,6 +9,8 @@
 - pnpm >=11.20.0 <12; default version 11.27.0 is pinned by `packageManager` in `package.json` (also used by CI)
 - Git and Watchman on macOS/Linux
 - Configured iOS or Android tooling for native runs
+- Xcode 26.4 or newer for SDK 57 iOS builds, per the
+  [Expo platform requirements](https://docs.expo.dev/versions/v57.0.0/#support-for-android-and-ios-versions)
 
 ## Daily commands
 
