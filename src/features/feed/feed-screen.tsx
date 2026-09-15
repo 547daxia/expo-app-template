@@ -53,7 +53,7 @@ export function FeedScreen() {
       onEndReachedThreshold={0.5}
       ListHeaderComponent={isDemoFeed
         ? (
-            <Text {...selectableTextProps} className="text-muted-foreground mb-4">
+            <Text {...selectableTextProps} className="mb-4 text-muted-foreground">
               Demo posts you create stay available until you sign out or restart the app.
             </Text>
           )
@@ -102,7 +102,7 @@ function FeedState({ isError, isPending }: { isError: boolean; isPending: boolea
       <Text {...selectableTextProps} className="text-lg font-semibold">
         {isError ? 'Unable to load posts' : 'No posts yet'}
       </Text>
-      <Text {...selectableTextProps} className="text-muted-foreground text-center">
+      <Text {...selectableTextProps} className="text-center text-muted-foreground">
         {isError ? 'Pull down to try again.' : 'Create the first post to get started.'}
       </Text>
     </VStack>

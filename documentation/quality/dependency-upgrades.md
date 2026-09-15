@@ -77,10 +77,27 @@ these entrances scale without an opacity transition. The narrow declaration in
 accepts only that legacy literal on `ZoomIn`, keeping generated source intact.
 Remove it when an upstream regeneration removes the extra opacity property.
 
-## Current upstream peer warning
+## Motion's optional NativeWind integration
 
-A fresh install can report that `react-native-css-interop@0.2.6` expects
-Tailwind CSS `~3` while this project uses Tailwind CSS 4. It is transitive from
-`@legendapp/motion` through NativeWind; application styling uses Uniwind and
-does not import NativeWind. Re-evaluate this note when the dependency chain
-changes, and remove it once a clean install no longer reports the warning.
+The version-specific override for `@legendapp/motion@2.5.3>nativewind`
+removes its unused NativeWind peer. The animation entrypoints used by
+ActionSheet, Select, and Tooltip do not import NativeWind; application styling
+uses Uniwind and Tailwind CSS 4. This prevents automatic installation of
+NativeWind v4 and `react-native-css-interop`, which requires Tailwind CSS 3.
+
+Marking the peer optional alone retains the already-resolved NativeWind chain
+in the existing lockfile, so the override explicitly removes that dependency.
+
+Re-evaluate this override whenever Motion or its imported entrypoints change.
+Remove it when upstream makes the peer optional or removes it. After changing
+the override, verify the resolved dependency graph and the affected overlays
+on Web, iOS, and Android; do not suppress Tailwind peer warnings globally.
+
+## ESLint filesystem security resolution
+
+The workspace override upgrades `@humanfs/node` versions below `0.16.8` to
+`0.16.8`, fixing
+[GHSA-p498-v437-472g](https://github.com/advisories/GHSA-p498-v437-472g).
+This patch satisfies ESLint's `^0.16.6` dependency range. Remove the override
+when the upstream dependency chain requires a fixed version, and verify the
+lockfile with the full `pnpm audit` as well as `pnpm check-all`.

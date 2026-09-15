@@ -75,7 +75,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         >
           Sign In
         </Text>
-        <Text {...selectableTextProps} className="text-muted-foreground max-w-sm text-center">
+        <Text {...selectableTextProps} className="max-w-sm text-center text-muted-foreground">
           Sign in with any valid email and a password of at least six characters.
         </Text>
       </VStack>

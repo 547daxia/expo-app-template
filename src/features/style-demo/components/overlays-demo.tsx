@@ -91,7 +91,7 @@ function SheetControls() {
       <DemoRow>
         <Button onPress={() => setActionsOpen(true)}><ButtonText>Actionsheet</ButtonText></Button>
         <BottomSheet>
-          <BottomSheetTrigger className="border-border rounded-md border px-4 py-2">
+          <BottomSheetTrigger className="rounded-md border border-border px-4 py-2">
             <Text {...selectableTextProps} className="font-medium">Bottom sheet</Text>
           </BottomSheetTrigger>
           <BottomSheetPortal
@@ -220,8 +220,8 @@ function AnchoredControls() {
               <Text {...selectableTextProps} className="font-semibold">Popover title</Text>
               <PopoverCloseButton><ButtonIcon as={CloseIcon} /></PopoverCloseButton>
             </PopoverHeader>
-            <PopoverBody><Text {...selectableTextProps} className="text-muted-foreground text-sm">Anchored contextual content.</Text></PopoverBody>
-            <PopoverFooter><Text {...selectableTextProps} className="text-primary text-xs">Gluestack UI</Text></PopoverFooter>
+            <PopoverBody><Text {...selectableTextProps} className="text-sm text-muted-foreground">Anchored contextual content.</Text></PopoverBody>
+            <PopoverFooter><Text {...selectableTextProps} className="text-xs text-primary">Gluestack UI</Text></PopoverFooter>
           </PopoverContent>
         </Popover>
       </DemoRow>
@@ -235,8 +235,8 @@ function PortalAndFabDemo() {
   return (
     <VStack className="gap-3">
       <DemoLabel>Portal and FAB</DemoLabel>
-      <View className="bg-muted relative h-28 overflow-hidden rounded-xl p-3">
-        <Text {...selectableTextProps} className="text-muted-foreground text-sm">FAB placement preview</Text>
+      <View className="relative h-28 overflow-hidden rounded-xl bg-muted p-3">
+        <Text {...selectableTextProps} className="text-sm text-muted-foreground">FAB placement preview</Text>
         <Fab placement="bottom right" onPress={() => setPortalOpen(true)}>
           <FabIcon as={SettingsIcon} />
           <FabLabel>Portal</FabLabel>
@@ -244,8 +244,8 @@ function PortalAndFabDemo() {
       </View>
       {portalOpen && (
         <Portal>
-          <View className="bg-foreground absolute inset-x-4 top-16 z-50 flex-row items-center justify-between rounded-xl p-3">
-            <Text {...selectableTextProps} className="text-background text-sm">Rendered through Portal</Text>
+          <View className="absolute inset-x-4 top-16 z-50 flex-row items-center justify-between rounded-xl bg-foreground p-3">
+            <Text {...selectableTextProps} className="text-sm text-background">Rendered through Portal</Text>
             <Button size="sm" variant="secondary" onPress={() => setPortalOpen(false)}><ButtonText>Close</ButtonText></Button>
           </View>
         </Portal>

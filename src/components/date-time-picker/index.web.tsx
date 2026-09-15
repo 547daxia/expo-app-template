@@ -52,13 +52,15 @@ const DateTimePickerTriggerWrapper = React.forwardRef<
   React.ComponentProps<typeof Pressable>
 >((props, ref) => <Pressable ref={ref} {...props} />);
 
-const StyledTextInput = withUniwind(TextInput);
 const StyledUIIcon = withUniwind(UIIcon);
+
+// Preserve the input ref type without adding a styling wrapper.
+const BaseTextInput: React.ComponentType<React.ComponentPropsWithRef<typeof TextInput>> = TextInput;
 
 const UIDateTimePicker = createDateTimePicker({
   Root: withStyleContext(View, SCOPE),
   Trigger: withStyleContext(DateTimePickerTriggerWrapper, SCOPE),
-  Input: StyledTextInput,
+  Input: BaseTextInput,
   Icon: StyledUIIcon,
 });
 

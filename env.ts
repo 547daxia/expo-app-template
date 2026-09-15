@@ -150,7 +150,7 @@ function getValidatedEnv(env: z.infer<typeof envSchema>) {
   if (parsed.success === false) {
     const errorMessage
       = `❌ Invalid environment variables:${
-        JSON.stringify(parsed.error.flatten().fieldErrors, null, 2)
+        JSON.stringify(z.flattenError(parsed.error).fieldErrors, null, 2)
       }\n❌ Missing variables in .env file for APP_ENV=${EXPO_PUBLIC_APP_ENV}`
       + `\n💡 Tip: If you recently updated the .env file, try restarting with -c flag to clear the cache.`;
 

@@ -101,7 +101,7 @@ function CalendarDemo() {
       <Calendar mode="single" value={date} onValueChange={setDate} initialMonth={date}>
         <CalendarContent />
       </Calendar>
-      <Text {...selectableTextProps} className="text-muted-foreground text-xs">
+      <Text {...selectableTextProps} className="text-xs text-muted-foreground">
         Selected:
         {' '}
         {date.toLocaleDateString()}
@@ -197,7 +197,7 @@ function ListWrappersDemo() {
 
 function ListFrame({ children, title }: React.PropsWithChildren<{ title: string }>) {
   return (
-    <View className="border-border h-40 min-w-40 flex-1 overflow-hidden rounded-lg border">
+    <View className="h-40 min-w-40 flex-1 overflow-hidden rounded-lg border border-border">
       <Text {...selectableTextProps} className="bg-muted px-2 py-1.5 text-xs font-semibold">{title}</Text>
       {children}
     </View>
@@ -205,5 +205,5 @@ function ListFrame({ children, title }: React.PropsWithChildren<{ title: string 
 }
 
 function ListItem({ label }: { label: string }) {
-  return <Text {...selectableTextProps} className="border-border border-b px-2 py-1.5 text-xs">{label}</Text>;
+  return <Text {...selectableTextProps} className="border-b border-border px-2 py-1.5 text-xs">{label}</Text>;
 }

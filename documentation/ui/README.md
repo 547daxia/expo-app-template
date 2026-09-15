@@ -8,8 +8,13 @@ families, semantic colors, status palettes, and light/dark values.
 
 `useSelectedTheme` persists the user's `light`, `dark`, or `system` preference
 in MMKV; `loadSelectedTheme()` restores it before the root layout renders.
-`GluestackUIProvider` keeps overlays and its mode aligned with the navigation
-theme. Use `useUniwind()` only when a component needs a runtime styling decision.
+The project-owned [`AppUIProvider`](../../src/components/app-ui-provider.tsx)
+provides Gluestack overlays and synchronizes the resolved theme to the Web
+document. It never writes the resolved `light` or `dark` value back to Uniwind:
+doing so would disable the user's `system` preference. Navigation reads the
+resolved Uniwind theme independently. Missing or invalid saved preferences
+fall back to `system`. Use `useUniwind()` only when a component needs a runtime
+styling decision.
 
 ## Choose the right guide
 

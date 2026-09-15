@@ -9,9 +9,9 @@ import { StyleSheet } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { AppUIProvider } from '@/components/app-ui-provider';
 import { selectableTextProps } from '@/components/platform-props';
 import { Button, ButtonText } from '@/components/ui/button';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { useThemeConfig } from '@/components/ui/gluestack-ui-provider/theme';
 import { Heading } from '@/components/ui/heading';
 import { ScrollView } from '@/components/ui/scroll-view';
@@ -108,7 +108,7 @@ function Providers({
       // eslint-disable-next-line better-tailwindcss/no-unknown-classes
       className={theme.dark ? `dark` : undefined}
     >
-      <GluestackUIProvider mode={theme.dark ? 'dark' : 'light'}>
+      <AppUIProvider>
         <KeyboardProvider>
           <ThemeProvider value={theme}>
             <APIProvider>
@@ -119,7 +119,7 @@ function Providers({
             </APIProvider>
           </ThemeProvider>
         </KeyboardProvider>
-      </GluestackUIProvider>
+      </AppUIProvider>
     </GestureHandlerRootView>
   );
 }

@@ -20,6 +20,11 @@ trustPolicyExclude:
   - ua-parser-js@1.0.41
 
 overrides:
+  # GHSA-p498-v437-472g; compatible with ESLint's ^0.16.6 dependency.
+  '@humanfs/node@<0.16.8': 0.16.8
+  # Motion's animation entrypoints do not import NativeWind; styling uses Uniwind.
+  # Remove this version-specific correction when upstream fixes the peer.
+  '@legendapp/motion@2.5.3>nativewind': '-'
   '@tootallnate/once@2.0.0': 2.0.1
   '@xmldom/xmldom': 0.8.15
   ajv@8.17.1: 8.20.0
