@@ -51,6 +51,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     [
+      'expo-build-properties',
+      {
+        android: {
+          buildArchs: ['arm64-v8a'],
+        },
+      },
+    ],
+    [
       'expo-splash-screen',
       {
         backgroundColor: '#2E3C4B',
