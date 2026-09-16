@@ -1,6 +1,12 @@
-# Already locked before the pnpm 11 migration; registry integrity matches.
 minimumReleaseAgeExclude:
+  # Already locked before the pnpm 11 migration; registry integrity matches.
   - zod@4.6.5
+  # Exact releases selected by Expo's SDK 57 patch alignment.
+  - '@expo/cli@57.0.25'
+  - '@expo/router-server@57.0.10'
+  - babel-preset-expo@57.0.12
+  - expo@57.0.23
+  - expo-image-picker@57.0.18
 
 nodeLinker: hoisted
 autoInstallPeers: true
@@ -58,3 +64,4 @@ overrides:
 
 patchedDependencies:
   decode-uri-component@0.5.0: patches/decode-uri-component@0.5.0.patch
+  uniwind@1.2.4: patches/uniwind@1.2.4.patch

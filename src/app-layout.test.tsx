@@ -25,7 +25,12 @@ jest.mock('react-native/Libraries/Utilities/NativeAppearance', () => ({
   __esModule: true,
   default: {
     getColorScheme: () => 'light',
-    setColorScheme: jest.fn(),
+    setColorScheme: jest.fn((style: string) => {
+      // React Native 0.86 rejects null/undefined at the Android native boundary.
+      if (!['light', 'dark', 'unspecified'].includes(style)) {
+        throw new TypeError('NativeAppearance requires an explicit color scheme');
+      }
+    }),
     addListener: jest.fn(),
     removeListeners: jest.fn(),
   },

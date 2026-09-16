@@ -1,0 +1,66 @@
+diff --git a/dist/common/core/config/config.common.js b/dist/common/core/config/config.common.js
+index 1816b0665792aa16539dbcc75ad6a37ce48303cd..72b88ef22787e4bfaebad6b1f1f78dfe1f9e0314 100644
+--- a/dist/common/core/config/config.common.js
++++ b/dist/common/core/config/config.common.js
+@@ -42,7 +42,7 @@ class UniwindConfigBuilder {
+         this.#hasAdaptiveThemes = true;
+         this.#currentTheme = this.colorScheme;
+         if (_reactNative.Platform.OS !== "web") {
+-          _reactNative.Appearance.setColorScheme(void 0);
++          _reactNative.Appearance.setColorScheme("unspecified");
+         }
+         return;
+       }
+@@ -52,7 +52,7 @@ class UniwindConfigBuilder {
+       this.#hasAdaptiveThemes = false;
+       this.#currentTheme = theme;
+       if (_reactNative.Platform.OS !== "web") {
+-        _reactNative.Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme : void 0);
++        _reactNative.Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme : "unspecified");
+       }
+     } finally {
+       if (prevTheme !== this.#currentTheme) {
+diff --git a/dist/module/core/config/config.common.js b/dist/module/core/config/config.common.js
+index 6b5fba343a282ad1cacb1a915df02fe9f90439c7..7fd72f24da49bcc94793cd5599645c118815572f 100644
+--- a/dist/module/core/config/config.common.js
++++ b/dist/module/core/config/config.common.js
+@@ -36,7 +36,7 @@ export class UniwindConfigBuilder {
+         this.#hasAdaptiveThemes = true;
+         this.#currentTheme = this.colorScheme;
+         if (Platform.OS !== "web") {
+-          Appearance.setColorScheme(void 0);
++          Appearance.setColorScheme("unspecified");
+         }
+         return;
+       }
+@@ -46,7 +46,7 @@ export class UniwindConfigBuilder {
+       this.#hasAdaptiveThemes = false;
+       this.#currentTheme = theme;
+       if (Platform.OS !== "web") {
+-        Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme : void 0);
++        Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme : "unspecified");
+       }
+     } finally {
+       if (prevTheme !== this.#currentTheme) {
+diff --git a/src/core/config/config.common.ts b/src/core/config/config.common.ts
+index 7eb30d60584903f2515f2b88a67c804a363f11b9..f16f7365853c89b0c6a2635e4bd133d52ecdbc89 100644
+--- a/src/core/config/config.common.ts
++++ b/src/core/config/config.common.ts
+@@ -47,7 +47,7 @@ export class UniwindConfigBuilder {
+                 this.#currentTheme = this.colorScheme
+ 
+                 if (Platform.OS !== 'web') {
+-                    Appearance.setColorScheme(undefined)
++                    Appearance.setColorScheme('unspecified')
+                 }
+ 
+                 return
+@@ -61,7 +61,7 @@ export class UniwindConfigBuilder {
+             this.#currentTheme = theme
+ 
+             if (Platform.OS !== 'web') {
+-                Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme as ColorScheme : undefined)
++                Appearance.setColorScheme(isAdaptiveTheme ? this.#currentTheme as ColorScheme : 'unspecified')
+             }
+         } finally {
+             if (prevTheme !== this.#currentTheme) {

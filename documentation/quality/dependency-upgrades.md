@@ -3,7 +3,7 @@
 **Applies to:** JavaScript, Expo, React Native, and native-runtime dependency
 changes.
 
-The current patch baseline is Expo `~57.0.22`, React `19.2.3`, and React Native
+The current patch baseline is Expo `~57.0.23`, React `19.2.3`, and React Native
 `0.86.3`. Keep Expo upgrades within SDK 57 and use `expo install --fix` to align
 its managed packages. `expo-image` and `expo-status-bar` are registered in `app.config.ts` as
 required by the installer. SDK 57 aligns Reanimated `4.5.1`, Worklets `0.10.1`,
@@ -66,6 +66,18 @@ the module format and export; the upstream decoding algorithm stays intact.
 actual Router dependency chain, Unicode, repeated parameters, round trips,
 and large malformed input. Remove the override and patch together when Router
 uses a fixed decoder through a compatible upstream dependency chain.
+
+## Uniwind system appearance compatibility
+
+React Native 0.86 requires `Appearance.setColorScheme('unspecified')` to
+restore system appearance. Uniwind 1.2.4 passes `undefined`, which crashes
+Android's native `AppearanceModule` when the default system theme loads.
+The version-specific [Uniwind patch](../../patches/uniwind@1.2.4.patch)
+updates the source and compiled entrypoints to use the explicit value for
+system and custom themes. The root theme tests enforce the native argument
+contract while checking that system appearance tracking remains enabled.
+Remove the patch when upgrading to an upstream version with this fix, and
+verify cold startup plus light/dark/system switching on native devices.
 
 ## Generated animation compatibility
 
