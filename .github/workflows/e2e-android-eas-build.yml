@@ -52,7 +52,7 @@ jobs:
         run: npm run install-maestro # # We use npm because we don't need to install deps again
 
       - name: Set Up JDK for Maestro
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: zulu
           java-version: '17'
